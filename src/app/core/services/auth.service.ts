@@ -1,6 +1,7 @@
 import { inject, Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LaravelResponse, LoginResponse, UserProfile } from '../../shared/models/auth.model';
+import { environment } from '../../../environments/environment';
 import { Observable, map, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
-  private readonly BASE_URL = 'http://localhost:8080/api';
+  private readonly BASE_URL = environment.apiUrl;
 
   private _user = signal<UserProfile | null>(null);
 
