@@ -1,38 +1,36 @@
 @import "tailwindcss";
 
-:root {
-    --radius: 0.625rem;
+@theme {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-primary: var(--primary);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-success: var(--success);
+    --color-warning: var(--warning);
+}
 
-    /* Mapeamento Dinâmico de Tokens do Material 3 para o Tailwind */
+:root {
+    --radius: 0px;
+    /* Bordas quadradas para um visual mais industrial/minimalista */
+
     --background: var(--mat-sys-surface);
     --foreground: var(--mat-sys-on-surface);
-    --card: var(--mat-sys-surface-container);
-
     --primary: var(--mat-sys-primary);
-    --primary-foreground: var(--mat-sys-on-primary);
+    --border: var(--mat-sys-outline);
 
-    --secondary: var(--mat-sys-secondary);
-    --secondary-foreground: var(--mat-sys-on-secondary);
-
-    --muted: var(--mat-sys-surface-variant);
-    --muted-foreground: var(--mat-sys-on-surface-variant);
-
-    --destructive: var(--mat-sys-error);
-    --border: var(--mat-sys-outline-variant);
-    --ring: var(--mat-sys-primary);
+    /* Semáforo Funcional */
+    --success: #12A454;
+    --warning: #F2E96D;
+    --destructive: #CC0000;
 }
 
 @layer base {
     * {
-        @apply border-border outline-ring/50;
+        @apply border-border;
     }
 
     body {
-        background-color: var(--background);
-        color: var(--foreground);
-        font-family: Roboto, sans-serif;
+        @apply bg-background text-foreground;
     }
 }
-
-/* Compatibilidade com Spartan se houver resquícios */
-@import "@spartan-ng/brain/hlm-tailwind-preset.css";
