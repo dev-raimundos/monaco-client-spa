@@ -27,7 +27,6 @@ export const httpInterceptor: HttpInterceptorFn = (req, next) => {
             errorMessage = 'Acesso negado: você não tem permissão.';
             break;
           case 422:
-            // Erros de validação do Laravel (ex: senha incorreta)
             errorMessage = laravelError?.message || 'Dados inválidos.';
             break;
           case 0:
