@@ -1,10 +1,10 @@
 import { inject, Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, map, switchMap, tap } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs';
 import { environment } from '@env';
-import { LoginResponse, UserProfile, LoginCredentials } from '@shared/models';
-import { LaravelResponse } from '@shared/models';
+import { UserProfile, LoginCredentials, LaravelResponse, LoginResponse } from '@shared/models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -12,7 +12,6 @@ export class AuthService {
   private router = inject(Router);
   private readonly BASE_URL = environment.apiUrl;
   private _user = signal<UserProfile | null>(null);
-
   readonly user = this._user.asReadonly();
   readonly isAuthenticated = computed(() => !!this._user());
 
@@ -25,19 +24,45 @@ export class AuthService {
       );
   }
 
+  /**
+   * Carrega os dados do usuário logado via Cookie.
+   * Útil para o login e para o APP_INITIALIZER.
+   */
   loadProfile(): Observable<UserProfile> {
     return this.http.get<LaravelResponse<UserProfile>>(`${this.BASE_URL}/user/me`).pipe(
-      map((res: LaravelResponse<UserProfile>) => {
-        if (!res.data) {
-          throw new Error('Perfil do usuário não encontrado na resposta do servidor');
-        }
+      map((res) => {
+        if (!res.data) throw new Error('Dados do perfil ausentes.');
+        this._user.set(res.data);
         return res.data;
       }),
-      tap((user: UserProfile) => this._user.set(user)),
+      catchError((err) => {
+        this._user.set(null);
+        return throwError(() => err);
+      }),
     );
   }
+
+  /**
+   * Limpa o estado local e chama o backend para invalidar o cookie.
+   */
+  logout(): void {
+    this.http.post(`${this.BASE_URL}/authentication/logout`, {}).subscribe({
+      next: () => this.handleUnauthorized(),
+      error: () => this.handleUnauthorized(),
+    });
+  }
+
+  /**
+   * Reseta o estado do app sem necessariamente chamar a API.
+   */
+  handleUnauthorized(): void {
+    this._user.set(null);
+    if (this.router.url !== '/login') {
+      this.router.navigate(['/login']);
+    }
+  }
+
   hasPermission(permission: string): boolean {
-    const user = this._user();
-    return user ? user.services.includes(permission) : false;
+    return this._user()?.services?.includes(permission) ?? false;
   }
 }
