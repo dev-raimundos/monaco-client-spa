@@ -2,27 +2,23 @@
 
 :root {
     --radius: 0.625rem;
-    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
+    /* Mapeamento Dinâmico de Tokens do Material 3 para o Tailwind */
     --background: var(--mat-sys-surface);
     --foreground: var(--mat-sys-on-surface);
-    --card: var(--mat-sys-surface-container-low);
-    --card-foreground: var(--mat-sys-on-surface);
-    --popover: var(--mat-sys-surface-container);
-    --popover-foreground: var(--mat-sys-on-surface);
+    --card: var(--mat-sys-surface-container);
 
     --primary: var(--mat-sys-primary);
     --primary-foreground: var(--mat-sys-on-primary);
+
     --secondary: var(--mat-sys-secondary);
     --secondary-foreground: var(--mat-sys-on-secondary);
-    --accent: var(--mat-sys-tertiary);
-    --accent-foreground: var(--mat-sys-on-tertiary);
 
     --muted: var(--mat-sys-surface-variant);
     --muted-foreground: var(--mat-sys-on-surface-variant);
+
     --destructive: var(--mat-sys-error);
     --border: var(--mat-sys-outline-variant);
-    --input: var(--mat-sys-outline);
     --ring: var(--mat-sys-primary);
 }
 
@@ -34,11 +30,9 @@
     body {
         background-color: var(--background);
         color: var(--foreground);
-        font-family: var(--font-sans);
-        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-        margin: 0;
-        height: 100%;
+        font-family: Roboto, sans-serif;
     }
 }
 
+/* Compatibilidade com Spartan se houver resquícios */
 @import "@spartan-ng/brain/hlm-tailwind-preset.css";
