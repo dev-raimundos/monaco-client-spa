@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PillarService } from '../../data-access/pillar.service';
-import { AppTableComponent } from '@shared/components/table/table.component';
+import { AppTableComponent } from '@shared/components/table/table-paginated.component';
 import { TableColumn } from '@shared/models/table-config.model';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';

@@ -1,68 +1,54 @@
-<div class="flex h-screen bg-background font-sans text-foreground">
-    <aside class="w-64 bg-card border-r border-border flex flex-col shrink-0 shadow-sm">
-        <div class="p-6">
-            <h1 class="text-lg font-bold tracking-tight text-primary flex items-center gap-2">
-                <span class="bg-primary text-primary-foreground p-1 rounded italic text-sm">GM</span>
-                GRUPO MÔNACO
+<div class="flex h-screen bg-background text-foreground">
+    <aside class="w-64 bg-background border-r border-border flex flex-col shrink-0">
+        <div class="p-8">
+            <h1 class="text-xl font-medium flex items-start gap-2">
+                SisMônaco
             </h1>
         </div>
 
-        <nav class="flex-1 px-3 space-y-1 overflow-y-auto">
+        <nav class="flex-1 px-4 space-y-1">
             @for (item of navItems; track item.label) {
-            @if (!item.children) {
-            <a [routerLink]="item.route" routerLinkActive="bg-accent text-accent-foreground font-semibold"
-                class="flex items-center px-3 py-2 text-sm text-muted-foreground rounded-md hover:bg-accent hover:text-accent-foreground transition-colors group">
-                <ng-icon [name]="item.icon"
-                    class="text-lg mr-3 text-muted-foreground group-hover:text-foreground"></ng-icon>
+            <a [routerLink]="item.route" routerLinkActive="font-bold border-l-2 border-primary"
+                class="flex items-center px-4 py-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-foreground transition-all group">
+                <ng-icon [name]="item.icon" class="mr-3 text-lg"></ng-icon>
                 {{ item.label }}
             </a>
-            } @else {
-            <div class="space-y-1">
-                <button (click)="toggleMenu(item.label)"
-                    class="w-full flex items-center justify-between px-3 py-2 text-sm text-muted-foreground rounded-md hover:bg-accent hover:text-accent-foreground transition-colors group">
-                    <div class="flex items-center">
-                        <ng-icon [name]="item.icon"
-                            class="text-lg mr-3 text-muted-foreground group-hover:text-foreground"></ng-icon>
-                        {{ item.label }}
-                    </div>
-                    <ng-icon name="lucideChevronDown" class="text-xs transition-transform duration-200"
-                        [class.rotate-180]="expandedMenu() === item.label"></ng-icon>
-                </button>
-
-                @if (expandedMenu() === item.label) {
-                <div class="ml-9 space-y-1 border-l border-border pl-2">
-                    @for (child of item.children; track child.label) {
-                    <a [routerLink]="child.route" routerLinkActive="text-foreground font-medium"
-                        class="block py-2 text-xs text-muted-foreground hover:text-foreground transition-colors">
-                        {{ child.label }}
-                    </a>
-                    }
-                </div>
-                }
-            </div>
-            }
             }
         </nav>
 
         <div class="p-4 border-t border-border">
-            <div class="flex items-center gap-3 px-2 py-3 mb-2">
-                <hlm-avatar variant="small">
-                    <span hlmAvatarFallback>RN</span>
-                </hlm-avatar>
-                <div class="flex flex-col overflow-hidden">
-                    <span class="text-xs font-semibold truncate text-foreground">Raimundos Neto</span>
-                    <span class="text-[10px] text-muted-foreground italic">Presidente</span>
+            <button [matMenuTriggerFor]="profileMenu"
+                class="w-full flex items-center gap-3 px-3 py-4 rounded hover:bg-muted/50 transition-colors">
+                <div
+                    class="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center font-bold text-xs">
+                    RN
                 </div>
-            </div>
-            <button hlmBtn variant="ghost"
-                class="w-full justify-start text-destructive hover:bg-destructive/10 hover:text-destructive px-2">
-                <ng-icon name="lucideLogOut" class="text-sm mr-2"></ng-icon>
-                Sair
+                <div class="flex flex-col text-left overflow-hidden flex-1">
+                    <span class="text-xs font-bold truncate uppercase">Raimundos Neto</span>
+                    <span class="text-[9px] text-muted-foreground uppercase tracking-tighter">Presidente</span>
+                </div>
             </button>
         </div>
     </aside>
 
-    <main class="flex-1 overflow-y-auto overflow-x-hidden bg-background">
+    <mat-menu #profileMenu="matMenu" xPosition="after">
+        <div class="px-4 py-2 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Tema</div>
+        <button mat-menu-item (click)="setTheme('light')"><ng-icon name="lucideSun"
+                class="mr-2"></ng-icon>Claro</button>
+        <button mat-menu-item (click)="setTheme('dark')"><ng-icon name="lucideMoon"
+                class="mr-2"></ng-icon>Escuro</button>
+        <button mat-menu-item (click)="setTheme('system')"><ng-icon name="lucideMonitor"
+                class="mr-2"></ng-icon>Sistema</button>
+
+        <mat-divider></mat-divider>
+
+        <button mat-menu-item class="text-destructive" (click)="onLogout()">
+            <ng-icon name="lucideLogOut" class="mr-2"></ng-icon>
+            <span class="font-bold">Sair do Sistema</span>
+        </button>
+    </mat-menu>
+
+    <main class="flex-1 overflow-auto">
         <router-outlet></router-outlet>
     </main>
 </div>

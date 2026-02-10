@@ -1,76 +1,73 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { HlmButton } from '@shared/spartan/button/src/index';
-import { HlmAvatar, HlmAvatarFallback } from '@shared/spartan/avatar/src/index';
+import { RouterModule, Router } from '@angular/router'; // Adicionado Router
+import { ThemeService, ThemeMode } from '@core/services/theme.service';
+
+// Angular Material
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider'; // 1. Importação necessária
+
+// Icons
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
-    lucideLayoutDashboard,
-    lucideUsers,
-    lucideTruck,
-    lucideSettings,
     lucideChevronDown,
     lucideLogOut,
+    lucideSun,
+    lucideMoon,
+    lucideMonitor,
+    lucideLayoutDashboard,
+    lucideUsers,
+    lucideUserCircle,
 } from '@ng-icons/lucide';
-
-interface NavItem {
-    label: string;
-    icon: string;
-    route?: string;
-    children?: { label: string; route: string }[];
-}
 
 @Component({
     selector: 'app-main-layout',
     standalone: true,
-    imports: [
-        CommonModule,
-        RouterOutlet,
-        RouterLink,
-        RouterLinkActive,
-        NgIcon,
-        HlmButton,
-        HlmAvatar,
-        HlmAvatarFallback,
-    ],
+    // 2. Adicionado MatDividerModule aqui
+    imports: [CommonModule, RouterModule, MatMenuModule, MatButtonModule, MatDividerModule, NgIcon],
     providers: [
         provideIcons({
-            lucideLayoutDashboard,
-            lucideUsers,
-            lucideTruck,
-            lucideSettings,
             lucideChevronDown,
             lucideLogOut,
+            lucideSun,
+            lucideMoon,
+            lucideMonitor,
+            lucideLayoutDashboard,
+            lucideUsers,
+            lucideUserCircle,
         }),
     ],
     templateUrl: './main-layout.component.html',
 })
 export class MainLayoutComponent {
-    expandedMenu = signal<string | null>(null);
+    private _themeService = inject(ThemeService);
+    private _router = inject(Router); // Injetado para o logout
 
-    navItems: NavItem[] = [
-        { label: 'Dashboard', icon: 'lucideLayoutDashboard', route: '/dashboard' },
+    public expandedMenu = signal<string | null>(null);
+
+    public navItems = [
+        { label: 'Dashboard', route: '/dashboard', icon: 'lucideLayoutDashboard' },
         {
-            label: 'Usuários',
+            label: 'RH',
             icon: 'lucideUsers',
-            children: [
-                { label: 'Listagem', route: '/usuarios' },
-                { label: 'Permissões', route: '/usuarios/permissoes' },
-                { label: 'Grupos', route: '/usuarios/grupos' },
-            ],
+            children: [{ label: 'Pesquisa de Clima', route: '/rh/pesquisa-clima' }],
         },
-        {
-            label: 'Logística',
-            icon: 'lucideTruck',
-            children: [
-                { label: 'Veículos', route: 'rh/pesquisa-clima' },
-                { label: 'Transportes', route: '/logistica/transportes' },
-            ],
-        },
-        { label: 'Configurações', icon: 'lucideSettings', route: '/config' },
     ];
 
     toggleMenu(label: string) {
-        this.expandedMenu.update((current) => (current === label ? null : label));
+        this.expandedMenu.set(this.expandedMenu() === label ? null : label);
+    }
+
+    setTheme(mode: ThemeMode) {
+        this._themeService.setTheme(mode);
+    }
+
+    // 3. Implementação do método que estava faltando
+    onLogout() {
+        console.log('Finalizando sessão no Grupo Mônaco...');
+        // Aqui futuramente você limpará o localStorage/Session
+        localStorage.removeItem('auth_token');
+        this._router.navigate(['/login']);
     }
 }
