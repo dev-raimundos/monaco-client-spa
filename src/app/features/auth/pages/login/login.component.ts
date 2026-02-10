@@ -5,6 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatIconModule } from '@angular/material/icon';
 
 import { AuthService } from '@core/services/auth.service';
 import { NotificationService } from '@core/services/notification.service';
@@ -20,6 +21,7 @@ import { LoginCredentials } from '@shared/models';
     MatButtonModule,
     MatFormFieldModule,
     MatProgressBarModule,
+    MatIconModule,
   ],
   templateUrl: './login.component.html',
 })

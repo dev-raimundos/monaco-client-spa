@@ -1,0 +1,45 @@
+@use '@angular/material' as mat;
+
+@layer material, tailwind, utilities;
+
+@layer tailwind {
+  @import "tailwindcss";
+}
+
+@layer material {
+  $monyaco-theme: mat.define-theme((color: (theme-type: light,
+          primary: mat.$azure-palette,
+          tertiary: mat.$blue-palette,
+        ),
+        typography: (brand-family: 'Inter, sans-serif',
+          plain-family: 'Inter, sans-serif',
+        ),
+        density: (scale: -1,
+        ),
+      ));
+
+  @include mat.all-component-themes($monyaco-theme);
+
+  .success-snackbar {
+    @apply bg-green-600 text-white;
+  }
+
+  .error-snackbar {
+    @apply bg-red-600 text-white;
+  }
+}
+
+@layer utilities {
+
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+  }
+
+  :root {
+    --mdc-outlined-card-outline-color: #e4e4e7;
+    --mdc-outlined-card-container-shape: 16px;
+    --mat-sys-surface: #fafafa;
+  }
+}
