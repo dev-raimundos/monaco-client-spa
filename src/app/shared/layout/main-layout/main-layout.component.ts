@@ -48,11 +48,37 @@ export class MainLayoutComponent {
 
     public navItems = [
         { label: 'Dashboard', route: '/dashboard', icon: 'lucideLayoutDashboard' },
+
         {
-            label: 'RH',
+            label: 'Recursos Humanos',
             icon: 'lucideUsers',
-            children: [{ label: 'Pesquisa de Clima', route: '/rh/pesquisa-clima' }],
+            children: [
+                { label: 'Pesquisa de Clima', route: '/rh/pesquisa-clima' },
+                { label: 'Folha de Pagamento', route: '/rh/folha' },
+                { label: 'Cargos e Salários', route: '/rh/cargos' },
+            ],
         },
+
+        {
+            label: 'Logística e Frota',
+            icon: 'lucideLayoutDashboard',
+            children: [
+                { label: 'Controle de Viagens', route: '/logistica/viagens' },
+                { label: 'Manutenção Preventiva', route: '/logistica/manutencao' },
+                { label: 'Abastecimento', route: '/logistica/combustivel' },
+            ],
+        },
+
+        {
+            label: 'Financeiro',
+            icon: 'lucideUserCircle',
+            children: [
+                { label: 'Contas a Pagar', route: '/financeiro/pagar' },
+                { label: 'Fluxo de Caixa', route: '/financeiro/caixa' },
+            ],
+        },
+
+        { label: 'Configurações', route: '/settings', icon: 'lucideMonitor' },
     ];
 
     toggleMenu(label: string) {
@@ -63,10 +89,8 @@ export class MainLayoutComponent {
         this._themeService.setTheme(mode);
     }
 
-    // 3. Implementação do método que estava faltando
     onLogout() {
         console.log('Finalizando sessão no Grupo Mônaco...');
-        // Aqui futuramente você limpará o localStorage/Session
         localStorage.removeItem('auth_token');
         this._router.navigate(['/login']);
     }

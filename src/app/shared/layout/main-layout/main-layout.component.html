@@ -1,54 +1,84 @@
-<div class="flex h-screen bg-background text-foreground">
+<div class="flex h-screen bg-background text-foreground font-sans">
     <aside class="w-64 bg-background border-r border-border flex flex-col shrink-0">
-        <div class="p-8">
-            <h1 class="text-xl font-medium flex items-start gap-2">
-                SisMônaco
+        <div class="p-8 pb-4">
+            <h1 class="text-lg font-medium text-left lowercase leading-none">
+                sismônaco
             </h1>
         </div>
 
-        <nav class="flex-1 px-4 space-y-1">
+        <nav class="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
             @for (item of navItems; track item.label) {
-            <a [routerLink]="item.route" routerLinkActive="font-bold border-l-2 border-primary"
-                class="flex items-center px-4 py-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-foreground transition-all group">
-                <ng-icon [name]="item.icon" class="mr-3 text-lg"></ng-icon>
-                {{ item.label }}
+
+            @if (!item.children) {
+            <a [routerLink]="item.route" routerLinkActive="bg-foreground/5 font-medium border-l-2 border-primary"
+                class="flex items-center px-4 py-2 text-sm lowercase text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-all rounded-r-md group">
+                <ng-icon [name]="item.icon" class="mr-3 text-lg opacity-60"></ng-icon>
+                {{ item.label | lowercase }}
             </a>
+            } @else {
+            <div class="flex flex-col">
+                <button (click)="toggleMenu(item.label)"
+                    class="w-full flex items-center justify-between px-4 py-2 text-sm lowercase text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-all rounded-md">
+                    <div class="flex items-center">
+                        <ng-icon [name]="item.icon" class="mr-3 text-lg opacity-60"></ng-icon>
+                        {{ item.label | lowercase }}
+                    </div>
+                    <ng-icon name="lucideChevronDown" class="text-xs transition-transform duration-300"
+                        [class.rotate-180]="expandedMenu() === item.label">
+                    </ng-icon>
+                </button>
+
+                @if (expandedMenu() === item.label) {
+                <div class="ml-9 mt-1 space-y-1 border-l border-border/40">
+                    @for (child of item.children; track child.label) {
+                    <a [routerLink]="child.route" routerLinkActive="text-foreground font-medium"
+                        class="block py-2 px-6 text-xs lowercase text-muted-foreground hover:text-foreground transition-colors">
+                        {{ child.label | lowercase }}
+                    </a>
+                    }
+                </div>
+                }
+            </div>
+            }
             }
         </nav>
 
         <div class="p-4 border-t border-border">
             <button [matMenuTriggerFor]="profileMenu"
-                class="w-full flex items-center gap-3 px-3 py-4 rounded hover:bg-muted/50 transition-colors">
+                class="w-full flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-muted/20 transition-all text-left">
                 <div
-                    class="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center font-bold text-xs">
-                    RN
+                    class="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center font-medium text-xs">
+                    rn
                 </div>
-                <div class="flex flex-col text-left overflow-hidden flex-1">
-                    <span class="text-xs font-bold truncate uppercase">Raimundos Neto</span>
-                    <span class="text-[9px] text-muted-foreground uppercase tracking-tighter">Presidente</span>
+                <div class="flex flex-col overflow-hidden flex-1">
+                    <span class="text-sm font-medium truncate lowercase leading-tight">raimundos neto</span>
+                    <span class="text-[11px] text-muted-foreground lowercase opacity-80">presidente</span>
                 </div>
             </button>
         </div>
     </aside>
 
     <mat-menu #profileMenu="matMenu" xPosition="after">
-        <div class="px-4 py-2 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Tema</div>
-        <button mat-menu-item (click)="setTheme('light')"><ng-icon name="lucideSun"
-                class="mr-2"></ng-icon>Claro</button>
-        <button mat-menu-item (click)="setTheme('dark')"><ng-icon name="lucideMoon"
-                class="mr-2"></ng-icon>Escuro</button>
-        <button mat-menu-item (click)="setTheme('system')"><ng-icon name="lucideMonitor"
-                class="mr-2"></ng-icon>Sistema</button>
+        <div class="px-4 py-2 text-[11px] font-medium text-muted-foreground lowercase">configurações</div>
+
+        <button mat-menu-item (click)="setTheme('light')">
+            <ng-icon name="lucideSun" class="mr-3 text-lg"></ng-icon>
+            <span class="text-sm lowercase">tema claro</span>
+        </button>
+        <button mat-menu-item (click)="setTheme('dark')">
+            <ng-icon name="lucideMoon" class="mr-3 text-lg"></ng-icon>
+            <span class="text-sm lowercase">tema escuro</span>
+        </button>
 
         <mat-divider></mat-divider>
 
         <button mat-menu-item class="text-destructive" (click)="onLogout()">
-            <ng-icon name="lucideLogOut" class="mr-2"></ng-icon>
-            <span class="font-bold">Sair do Sistema</span>
+            <ng-icon name="lucideLogOut" class="mr-3 text-lg"></ng-icon>
+            <span class="text-sm font-medium lowercase">sair do sistema</span>
         </button>
     </mat-menu>
 
-    <main class="flex-1 overflow-auto">
+    <main class="flex-1 overflow-auto bg-background/50">
         <router-outlet></router-outlet>
     </main>
 </div>
