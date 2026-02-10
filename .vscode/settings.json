@@ -1,11 +1,12 @@
 {
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.includeLanguages": {
+    "html": "html",
+    "typescript": "typescript",
+    "scss": "scss"
+  },
   "css.lint.unknownAtRules": "ignore",
   "scss.lint.unknownAtRules": "ignore",
-  "tailwindCSS.includeLanguages": {
-    "plaintext": "html",
-    "html": "html",
-    "typescript": "typescript"
-  },
   "tailwindCSS.experimental.classRegex": [
     [
       "class=\"([^\"]*)\"",

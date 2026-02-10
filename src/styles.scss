@@ -3,20 +3,26 @@
 @layer material, tailwind, utilities;
 
 @layer tailwind {
-  @import "tailwindcss";
+  @import 'tailwindcss';
 }
 
 @layer material {
-  $monyaco-theme: mat.define-theme((color: (theme-type: light,
-          primary: mat.$azure-palette,
-          tertiary: mat.$blue-palette,
-        ),
-        typography: (brand-family: 'Inter, sans-serif',
-          plain-family: 'Inter, sans-serif',
-        ),
-        density: (scale: -1,
-        ),
-      ));
+  $monyaco-theme: mat.define-theme(
+    (
+      color: (
+        theme-type: light,
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: (
+        brand-family: 'Inter, sans-serif',
+        plain-family: 'Inter, sans-serif',
+      ),
+      density: (
+        scale: -1,
+      ),
+    )
+  );
 
   @include mat.all-component-themes($monyaco-theme);
 
@@ -30,7 +36,6 @@
 }
 
 @layer utilities {
-
   html,
   body {
     height: 100%;
