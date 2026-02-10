@@ -1,5 +1,0 @@
-@reference "../styles.scss";
-
-.minha-classe {
-  @apply bg-blue-500;
-}
