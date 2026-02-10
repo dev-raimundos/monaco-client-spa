@@ -1,7 +1,8 @@
-export interface LaravelResponse<T> {
-  error: boolean;
-  message: string;
-  data: T;
+
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
 }
 
 export interface LoginResponse {
