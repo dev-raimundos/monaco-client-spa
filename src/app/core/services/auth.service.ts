@@ -27,11 +27,15 @@ export class AuthService {
 
   loadProfile(): Observable<UserProfile> {
     return this.http.get<LaravelResponse<UserProfile>>(`${this.BASE_URL}/user/me`).pipe(
-      map((res: LaravelResponse<UserProfile>) => res.data),
+      map((res: LaravelResponse<UserProfile>) => {
+        if (!res.data) {
+          throw new Error('Perfil do usuário não encontrado na resposta do servidor');
+        }
+        return res.data;
+      }),
       tap((user: UserProfile) => this._user.set(user)),
     );
   }
-
   hasPermission(permission: string): boolean {
     const user = this._user();
     return user ? user.services.includes(permission) : false;
