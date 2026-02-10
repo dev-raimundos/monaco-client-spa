@@ -1,56 +1,56 @@
 <div class="flex h-screen items-center justify-center bg-zinc-50 px-4 font-sans">
 
-  <mat-card appearance="outlined" class="w-full max-w-[400px] border-zinc-200 rounded-[2rem] p-4 shadow-sm">
+    <mat-card appearance="outlined" class="w-full max-w-[400px] border-zinc-200 rounded-[2rem] p-4 shadow-sm">
 
-    <mat-card-header class="flex flex-col items-center py-6">
-      <div class="mb-4 bg-zinc-900 p-3 rounded-2xl text-white flex items-center justify-center shadow-lg">
-        <mat-icon>verified_user</mat-icon>
-      </div>
-      <mat-card-title class="text-xl font-bold tracking-tight text-zinc-900">
-        Grupo Mônaco
-      </mat-card-title>
-      <mat-card-subtitle class="text-zinc-500">
-        Acesse sua conta corporativa
-      </mat-card-subtitle>
-    </mat-card-header>
+        <mat-card-header class="flex flex-col items-center py-6">
+            <div class="mb-4 bg-zinc-900 p-3 rounded-2xl text-white flex items-center justify-center shadow-lg">
+                <mat-icon>verified_user</mat-icon>
+            </div>
+            <mat-card-title class="text-xl font-bold tracking-tight text-zinc-900">
+                Grupo Mônaco
+            </mat-card-title>
+            <mat-card-subtitle class="text-zinc-500">
+                Acesse sua conta corporativa
+            </mat-card-subtitle>
+        </mat-card-header>
 
-    <mat-card-content class="mt-4">
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-2">
+        <mat-card-content class="mt-4">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-2">
 
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>E-mail</mat-label>
-          <input matInput formControlName="email" placeholder="seu.nome@grupomonaco.com.br">
-          <mat-icon matPrefix class="opacity-40 scale-90">mail</mat-icon>
-        </mat-form-field>
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>E-mail</mat-label>
+                    <input matInput formControlName="email" placeholder="seu.nome@grupomonaco.com.br">
+                    <mat-icon matPrefix class="opacity-40 scale-90">mail</mat-icon>
+                </mat-form-field>
 
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Senha</mat-label>
-          <input matInput [type]="'password'" formControlName="password" placeholder="••••••••">
-          <mat-icon matPrefix class="opacity-40 scale-90">lock</mat-icon>
-        </mat-form-field>
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Senha</mat-label>
+                    <input matInput [type]="'password'" formControlName="password" placeholder="••••••••">
+                    <mat-icon matPrefix class="opacity-40 scale-90">lock</mat-icon>
+                </mat-form-field>
 
-        <button mat-flat-button
-          class="h-12 mt-4 rounded-xl bg-zinc-900 text-white transition-all hover:bg-zinc-800 disabled:bg-zinc-200"
-          [disabled]="loginForm.invalid || isLoading()">
+                <button mat-flat-button
+                    class="h-12 mt-4 rounded-xl bg-zinc-900 text-white transition-all hover:bg-zinc-800 disabled:bg-zinc-200"
+                    [disabled]="loginForm.invalid || isLoading()">
 
-          @if (isLoading()) {
-          <span class="flex items-center gap-2">
-            <mat-icon class="animate-spin scale-75">sync</mat-icon>
-            Autenticando...
-          </span>
-          } @else {
-          Entrar
-          }
-        </button>
+                    @if (isLoading()) {
+                    <span class="flex items-center gap-2">
+                        <mat-icon class="animate-spin scale-75">sync</mat-icon>
+                        Autenticando...
+                    </span>
+                    } @else {
+                    Entrar
+                    }
+                </button>
 
-      </form>
-    </mat-card-content>
+            </form>
+        </mat-card-content>
 
-    <mat-card-footer class="py-6 text-center">
-      <span class="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
-        Tecnologia da Informação &copy; 2026
-      </span>
-    </mat-card-footer>
+        <mat-card-footer class="py-6 text-center">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                Tecnologia da Informação &copy; 2026
+            </span>
+        </mat-card-footer>
 
-  </mat-card>
+    </mat-card>
 </div>

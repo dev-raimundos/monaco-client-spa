@@ -1,8 +1,8 @@
 import {
-  ApplicationConfig,
-  provideZonelessChangeDetection,
-  provideAppInitializer,
-  inject,
+    ApplicationConfig,
+    provideZonelessChangeDetection,
+    provideAppInitializer,
+    inject,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
@@ -15,18 +15,18 @@ import { httpInterceptor } from '@core/interceptors/http.interceptors';
 import { AuthService } from '@core/services/auth.service';
 
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideZonelessChangeDetection(),
+    providers: [
+        provideZonelessChangeDetection(),
 
-    provideRouter(routes),
+        provideRouter(routes),
 
-    provideHttpClient(withFetch(), withInterceptors([httpInterceptor])),
+        provideHttpClient(withFetch(), withInterceptors([httpInterceptor])),
 
-    provideNoopAnimations(),
+        provideNoopAnimations(),
 
-    provideAppInitializer(() => {
-      const authService = inject(AuthService);
-      return firstValueFrom(authService.loadProfile().pipe(catchError(() => of(null))));
-    }),
-  ],
+        provideAppInitializer(() => {
+            const authService = inject(AuthService);
+            return firstValueFrom(authService.loadProfile().pipe(catchError(() => of(null))));
+        }),
+    ],
 };

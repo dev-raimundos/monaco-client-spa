@@ -12,46 +12,45 @@ import { NotificationService } from '@core/services/notification.service';
 import { LoginCredentials } from '@shared/models';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatCardModule,
-    MatInputModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatProgressBarModule,
-    MatIconModule,
-  ],
-  templateUrl: './login.component.html',
+    selector: 'app-login',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        MatCardModule,
+        MatInputModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatProgressBarModule,
+        MatIconModule,
+    ],
+    templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
-  private notification = inject(NotificationService);
+    private fb = inject(FormBuilder);
+    private authService = inject(AuthService);
+    private notification = inject(NotificationService);
 
-  isLoading = signal(false);
+    isLoading = signal(false);
 
-  loginForm = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-  });
+    loginForm = this.fb.group({
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+    });
 
-  onSubmit(): void {
+    onSubmit(): void {
+        if (this.loginForm.valid) {
+            this.isLoading.set(true);
 
-    if (this.loginForm.valid) {
-      this.isLoading.set(true);
+            const credentials = this.loginForm.value as LoginCredentials;
 
-      const credentials = this.loginForm.value as LoginCredentials;
-
-      this.authService.login(credentials).subscribe({
-        next: (user) => {
-          this.notification.success(`Bem-vindo, ${user.name}!`);
-        },
-        error: () => {
-          this.isLoading.set(false);
-        },
-      });
+            this.authService.login(credentials).subscribe({
+                next: (user) => {
+                    this.notification.success(`Bem-vindo, ${user.name}!`);
+                },
+                error: () => {
+                    this.isLoading.set(false);
+                },
+            });
+        }
     }
-  }
 }
