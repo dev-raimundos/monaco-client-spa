@@ -1,17 +1,5 @@
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@reference "../styles.css";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-.error-snackbar {
-  @apply !bg-red-600 !text-white font-medium;
-}
-
-.success-snackbar {
-  @apply !bg-green-600 !text-white font-medium;
-}
-
-.cdk-overlay-container {
-  z-index: 9999 !important;
+.minha-classe {
+  @apply bg-blue-500;
 }

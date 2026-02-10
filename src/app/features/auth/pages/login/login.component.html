@@ -1,0 +1,59 @@
+<div class="flex h-screen w-full items-center justify-center bg-zinc-50 px-4">
+  <mat-card class="w-full max-w-md overflow-hidden shadow-lg border border-zinc-200">
+
+    @if (isLoading()) {
+    <mat-progress-bar mode="indeterminate" class="absolute top-0 left-0 w-full"></mat-progress-bar>
+    }
+
+    <mat-card-header class="flex flex-col items-center pt-10 pb-6">
+      <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+        <span class="material-icons !text-3xl">lock</span>
+      </div>
+      <mat-card-title class="!text-2xl !font-bold text-zinc-800">Grupo Mônaco</mat-card-title>
+      <mat-card-subtitle class="mt-1">Entre com suas credenciais</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="px-6 pb-8">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-3">
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>E-mail Corporativo</mat-label>
+          <input matInput formControlName="email" type="email" placeholder="nome@grupomonaco.com.br"
+            autocomplete="email">
+          <span matPrefix class="mr-2 text-zinc-400">
+            <span class="material-icons !text-xl align-middle">mail</span>
+          </span>
+          @if (loginForm.get('email')?.hasError('email')) {
+          <mat-error>Informe um e-mail válido</mat-error>
+          }
+          @if (loginForm.get('email')?.hasError('required')) {
+          <mat-error>E-mail é <strong>obrigatório</strong></mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Senha</mat-label>
+          <input matInput formControlName="password" type="password" autocomplete="current-password">
+          <span matPrefix class="mr-2 text-zinc-400">
+            <span class="material-icons !text-xl align-middle">key</span>
+          </span>
+          @if (loginForm.get('password')?.hasError('minlength')) {
+          <mat-error>A senha deve ter no mínimo 6 caracteres</mat-error>
+          }
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" type="submit" class="!h-12 !mt-4 text-base font-semibold tracking-wide"
+          [disabled]="loginForm.invalid || isLoading()">
+          {{ isLoading() ? 'Autenticando...' : 'Acessar Sistema' }}
+        </button>
+
+      </form>
+    </mat-card-content>
+
+    <mat-card-footer class="bg-zinc-100 p-4 text-center">
+      <small class="text-zinc-500 uppercase font-medium tracking-tighter">
+        TI Grupo Mônaco &copy; 2026
+      </small>
+    </mat-card-footer>
+  </mat-card>
+</div>
