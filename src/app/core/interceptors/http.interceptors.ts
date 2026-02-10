@@ -4,11 +4,21 @@ import { catchError, throwError } from 'rxjs';
 import { NotificationService } from '../services/notification.service';
 import { AuthService } from '../services/auth.service';
 import { LaravelResponse } from '@shared/models';
+import { environment } from '@env';
 
 export const httpInterceptor: HttpInterceptorFn = (req, next) => {
     const notification = inject(NotificationService);
     const authService = inject(AuthService);
-    const secureReq = req.clone({ withCredentials: true });
+
+    let url = req.url;
+    if (url.startsWith('/api')) {
+        url = `${environment.apiUrl}${url.replace('/api', '')}`;
+    }
+
+    const secureReq = req.clone({
+        url,
+        withCredentials: true,
+    });
 
     return next(secureReq).pipe(
         catchError((error: HttpErrorResponse) => {
@@ -27,10 +37,10 @@ export const httpInterceptor: HttpInterceptorFn = (req, next) => {
                         errorMessage = 'Acesso negado: você não tem permissão.';
                         break;
                     case 422:
-                        errorMessage = laravelError?.message || 'Dados inválidos.';
+                        errorMessage = 'Dados inválidos. Verifique os campos.';
                         break;
                     case 0:
-                        errorMessage = 'Servidor offline. Verifique a API no porto 8080/8000.';
+                        errorMessage = 'Servidor offline ou erro de rede.';
                         break;
                 }
             }

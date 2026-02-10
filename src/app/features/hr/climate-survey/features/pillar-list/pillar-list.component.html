@@ -1,0 +1,61 @@
+<div class="p-6 space-y-6">
+    <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+            <h2 class="text-3xl font-bold tracking-tight">Pilares</h2>
+            <p class="text-muted-foreground">Gerencie os pilares da Pesquisa de Clima Organizacional.</p>
+        </div>
+
+        <div class="flex gap-2">
+            <button hlmBtn variant="outline" (click)="fetchPillars()" [disabled]="isLoading()">
+                <ng-icon name="lucideRefreshCcw" [class.animate-spin]="isLoading()" class="mr-2"></ng-icon>
+                Atualizar
+            </button>
+            <button hlmBtn>
+                <ng-icon name="lucidePlus" class="mr-2"></ng-icon>
+                Novo Pilar
+            </button>
+        </div>
+    </header>
+
+    <hlm-table class="w-full min-w-[400px] block border border-border rounded-lg overflow-hidden">
+        <hlm-trow>
+            <hlm-th class="w-16">RN</hlm-th>
+            <hlm-th class="w-48">Título</hlm-th>
+            <hlm-th class="flex-1">Descrição</hlm-th>
+            <hlm-th class="w-32 text-right px-6">Ações</hlm-th>
+        </hlm-trow>
+
+        @for (pillar of pillars(); track pillar.id) {
+        <hlm-trow class="hover:bg-accent/50 transition-colors">
+            <hlm-td class="font-mono text-xs text-muted-foreground">{{ pillar.rn }}</hlm-td>
+            <hlm-td class="font-semibold">{{ pillar.title }}</hlm-td>
+            <hlm-td class="truncate text-muted-foreground">{{ pillar.description }}</hlm-td>
+            <hlm-td class="text-right px-4">
+                <div class="flex justify-end gap-1">
+                    <button hlmBtn variant="ghost" size="sm" (click)="onEdit(pillar.id)">
+                        <ng-icon name="lucideEdit" class="text-primary size-4"></ng-icon>
+                    </button>
+                    <button hlmBtn variant="ghost" size="sm" (click)="onDelete(pillar.id)">
+                        <ng-icon name="lucideTrash2" class="text-destructive size-4"></ng-icon>
+                    </button>
+                </div>
+            </hlm-td>
+        </hlm-trow>
+        } @empty {
+        @if (!isLoading()) {
+        <div class="flex flex-col items-center justify-center p-20 text-muted-foreground">
+            <p>Nenhum pilar encontrado no banco de dados.</p>
+        </div>
+        }
+        }
+
+        @if (isLoading()) {
+        <div class="absolute inset-0 bg-background/50 flex items-center justify-center backdrop-blur-[1px]">
+            <div class="flex items-center gap-2 font-medium">
+                <ng-icon name="lucideRefreshCcw" class="animate-spin"></ng-icon>
+                Sincronizando com Grupo Mônaco...
+            </div>
+        </div>
+        }
+    </hlm-table>
+</div>
