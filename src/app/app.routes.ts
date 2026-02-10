@@ -6,7 +6,6 @@ export const routes: Routes = [
         path: 'auth',
         loadChildren: () => import('./features/auth/auth.routes').then((m) => m.AUTH_ROUTES),
     },
-
     {
         path: '',
         loadComponent: () =>
@@ -27,6 +26,13 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('@features/dashboard/dashboard.component').then(
                         (m) => m.DashboardComponent,
+                    ),
+            },
+            {
+                path: 'rh/pesquisa-clima',
+                loadChildren: () =>
+                    import('@features/hr/climate-survey/cimate-survey.routes').then(
+                        (m) => m.CLIMATE_SURVEY_ROUTES,
                     ),
             },
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },

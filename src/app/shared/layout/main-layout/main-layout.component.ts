@@ -63,7 +63,7 @@ export class MainLayoutComponent {
             label: 'Logística',
             icon: 'lucideTruck',
             children: [
-                { label: 'Veículos', route: '/logistica/veiculos' },
+                { label: 'Veículos', route: 'rh/pesquisa-clima' },
                 { label: 'Transportes', route: '/logistica/transportes' },
             ],
         },

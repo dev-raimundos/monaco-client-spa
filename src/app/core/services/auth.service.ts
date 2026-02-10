@@ -33,6 +33,7 @@ export class AuthService {
     loadProfile(): Observable<UserProfile> {
         return this.http.get<LaravelResponse<UserProfile>>(`${this.BASE_URL}/user/me`).pipe(
             map((res) => {
+
                 if (!res.data) throw new Error('Dados do perfil ausentes.');
                 this._user.set(res.data);
                 return res.data;
