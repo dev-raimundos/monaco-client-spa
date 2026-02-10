@@ -1,24 +1,32 @@
 {
-  "tailwindCSS.emmetCompletions": true,
-  "tailwindCSS.includeLanguages": {
-    "html": "html",
-    "typescript": "typescript",
-    "scss": "scss"
-  },
-  "css.lint.unknownAtRules": "ignore",
-  "scss.lint.unknownAtRules": "ignore",
-  "tailwindCSS.experimental.classRegex": [
-    [
-      "class=\"([^\"]*)\"",
-      "([^\"]*)"
+    "tailwindCSS.emmetCompletions": true,
+    "tailwindCSS.includeLanguages": {
+        "plaintext": "html",
+        "html": "html",
+        "typescript": "typescript",
+        "scss": "scss"
+    },
+    "tailwindCSS.experimental.configFile": "src/styles.css",
+    "css.lint.unknownAtRules": "ignore",
+    "scss.lint.unknownAtRules": "ignore",
+    "tailwindCSS.experimental.classRegex": [
+        [
+            "class=\"([^\"]*)\"",
+            "([^\"]*)"
+        ],
+        [
+            "class='([^']*)'",
+            "([^']*)"
+        ],
+        [
+            "\\[ngClass\\]=\"([^\"]*)\"",
+            "([^\"]*)"
+        ],
+        [
+            "classes\\(\\(\\)\\s*=>\\s*\\[([^]*?)\\]\\)",
+            "'([^']*)'"
+        ]
     ],
-    [
-      "class='([^']*)'",
-      "([^']*)"
-    ],
-    [
-      "\\[ngClass\\]=\"([^\"]*)\"",
-      "([^\"]*)"
-    ]
-  ]
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true
 }
