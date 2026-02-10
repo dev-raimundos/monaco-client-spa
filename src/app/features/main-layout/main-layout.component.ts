@@ -1,13 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-
-// Spartan UI - Importações das suas libs/ui
-import { HlmButton } from '@spartan-ng/helm/button';
-import { HlmIcon } from '@spartan-ng/helm/icon';
-import { HlmAvatar, HlmAvatarFallback } from '@spartan-ng/helm/avatar';
-
-// Ng Icons Core - ISSO É O QUE FALTA PARA O [name] FUNCIONAR
+import { HlmButton } from '@shared/spartan/button/src/index';
+import { HlmAvatar, HlmAvatarFallback } from '@shared/spartan/avatar/src/index';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
     lucideLayoutDashboard,
@@ -33,8 +28,7 @@ interface NavItem {
         RouterOutlet,
         RouterLink,
         RouterLinkActive,
-        HlmIcon, // Fornece o estilo hlm
-        NgIcon, // FORNECE A PROPRIEDADE [name] E O SELETOR
+        NgIcon,
         HlmButton,
         HlmAvatar,
         HlmAvatarFallback,
