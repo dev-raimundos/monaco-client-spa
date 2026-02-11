@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, tap, finalize } from 'rxjs';
-import { LaravelPaginatedResponse } from '@shared/models';
+import { LaravelPaginatedResponse } from '@shared/models/api.model';
 import { Pillar, CreatePillarDto } from '../models/pillars.model';
 
 @Injectable({ providedIn: 'root' })

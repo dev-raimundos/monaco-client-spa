@@ -1,27 +1,28 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 
+// PrimeNG Stack
+import { CardModule } from 'primeng/card';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { IftaLabelModule } from 'primeng/iftalabel';
+
+// Core Services
 import { AuthService } from '@core/services/auth.service';
 import { NotificationService } from '@core/services/notification.service';
-import { LoginCredentials } from '@shared/models';
+import { LoginCredentials } from '@shared/models/auth.model';
 
 @Component({
     selector: 'app-login',
     standalone: true,
     imports: [
+        CommonModule,
         ReactiveFormsModule,
-        MatCardModule,
-        MatInputModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatProgressBarModule,
-        MatIconModule,
+        CardModule,
+        InputTextModule,
+        ButtonModule,
+        IftaLabelModule,
     ],
     templateUrl: './login.component.html',
 })
@@ -40,7 +41,6 @@ export class LoginComponent {
     onSubmit(): void {
         if (this.loginForm.valid) {
             this.isLoading.set(true);
-
             const credentials = this.loginForm.value as LoginCredentials;
 
             this.authService.login(credentials).subscribe({

@@ -1,54 +1,46 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+
+// Core Services & Tokens
 import { ThemeService, ThemeMode } from '@core/services/theme.service';
 import { AuthService } from '@core/services/auth.service';
 import { NAV_ITEMS_TOKEN } from '@shared/models/navigation.model';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import {
-    lucideChevronDown,
-    lucideLogOut,
-    lucideSun,
-    lucideMoon,
-    lucideMonitor,
-    lucideLayoutDashboard,
-    lucideUsers,
-    lucideUserCircle,
-} from '@ng-icons/lucide';
+
+// PrimeNG
+import { MenuModule } from 'primeng/menu';
+import { MenuItem } from 'primeng/api';
 
 @Component({
     selector: 'app-main-layout',
     standalone: true,
-    imports: [CommonModule, RouterModule, MatMenuModule, MatButtonModule, MatDividerModule, NgIcon],
-    providers: [
-        provideIcons({
-            lucideChevronDown,
-            lucideLogOut,
-            lucideSun,
-            lucideMoon,
-            lucideMonitor,
-            lucideLayoutDashboard,
-            lucideUsers,
-            lucideUserCircle,
-        }),
-    ],
+    imports: [CommonModule, RouterModule, MenuModule],
     templateUrl: './main-layout.component.html',
 })
 export class MainLayoutComponent {
     private _themeService = inject(ThemeService);
     private _authService = inject(AuthService);
 
+    // MANTIDA A LÓGICA DO TOKEN EXTERNO
     public readonly navItems = inject(NAV_ITEMS_TOKEN);
 
     public user = this._authService.user;
     public expandedMenu = signal<string | null>(null);
 
-    /**
-     * Exibe apenas o primeiro e segundo nome do usuário logado
-     */
+    // Menu do PrimeNG (OOP Style)
+    public profileMenuItems = computed<MenuItem[]>(() => [
+        { label: this.user()?.company || 'grupo mônaco', disabled: true },
+        { label: 'tema claro', icon: 'light_mode', command: () => this.setTheme('light') },
+        { label: 'tema escuro', icon: 'dark_mode', command: () => this.setTheme('dark') },
+        { separator: true },
+        {
+            label: 'sair',
+            icon: 'logout',
+            command: () => this.onLogout(),
+            styleClass: 'text-destructive',
+        },
+    ]);
+
     public displayName = computed(() => {
         const u = this.user();
         if (!u) return 'usuário';
@@ -56,9 +48,6 @@ export class MainLayoutComponent {
         return parts.length > 1 ? `${parts[0]} ${parts[1]}` : parts[0];
     });
 
-    /**
-     * Exibe as iniciais do primeiro e segundo nome do usuário logado
-     */
     public userInitials = computed(() => {
         const name = this.displayName();
         if (name === 'usuário') return '??';
@@ -68,25 +57,14 @@ export class MainLayoutComponent {
             : name.substring(0, 2).toLowerCase();
     });
 
-    /**
-     * Abre ou fecha o menu de navegação
-     * @param label
-     */
     toggleMenu(label: string) {
         this.expandedMenu.set(this.expandedMenu() === label ? null : label);
     }
 
-    /**
-     * Muda o tema do sistema
-     * @param mode
-     */
     setTheme(mode: ThemeMode) {
         this._themeService.setTheme(mode);
     }
 
-    /**
-     * Fecha a sessão do usuário
-     */
     onLogout() {
         this._authService.logout();
     }

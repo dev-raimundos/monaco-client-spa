@@ -1,10 +1,10 @@
-import { NavItem } from '@shared/models/';
+import { NavItem } from '@shared/models/navigation.model';
 
 export const SISMONACO_NAVIGATION: NavItem[] = [
-    { label: 'dashboard', route: '/dashboard', icon: 'lucideLayoutDashboard' },
+    { label: 'dashboard', route: '/dashboard', icon: 'dashboard' }, // Nomes do Material Symbols
     {
         label: 'recursos humanos',
-        icon: 'lucideUsers',
+        icon: 'group',
         children: [
             { label: 'pesquisa de clima', route: '/rh/pesquisa-clima' },
             { label: 'folha de pagamento', route: '/rh/folha' },
@@ -13,7 +13,7 @@ export const SISMONACO_NAVIGATION: NavItem[] = [
     },
     {
         label: 'logística e frota',
-        icon: 'lucideLayoutDashboard',
+        icon: 'local_shipping',
         children: [
             { label: 'controle de viagens', route: '/logistica/viagens' },
             { label: 'manutenção preventiva', route: '/logistica/manutencao' },
@@ -22,11 +22,11 @@ export const SISMONACO_NAVIGATION: NavItem[] = [
     },
     {
         label: 'financeiro',
-        icon: 'lucideUserCircle',
+        icon: 'account_balance_wallet',
         children: [
             { label: 'contas a pagar', route: '/financeiro/pagar' },
             { label: 'fluxo de caixa', route: '/financeiro/caixa' },
         ],
     },
-    { label: 'configurações', route: '/settings', icon: 'lucideMonitor' },
+    { label: 'configurações', route: '/settings', icon: 'settings' },
 ];

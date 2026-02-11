@@ -1,8 +1,9 @@
 <div class="flex h-screen bg-background text-foreground font-sans">
     <aside class="w-64 bg-background border-r border-border flex flex-col shrink-0">
         <div class="p-8 pb-4">
-            <h1 class="text-lg font-medium text-left leading-none">
+            <h1 class="text-xl font-bold text-left leading-none flex items-center">
                 SisMônaco
+                <span class="badge-v3-dynamic">V3</span>
             </h1>
         </div>
 
@@ -11,7 +12,7 @@
             @if (!item.children) {
             <a [routerLink]="item.route" routerLinkActive="bg-foreground/5 font-medium border-l-2 border-primary"
                 class="flex items-center px-4 py-2 text-sm lowercase text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-all rounded-r-md group">
-                <ng-icon [name]="item.icon" class="mr-3 text-lg opacity-60"></ng-icon>
+                <span class="material-symbols-rounded mr-3 opacity-60">dashboard</span>
                 {{ item.label }}
             </a>
             } @else {
@@ -19,12 +20,13 @@
                 <button (click)="toggleMenu(item.label)"
                     class="w-full flex items-center justify-between px-4 py-2 text-sm lowercase text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-all rounded-md">
                     <div class="flex items-center">
-                        <ng-icon [name]="item.icon" class="mr-3 text-lg opacity-60"></ng-icon>
+                        <span class="material-symbols-rounded mr-3 opacity-60">group</span>
                         {{ item.label }}
                     </div>
-                    <ng-icon name="lucideChevronDown" class="text-xs transition-transform duration-300"
+                    <span class="material-symbols-rounded text-lg transition-transform duration-300"
                         [class.rotate-180]="expandedMenu() === item.label">
-                    </ng-icon>
+                        expand_more
+                    </span>
                 </button>
 
                 @if (expandedMenu() === item.label) {
@@ -43,46 +45,24 @@
         </nav>
 
         <div class="p-4 border-t border-border">
-            <button [matMenuTriggerFor]="profileMenu"
-                class="w-full h-10 flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-muted/20 transition-all text-left">
+            <button (click)="menu.toggle($event)"
+                class="w-full h-12 flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-muted/20 transition-all text-left">
                 <div
-                    class="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center font-medium text-xs overflow-hidden uppercase">
+                    class="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center font-medium text-xs uppercase">
                     {{ userInitials() }}
                 </div>
                 <div class="flex flex-col overflow-hidden flex-1">
                     <span class="text-sm font-medium truncate leading-tight">
-                        {{ displayName()}}
+                        {{ displayName() }}
                     </span>
                     <span class="text-[11px] text-muted-foreground opacity-80 uppercase">
                         {{ user()?.occupation || 'cargo não definido' }}
                     </span>
                 </div>
             </button>
+            <p-menu #menu [model]="profileMenuItems()" [popup]="true" appendTo="body" />
         </div>
     </aside>
-
-    <mat-menu #profileMenu="matMenu" xPosition="after" yPosition="above" [overlapTrigger]="false" class="minimal-menu">
-
-        <div class="px-4 py-2 text-[11px] font-medium text-muted-foreground lowercase">
-            {{ user()?.company || 'grupo mônaco' }}
-        </div>
-
-        <button mat-menu-item (click)="setTheme('light')">
-            <ng-icon name="lucideSun" class="mr-3 text-lg"></ng-icon>
-            <span class="text-sm lowercase">tema claro</span>
-        </button>
-        <button mat-menu-item (click)="setTheme('dark')">
-            <ng-icon name="lucideMoon" class="mr-3 text-lg"></ng-icon>
-            <span class="text-sm lowercase">tema escuro</span>
-        </button>
-
-        <mat-divider></mat-divider>
-
-        <button mat-menu-item class="text-destructive" (click)="onLogout()">
-            <ng-icon name="lucideLogOut" class="mr-3 text-lg"></ng-icon>
-            <span class="text-sm font-medium lowercase">sair do sistema</span>
-        </button>
-    </mat-menu>
 
     <main class="flex-1 overflow-auto bg-background/50">
         <router-outlet></router-outlet>

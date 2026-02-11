@@ -1,56 +1,38 @@
-<div class="flex h-screen items-center justify-center bg-zinc-50 px-4 font-sans">
+<div class="flex h-screen items-center justify-center bg-zinc-50 px-4 font-sans text-zinc-900">
+    <p-card class="w-full max-w-md shadow-xl border-none overflow-hidden rounded-3xl">
 
-    <mat-card appearance="outlined" class="w-full max-w-100 border-zinc-200 rounded-4xl p-4 shadow-sm">
-
-        <mat-card-header class="flex flex-col items-center py-6">
-            <div class="mb-4 bg-zinc-900 p-3 rounded-2xl text-white flex items-center justify-center shadow-lg">
-                <mat-icon>verified_user</mat-icon>
+        <div class="flex flex-col items-center py-6 text-center">
+            <div class="mb-4 bg-zinc-900 p-4 rounded-2xl text-white flex items-center justify-center shadow-lg">
+                <span class="material-symbols-rounded text-3xl">verified_user</span>
             </div>
-            <mat-card-title class="text-xl font-bold tracking-tight text-zinc-900">
-                Grupo Mônaco
-            </mat-card-title>
-            <mat-card-subtitle class="text-zinc-500">
-                Acesse sua conta corporativa
-            </mat-card-subtitle>
-        </mat-card-header>
+            <h2 class="text-2xl font-black tracking-tighter uppercase">Grupo Mônaco</h2>
+            <p class="text-zinc-500 text-sm lowercase mt-1">Acesse sua conta corporativa</p>
+        </div>
 
-        <mat-card-content class="mt-4">
-            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-2">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4 mt-2">
 
-                <mat-form-field appearance="outline" class="w-full">
-                    <mat-label>E-mail</mat-label>
-                    <input matInput formControlName="email" placeholder="seu.nome@grupomonaco.com.br">
-                    <mat-icon matPrefix class="opacity-40 scale-90">mail</mat-icon>
-                </mat-form-field>
+            <p-iftalabel>
+                <input pInputText id="email" formControlName="email"
+                    class="w-full border-zinc-200 focus:border-zinc-900 transition-all h-12" autocomplete="email" />
+                <label for="email" class="lowercase">E-mail corporativo</label>
+            </p-iftalabel>
 
-                <mat-form-field appearance="outline" class="w-full">
-                    <mat-label>Senha</mat-label>
-                    <input matInput [type]="'password'" formControlName="password" placeholder="••••••••">
-                    <mat-icon matPrefix class="opacity-40 scale-90">lock</mat-icon>
-                </mat-form-field>
+            <p-iftalabel>
+                <input pInputText id="password" type="password" formControlName="password"
+                    class="w-full border-zinc-200 focus:border-zinc-900 transition-all h-12" />
+                <label for="password" class="lowercase">Senha</label>
+            </p-iftalabel>
 
-                <button mat-flat-button
-                    class="h-12 mt-4 rounded-xl bg-zinc-900 text-white transition-all hover:bg-zinc-800 disabled:bg-zinc-200"
-                    [disabled]="loginForm.invalid || isLoading()">
+            <button pButton type="submit" label="Entrar no Sistema" [loading]="isLoading()"
+                [disabled]="loginForm.invalid"
+                class="w-full h-12 bg-zinc-900 border-none hover:bg-zinc-800 transition-all rounded-xl mt-4 font-bold lowercase tracking-tight">
+            </button>
+        </form>
 
-                    @if (isLoading()) {
-                    <span class="flex items-center gap-2">
-                        <mat-icon class="animate-spin scale-75">sync</mat-icon>
-                        Autenticando...
-                    </span>
-                    } @else {
-                    Entrar
-                    }
-                </button>
-
-            </form>
-        </mat-card-content>
-
-        <mat-card-footer class="py-6 text-center">
-            <span class="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+        <div class="mt-10 mb-4 text-center border-t border-zinc-100 pt-6">
+            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-300">
                 Tecnologia da Informação &copy; 2026
             </span>
-        </mat-card-footer>
-
-    </mat-card>
+        </div>
+    </p-card>
 </div>

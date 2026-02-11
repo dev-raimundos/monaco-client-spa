@@ -1,33 +1,35 @@
 import { inject, Injectable } from '@angular/core';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { MessageService } from 'primeng/api';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
-    private snackBar = inject(MatSnackBar);
 
-    private readonly defaultConfig: MatSnackBarConfig = {
-        duration: 4000,
-        horizontalPosition: 'right',
-        verticalPosition: 'top',
-    };
+    private messageService = inject(MessageService);
 
     success(message: string): void {
-        this.snackBar.open(message, 'Fechar', {
-            ...this.defaultConfig,
-            panelClass: ['success-snackbar'],
+        this.messageService.add({
+            severity: 'success',
+            summary: 'sucesso',
+            detail: message,
+            life: 4000,
         });
     }
 
     error(message: string): void {
-        this.snackBar.open(message, 'OK', {
-            ...this.defaultConfig,
-            panelClass: ['error-snackbar'],
+        this.messageService.add({
+            severity: 'error',
+            summary: 'erro',
+            detail: message,
+            life: 5000,
         });
     }
 
     info(message: string): void {
-        this.snackBar.open(message, 'Entendi', {
-            ...this.defaultConfig,
+        this.messageService.add({
+            severity: 'info',
+            summary: 'informação',
+            detail: message,
+            life: 4000,
         });
     }
 }

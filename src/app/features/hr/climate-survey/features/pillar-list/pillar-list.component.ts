@@ -1,23 +1,20 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+// Core & Shared
 import { PillarService } from '../../data-access/pillar.service';
 import { AppTableComponent } from '@shared/components/table/table-paginated.component';
 import { TableColumn } from '@shared/models/table-config.model';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { PageEvent } from '@angular/material/paginator';
+
+// PrimeNG Stack
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ButtonModule } from 'primeng/button';
+import { PaginatorState } from 'primeng/paginator';
 
 @Component({
     selector: 'app-pillar-list',
     standalone: true,
-    imports: [
-        CommonModule,
-        AppTableComponent,
-        MatProgressSpinnerModule,
-        MatButtonModule,
-        MatIconModule,
-    ],
+    imports: [CommonModule, AppTableComponent, ProgressSpinnerModule, ButtonModule],
     templateUrl: './pillar-list.component.html',
 })
 export class PillarListComponent implements OnInit {
@@ -47,11 +44,17 @@ export class PillarListComponent implements OnInit {
         });
     }
 
-    handlePage(event: PageEvent) {
-        this.fetchPillars(event.pageIndex + 1, event.pageSize);
+    /**
+     * Adaptado para o PaginatorState do PrimeNG
+     */
+    handlePage(event: PaginatorState) {
+        // PrimeNG 'page' é 0-indexed, somamos 1 para a nossa API
+        const pageToFetch = (event.page ?? 0) + 1;
+        this.fetchPillars(pageToFetch, event.rows ?? 5);
     }
 
     onDelete(id: string): void {
+        // Implementação do diálogo de confirmação virá a seguir para evitar o 'confirm' nativo
         if (confirm('Deseja excluir este pilar?')) {
             this._pillarService.delete(id).subscribe(() => this.fetchPillars(this.currentPage()));
         }

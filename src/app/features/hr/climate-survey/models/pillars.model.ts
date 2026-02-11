@@ -1,4 +1,4 @@
-import { LaravelPaginatedResponse, LaravelResponse } from '@shared/models';
+import { LaravelPaginatedResponse, LaravelResponse } from '@shared/models/api.model';
 
 export interface Pillar {
     id: string;

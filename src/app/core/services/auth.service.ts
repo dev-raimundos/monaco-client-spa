@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs';
 import { environment } from '@env';
-import { UserProfile, LoginCredentials, LaravelResponse, LoginResponse } from '@shared/models';
+import { LaravelResponse } from '@shared/models/api.model';
+import { LoginResponse, LoginCredentials, UserProfile } from '@shared/models/auth.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

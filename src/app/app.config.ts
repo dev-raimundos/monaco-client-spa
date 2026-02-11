@@ -9,20 +9,33 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { firstValueFrom, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
+import { providePrimeNG } from 'primeng/config';
+import { MessageService, ConfirmationService } from 'primeng/api';
+import Aura from '@primeuix/themes/aura';
 import { routes } from './app.routes';
 import { httpInterceptor } from '@core/interceptors/http.interceptors';
 import { AuthService } from '@core/services/auth.service';
-
 import { NAV_ITEMS_TOKEN } from '@shared/models/navigation.model';
 import { SISMONACO_NAVIGATION } from '@core/config/navigation';
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        providePrimeNG({
+            theme: {
+                preset: Aura,
+                options: {
+                    darkModeSelector: '.dark',
+                },
+            },
+        }),
+        MessageService,
+        ConfirmationService,
+
         provideZonelessChangeDetection(),
         provideRouter(routes, withComponentInputBinding()),
         provideHttpClient(withFetch(), withInterceptors([httpInterceptor])),
         provideAnimationsAsync(),
+
         {
             provide: NAV_ITEMS_TOKEN,
             useValue: SISMONACO_NAVIGATION,

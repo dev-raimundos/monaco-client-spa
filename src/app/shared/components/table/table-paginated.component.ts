@@ -1,113 +1,107 @@
-import { Component, input, output, computed } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { TableColumn } from '../../models/table-config.model';
+
+// PrimeNG Stack
+import { TableModule } from 'primeng/table';
+import { PaginatorModule, PaginatorState } from 'primeng/paginator';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
     selector: 'app-shared-table',
     standalone: true,
-    imports: [CommonModule, MatTableModule, MatButtonModule, MatPaginatorModule, MatIconModule],
+    imports: [CommonModule, TableModule, PaginatorModule, ButtonModule],
     template: `
-        <div class="mat-elevation-z1 overflow-hidden rounded-lg bg-card border border-border">
-            <table mat-table [dataSource]="data()" class="w-full">
-                @for (col of columns(); track col.key) {
-                    <ng-container [matColumnDef]="col.key">
+        <div class="rounded-lg border border-border bg-card overflow-hidden shadow-sm">
+            <p-table [value]="data()" styleClass="p-datatable-sm" [responsiveLayout]="'scroll'">
+                <ng-template pTemplate="header">
+                    <tr class="border-b border-border">
+                        @for (col of columns(); track col.key) {
+                            <th
+                                class="py-4 px-6 text-left font-bold text-foreground lowercase bg-transparent"
+                            >
+                                {{ col.label }}
+                            </th>
+                        }
                         <th
-                            mat-header-cell
-                            *matHeaderCellDef
-                            class="text-foreground font-bold py-4"
+                            class="px-6 text-right font-bold text-foreground lowercase bg-transparent"
                         >
-                            {{ col.label | lowercase }}
+                            ações
                         </th>
-                        <td mat-cell *matCellDef="let item" class="text-foreground py-3 text-sm">
-                            {{ item[col.key] }}
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-item>
+                    <tr class="hover:bg-muted/30 border-b border-border transition-colors">
+                        @for (col of columns(); track col.key) {
+                            <td class="py-3 px-6 text-sm text-foreground">
+                                {{ item[col.key] }}
+                            </td>
+                        }
+                        <td class="px-6 py-2 text-right">
+                            <div class="flex justify-end gap-1">
+                                <button
+                                    pButton
+                                    class="p-button-text p-button-rounded action-btn edit-btn"
+                                    (click)="edit.emit(item.id)"
+                                    title="editar"
+                                >
+                                    <span class="material-symbols-rounded">edit_square</span>
+                                </button>
+
+                                <button
+                                    pButton
+                                    class="p-button-text p-button-rounded action-btn delete-btn"
+                                    (click)="delete.emit(item.id)"
+                                    title="excluir"
+                                >
+                                    <span class="material-symbols-rounded">delete</span>
+                                </button>
+                            </div>
                         </td>
-                    </ng-container>
-                }
+                    </tr>
+                </ng-template>
 
-                <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef class="text-right px-6">ações</th>
-                    <td mat-cell *matCellDef="let item" class="text-right px-6">
-                        <div class="flex justify-end items-center gap-1">
-                            <button
-                                mat-icon-button
-                                class="action-btn edit-btn"
-                                (click)="edit.emit(item.id)"
-                                title="Editar"
-                            >
-                                <mat-icon class="material-symbols-rounded">edit_square</mat-icon>
-                            </button>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td
+                            [attr.colspan]="columns().length + 1"
+                            class="p-12 text-center text-muted-foreground lowercase"
+                        >
+                            nenhum registro encontrado.
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
 
-                            <button
-                                mat-icon-button
-                                class="action-btn delete-btn"
-                                (click)="delete.emit(item.id)"
-                                title="Excluir"
-                            >
-                                <mat-icon class="material-symbols-rounded">delete</mat-icon>
-                            </button>
-                        </div>
-                    </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="allDisplayedColumns()"></tr>
-                <tr
-                    mat-row
-                    *matRowDef="let row; columns: allDisplayedColumns()"
-                    class="custom-row"
-                ></tr>
-
-                <tr class="mat-row" *matNoDataRow>
-                    <td
-                        class="mat-cell p-12 text-center text-muted-foreground lowercase"
-                        [attr.colspan]="allDisplayedColumns().length"
-                    >
-                        nenhum registro encontrado.
-                    </td>
-                </tr>
-            </table>
-
-            <mat-paginator
-                class="border-t border-border lowercase"
-                [length]="totalItems()"
-                [pageSize]="pageSize()"
-                [pageIndex]="currentPage() - 1"
-                [pageSizeOptions]="[5, 10, 20]"
-                (page)="pageChange.emit($event)"
-                showFirstLastButtons
-            >
-            </mat-paginator>
+            <p-paginator
+                [rows]="pageSize()"
+                [totalRecords]="totalItems()"
+                [rowsPerPageOptions]="[5, 10, 20]"
+                [first]="(currentPage() - 1) * pageSize()"
+                (onPageChange)="pageChange.emit($event)"
+                styleClass="border-t border-border bg-transparent lowercase"
+            />
         </div>
     `,
     styles: [
         `
-            .mat-mdc-table {
-                background-color: transparent !important;
-            }
-
-            .custom-row {
-                transition: background-color 0.15s ease;
-            }
-            .custom-row:hover {
-                background-color: color-mix(in srgb, var(--foreground), transparent 96%) !important;
-            }
-
+            /* Removido ::ng-deep desnecessário - confiando no CSS scoping do Angular */
             .action-btn {
-                color: var(--muted-foreground);
-                transition: color 0.2s ease;
+                width: 32px !important;
+                height: 32px !important;
+                padding: 0 !important;
                 display: inline-flex !important;
-                align-items: center !important;
-                justify-content: center !important;
+                align-items: center;
+                justify-content: center;
+                color: var(--muted-foreground) !important;
+                background: transparent !important;
+                border: none !important;
             }
 
-            .action-btn mat-icon {
+            .action-btn span {
                 font-size: 20px;
-                width: 20px;
-                height: 20px;
-                line-height: 1 !important;
+                /* Força o centro exato do Material Symbol */
                 font-variation-settings:
                     'FILL' 0,
                     'wght' 400,
@@ -121,12 +115,6 @@ import { TableColumn } from '../../models/table-config.model';
             .delete-btn:hover {
                 color: var(--destructive) !important;
             }
-
-            .mat-mdc-header-cell {
-                text-transform: lowercase;
-                letter-spacing: 0.025em;
-                border-bottom: 1px solid var(--border) !important;
-            }
         `,
     ],
 })
@@ -136,9 +124,9 @@ export class AppTableComponent<T> {
     totalItems = input<number>(0);
     pageSize = input<number>(5);
     currentPage = input<number>(1);
+
     edit = output<string>();
     delete = output<string>();
-    pageChange = output<PageEvent>();
 
-    allDisplayedColumns = computed(() => [...this.columns().map((c) => c.key), 'actions']);
+    pageChange = output<PaginatorState>();
 }
