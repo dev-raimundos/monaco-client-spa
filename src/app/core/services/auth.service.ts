@@ -1,7 +1,7 @@
 import { inject, Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs';
 import { environment } from '@env';
 import { UserProfile, LoginCredentials, LaravelResponse, LoginResponse } from '@shared/models';
@@ -15,11 +15,14 @@ export class AuthService {
     readonly user = this._user.asReadonly();
     readonly isAuthenticated = computed(() => !!this._user());
 
+    /**
+     * Dado o payload de login, recebe o access_token e e redireciona para a rota /dashboard
+     * @param credentials
+     * @returns Token JWT
+     */
     login(credentials: LoginCredentials): Observable<UserProfile> {
         return this.http
-            .post<
-                LaravelResponse<LoginResponse>
-            >(`${this.BASE_URL}/authentication/login`, credentials)
+            .post<LaravelResponse<LoginResponse>>(`${this.BASE_URL}/authentication/login`, credentials)
             .pipe(
                 switchMap(() => this.loadProfile()),
                 tap(() => this.router.navigate(['/dashboard'])),
@@ -27,8 +30,8 @@ export class AuthService {
     }
 
     /**
-     * Carrega os dados do usuário logado via Cookie.
-     * Útil para o login e para o APP_INITIALIZER.
+     * lê o perfil do usuário logado usando o access_token e armazena no estado local.
+     * @returns UserProfile
      */
     loadProfile(): Observable<UserProfile> {
         return this.http.get<LaravelResponse<UserProfile>>(`${this.BASE_URL}/user/me`).pipe(
