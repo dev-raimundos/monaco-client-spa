@@ -18,22 +18,22 @@ export interface NavItem {
             @if (item.children && item.children.length > 0) {
                 <button
                     (click)="toggle()"
-                    class="group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium transition-all duration-200 hover:bg-muted"
+                    class="group flex w-full items-start gap-3 rounded-lg px-3 py-2 text-left text-sm font-bold transition-all duration-200 hover:bg-muted"
                     [class.text-primary]="isOpen()"
                     [class.text-muted-foreground]="!isOpen()"
                 >
                     @if (item.icon) {
                         <span
-                            class="material-symbols-rounded text-[22px] opacity-80 transition-colors"
+                            class="material-symbols-rounded text-[22px] opacity-80 transition-colors shrink-0"
                         >
                             {{ item.icon }}
                         </span>
                     }
-                    <span class="flex-1 truncate text-foreground group-hover:text-foreground">{{
-                        item.label
-                    }}</span>
+                    <span class="text-foreground group-hover:text-foreground pt-0.5 leading-tight">
+                        {{ item.label }}
+                    </span>
                     <span
-                        class="material-symbols-rounded text-lg transition-transform duration-500 opacity-50 text-foreground"
+                        class="material-symbols-rounded text-lg transition-transform duration-500 opacity-50 text-foreground shrink-0 ml-auto"
                         [class.rotate-180]="isOpen()"
                     >
                         expand_more
@@ -58,18 +58,20 @@ export interface NavItem {
             } @else {
                 <a
                     [routerLink]="item.route"
-                    routerLinkActive="bg-muted !text-primary font-semibold"
+                    routerLinkActive="bg-muted !text-primary !font-bold"
                     [routerLinkActiveOptions]="{ exact: true }"
-                    class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground"
+                    class="group flex items-start gap-3 rounded-lg px-3 py-2 text-sm font-normal text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground"
                 >
                     @if (item.icon) {
                         <span
-                            class="material-symbols-rounded text-[22px] opacity-80 group-hover:text-foreground"
+                            class="material-symbols-rounded text-[22px] opacity-80 group-hover:text-foreground shrink-0"
                         >
                             {{ item.icon }}
                         </span>
                     }
-                    <span class="truncate group-hover:text-foreground">{{ item.label }}</span>
+                    <span class="group-hover:text-foreground pt-0.5 leading-tight">
+                        {{ item.label }}
+                    </span>
                 </a>
             }
         </div>
