@@ -10,3 +10,24 @@
     background-color: hsl(var(--border));
     border-radius: 10px;
 }
+
+/* main-layout.css */
+
+/* Remove qualquer transparência ou filtro que o PrimeNG ou o layout base aplique ao container de popover */
+.bg-card,
+.bg-popover,
+.absolute.bottom-full {
+    opacity: 1 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* Garante que o fundo use a variável de background do seu tema (cor sólida) */
+.absolute.bottom-full {
+    background-color: hsl(var(--background)) !important;
+}
+
+/* Ajuste de scrollbar para evitar que ela 'vaze' por baixo do menu */
+.custom-scrollbar {
+    scrollbar-gutter: stable;
+}

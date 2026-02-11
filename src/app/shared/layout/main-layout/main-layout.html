@@ -15,43 +15,45 @@
         <div class="relative border-t border-border p-4">
             @if (isProfileMenuOpen()) {
                 <div
-                    class="absolute bottom-full left-4 right-4 mb-3 z-50 flex flex-col overflow-hidden rounded-xl border border-border bg-white dark:bg-zinc-950 shadow-2xl animate-in fade-in zoom-in-95 slide-in-from-bottom-6 duration-500 ease-out"
+                    class="absolute bottom-full left-4 right-4 mb-3 z-50 flex flex-col overflow-hidden rounded-xl border border-border shadow-2xl animate-in fade-in zoom-in-95 slide-in-from-bottom-6 duration-500 ease-out bg-background! opacity-100! backdrop-blur-none!"
                 >
                     <div
-                        class="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-muted-foreground border-b border-border/50 bg-muted/30"
+                        class="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-muted-foreground border-b border-border bg-muted/20"
                     >
                         {{ user()?.company || 'grupo mônaco' }}
                     </div>
 
-                    <div class="p-1.5">
+                    <div class="p-1.5 flex flex-col gap-0.5 opacity-100!">
                         <button
                             (click)="setTheme('light'); toggleProfileMenu()"
-                            class="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm transition-colors hover:bg-muted text-foreground"
+                            class="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm transition-colors hover:bg-muted text-foreground opacity-100!"
                         >
-                            <span class="material-symbols-rounded text-lg">light_mode</span> tema
-                            claro
+                            <span class="material-symbols-rounded text-lg">light_mode</span>
+                            <span>tema claro</span>
                         </button>
 
                         <button
                             (click)="setTheme('dark'); toggleProfileMenu()"
-                            class="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm transition-colors hover:bg-muted text-foreground"
+                            class="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm transition-colors hover:bg-muted text-foreground opacity-100!"
                         >
-                            <span class="material-symbols-rounded text-lg">dark_mode</span> tema
-                            escuro
+                            <span class="material-symbols-rounded text-lg">dark_mode</span>
+                            <span>tema escuro</span>
                         </button>
 
-                        <div class="my-1.5 border-t border-border/50"></div>
+                        <div class="my-1.5 border-t border-border"></div>
 
                         <button
                             (click)="onLogout()"
-                            class="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm text-destructive transition-colors hover:bg-destructive/10"
+                            class="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm text-destructive transition-colors hover:bg-destructive/10 opacity-100!"
                         >
-                            <span class="material-symbols-rounded text-lg">logout</span> sair
+                            <span class="material-symbols-rounded text-lg">logout</span>
+                            <span class="font-medium">sair</span>
                         </button>
                     </div>
                 </div>
+
                 <div
-                    class="fixed inset-0 z-40 bg-black/10 backdrop-blur-[2px] transition-all duration-500"
+                    class="fixed inset-0 z-40 bg-black/20 backdrop-blur-[2px] transition-all duration-500"
                     (click)="toggleProfileMenu()"
                 ></div>
             }
@@ -66,22 +68,24 @@
                 >
                     {{ userInitials() }}
                 </div>
+
                 <div class="flex flex-1 flex-col overflow-hidden">
-                    <span
-                        class="truncate text-sm font-semibold leading-none text-foreground mb-1"
-                        >{{ displayName() }}</span
-                    >
+                    <span class="truncate text-sm font-semibold leading-none text-foreground mb-1">
+                        {{ displayName() }}
+                    </span>
                     <span
                         class="truncate text-[10px] text-muted-foreground uppercase font-medium tracking-tighter"
                     >
                         {{ user()?.occupation || 'cargo não definido' }}
                     </span>
                 </div>
+
                 <span
                     class="material-symbols-rounded text-muted-foreground/60 transition-transform duration-500"
                     [class.rotate-180]="isProfileMenuOpen()"
-                    >unfold_more</span
                 >
+                    unfold_more
+                </span>
             </button>
         </div>
     </aside>

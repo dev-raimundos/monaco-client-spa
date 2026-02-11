@@ -12,7 +12,7 @@ export interface NavItem {
 @Component({
     selector: 'app-nav-item',
     standalone: true,
-    imports: [CommonModule, RouterModule],
+    imports: [CommonModule, RouterModule, NavItemComponent],
     template: `
         <div class="flex flex-col">
             @if (item.children && item.children.length > 0) {
@@ -23,16 +23,21 @@ export interface NavItem {
                     [class.text-muted-foreground]="!isOpen()"
                 >
                     @if (item.icon) {
-                        <span class="material-symbols-rounded text-[22px] opacity-80">{{
-                            item.icon
-                        }}</span>
+                        <span
+                            class="material-symbols-rounded text-[22px] opacity-80 transition-colors"
+                        >
+                            {{ item.icon }}
+                        </span>
                     }
-                    <span class="flex-1 truncate">{{ item.label }}</span>
+                    <span class="flex-1 truncate text-foreground group-hover:text-foreground">{{
+                        item.label
+                    }}</span>
                     <span
-                        class="material-symbols-rounded text-lg transition-transform duration-500 opacity-50"
+                        class="material-symbols-rounded text-lg transition-transform duration-500 opacity-50 text-foreground"
                         [class.rotate-180]="isOpen()"
-                        >expand_more</span
                     >
+                        expand_more
+                    </span>
                 </button>
 
                 <div
@@ -53,16 +58,18 @@ export interface NavItem {
             } @else {
                 <a
                     [routerLink]="item.route"
-                    routerLinkActive="bg-muted text-primary font-semibold"
+                    routerLinkActive="bg-muted !text-primary font-semibold"
                     [routerLinkActiveOptions]="{ exact: true }"
                     class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground"
                 >
                     @if (item.icon) {
-                        <span class="material-symbols-rounded text-[22px] opacity-80">{{
-                            item.icon
-                        }}</span>
+                        <span
+                            class="material-symbols-rounded text-[22px] opacity-80 group-hover:text-foreground"
+                        >
+                            {{ item.icon }}
+                        </span>
                     }
-                    <span class="truncate">{{ item.label }}</span>
+                    <span class="truncate group-hover:text-foreground">{{ item.label }}</span>
                 </a>
             }
         </div>
