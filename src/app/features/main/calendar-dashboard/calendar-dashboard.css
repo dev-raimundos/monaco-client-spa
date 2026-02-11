@@ -1,0 +1,36 @@
+:host ::ng-deep {
+    .fc {
+        height: 100%;
+        font-family: var(--font-sans);
+    }
+
+    .fc-toolbar-title {
+        font-size: 1.25rem !important;
+        font-weight: 700;
+        text-transform: capitalize;
+    }
+
+    .fc-button-primary {
+        background-color: var(--primary) !important;
+        border: none !important;
+    }
+
+    .fc-daygrid-day-number {
+        font-size: 0.875rem;
+        padding: 8px !important;
+    }
+
+    .fc-col-header-cell {
+        padding: 12px 0;
+        background: var(--muted) / 30;
+        font-weight: 600;
+    }
+
+    .holiday-event {
+        background-color: #ef4444 !important;
+        border: none !important;
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 2px 4px;
+    }
+}
