@@ -41,13 +41,9 @@ import {
     templateUrl: './main-layout.component.html',
 })
 export class MainLayoutComponent {
-    // DI
     private _themeService = inject(ThemeService);
     private _authService = inject(AuthService);
-    private _router = inject(Router);
-    // Informações do usuário logado
     public user = this._authService.user;
-    // Nome do menu que está aberto no sidebar
     public expandedMenu = signal<string | null>(null);
 
     public navItems = [
@@ -86,37 +82,26 @@ export class MainLayoutComponent {
         { label: 'configurações', route: '/settings', icon: 'lucideMonitor' },
     ];
 
-    // Computa as iniciais do nome do Usuário
-    public userInitials = computed(() => {
-        const name = this.user()?.name || '';
-        if (!name) return '??';
-        const parts = name.split(' ');
-        if (parts.length > 1) {
-            return (parts[0][0] + parts[parts.length - 1][0]).toLowerCase();
-        }
-        return name.substring(0, 2).toLowerCase();
-    });
-
-    // Exibe apenas o primeiro e segundo nome do usuário
     public displayName = computed(() => {
-        const fullName = this.user()?.name;
-        if (!fullName) return 'usuário';
-        const parts = fullName.trim().split(/\s+/);
+        const u = this.user();
+        if (!u) return 'usuário';
+        const parts = u.name.trim().split(/\s+/);
         return parts.length > 1 ? `${parts[0]} ${parts[1]}` : parts[0];
     });
 
-    /**
-     * Método para abrir o menu de navegação
-     * @param label
-     */
+    public userInitials = computed(() => {
+        const name = this.displayName();
+        if (name === 'usuário') return '??';
+        const parts = name.split(' ');
+        return parts.length > 1
+            ? (parts[0][0] + parts[1][0]).toLowerCase()
+            : name.substring(0, 2).toLowerCase();
+    });
+
     toggleMenu(label: string) {
         this.expandedMenu.set(this.expandedMenu() === label ? null : label);
     }
 
-    /**
-     * Método pra alternar entre tema claro ou escuro
-     * @param mode
-     */
     setTheme(mode: ThemeMode) {
         this._themeService.setTheme(mode);
     }

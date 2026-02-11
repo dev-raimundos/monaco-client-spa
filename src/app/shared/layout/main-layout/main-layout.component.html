@@ -61,7 +61,8 @@
         </div>
     </aside>
 
-    <mat-menu #profileMenu="matMenu" xPosition="after">
+    <mat-menu #profileMenu="matMenu" xPosition="after" yPosition="above" [overlapTrigger]="false" class="minimal-menu">
+
         <div class="px-4 py-2 text-[11px] font-medium text-muted-foreground lowercase">
             {{ user()?.company || 'grupo mônaco' }}
         </div>

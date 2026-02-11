@@ -22,7 +22,9 @@ export class AuthService {
      */
     login(credentials: LoginCredentials): Observable<UserProfile> {
         return this.http
-            .post<LaravelResponse<LoginResponse>>(`${this.BASE_URL}/authentication/login`, credentials)
+            .post<
+                LaravelResponse<LoginResponse>
+            >(`${this.BASE_URL}/authentication/login`, credentials)
             .pipe(
                 switchMap(() => this.loadProfile()),
                 tap(() => this.router.navigate(['/dashboard'])),
@@ -36,14 +38,18 @@ export class AuthService {
     loadProfile(): Observable<UserProfile> {
         return this.http.get<LaravelResponse<UserProfile>>(`${this.BASE_URL}/user/me`).pipe(
             map((res) => {
-
-                if (!res.data) throw new Error('Dados do perfil ausentes.');
-                this._user.set(res.data);
-                return res.data;
-            }),
-            catchError((err) => {
-                this._user.set(null);
-                return throwError(() => err);
+                if (!res.data || !res.data.name || !res.data.id) {
+                    throw new Error('Contrato da API quebrado: Dados do perfil são inválidos.');
+                }
+                const safeUser: UserProfile = {
+                    ...res.data,
+                    avatar: res.data.avatar ?? '',
+                    department: res.data.department ?? 'Não definido',
+                    occupation: res.data.occupation ?? 'Não Definido',
+                    company: res.data.company ?? 'Não Definido',
+                };
+                this._user.set(safeUser);
+                return safeUser;
             }),
         );
     }
