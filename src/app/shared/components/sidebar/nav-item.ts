@@ -18,22 +18,36 @@ export interface NavItem {
             @if (item.children && item.children.length > 0) {
                 <button
                     (click)="toggle()"
-                    class="group flex w-full items-start gap-3 rounded-lg px-3 py-2 text-left text-sm font-bold transition-all duration-200 hover:bg-muted"
+                    class="group relative flex w-full items-start gap-3 rounded-lg px-3 py-2 text-left text-sm font-bold transition-all duration-200"
+                    [class.bg-muted/50]="isOpen()"
                     [class.text-primary]="isOpen()"
                     [class.text-muted-foreground]="!isOpen()"
                 >
+                    @if (isOpen()) {
+                        <div
+                            class="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-primary animate-in fade-in slide-in-from-left-1 duration-300"
+                        ></div>
+                    }
+
                     @if (item.icon) {
                         <span
-                            class="material-symbols-rounded text-[22px] opacity-80 transition-colors shrink-0"
+                            class="material-symbols-rounded text-[22px] transition-colors shrink-0"
+                            [class.opacity-100]="isOpen()"
+                            [class.opacity-60]="!isOpen()"
                         >
                             {{ item.icon }}
                         </span>
                     }
-                    <span class="text-foreground group-hover:text-foreground pt-0.5 leading-tight">
+
+                    <span
+                        class="flex-1 pt-0.5 leading-tight transition-colors"
+                        [class.text-foreground]="isOpen()"
+                    >
                         {{ item.label }}
                     </span>
+
                     <span
-                        class="material-symbols-rounded text-lg transition-transform duration-500 opacity-50 text-foreground shrink-0 ml-auto"
+                        class="material-symbols-rounded text-lg transition-transform duration-500 opacity-50 shrink-0 ml-auto"
                         [class.rotate-180]="isOpen()"
                     >
                         expand_more
@@ -41,8 +55,10 @@ export interface NavItem {
                 </button>
 
                 <div
-                    class="grid overflow-hidden transition-[grid-template-rows,opacity,margin] duration-300 ease-in-out ml-4 border-l border-border/60"
+                    class="grid overflow-hidden transition-[grid-template-rows,opacity,margin] duration-300 ease-in-out ml-4 border-l-2"
                     [style.grid-template-rows]="isOpen() ? '1fr' : '0fr'"
+                    [class.border-primary/30]="isOpen()"
+                    [class.border-transparent]="!isOpen()"
                     [class.opacity-100]="isOpen()"
                     [class.opacity-0]="!isOpen()"
                     [class.mt-1]="isOpen()"
