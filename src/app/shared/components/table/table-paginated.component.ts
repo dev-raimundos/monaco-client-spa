@@ -2,49 +2,52 @@ import { Component, input, output, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { TableColumn } from '../../models/table-config.model';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucideEdit, lucideTrash2 } from '@ng-icons/lucide';
 
 @Component({
     selector: 'app-shared-table',
     standalone: true,
-    imports: [CommonModule, MatTableModule, MatButtonModule, MatPaginatorModule, NgIcon],
-    providers: [provideIcons({ lucideEdit, lucideTrash2 })],
+    imports: [CommonModule, MatTableModule, MatButtonModule, MatPaginatorModule, MatIconModule],
     template: `
-        <div class="mat-elevation-z1 overflow-hidden rounded-lg bg-card">
+        <div class="mat-elevation-z1 overflow-hidden rounded-lg bg-card border border-border">
             <table mat-table [dataSource]="data()" class="w-full">
                 @for (col of columns(); track col.key) {
                     <ng-container [matColumnDef]="col.key">
-                        <th mat-header-cell *matHeaderCellDef class="text-foreground font-bold">
-                            {{ col.label }}
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            class="text-foreground font-bold py-4"
+                        >
+                            {{ col.label | lowercase }}
                         </th>
-                        <td mat-cell *matCellDef="let item" class="text-foreground">
+                        <td mat-cell *matCellDef="let item" class="text-foreground py-3 text-sm">
                             {{ item[col.key] }}
                         </td>
                     </ng-container>
                 }
 
                 <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef class="w-24 text-right px-4">Ações</th>
-                    <td mat-cell *matCellDef="let item" class="text-right px-4 py-2">
+                    <th mat-header-cell *matHeaderCellDef class="text-right px-6">ações</th>
+                    <td mat-cell *matCellDef="let item" class="text-right px-6">
                         <div class="flex justify-end items-center gap-1">
                             <button
                                 mat-icon-button
-                                class="compact-icon-button edit-btn"
+                                class="action-btn edit-btn"
                                 (click)="edit.emit(item.id)"
                                 title="Editar"
                             >
-                                <ng-icon name="lucideEdit" size="18"></ng-icon>
+                                <mat-icon class="material-symbols-rounded">edit_square</mat-icon>
                             </button>
+
                             <button
                                 mat-icon-button
-                                class="compact-icon-button delete-btn"
+                                class="action-btn delete-btn"
                                 (click)="delete.emit(item.id)"
                                 title="Excluir"
                             >
-                                <ng-icon name="lucideTrash2" size="18"></ng-icon>
+                                <mat-icon class="material-symbols-rounded">delete</mat-icon>
                             </button>
                         </div>
                     </td>
@@ -59,16 +62,16 @@ import { lucideEdit, lucideTrash2 } from '@ng-icons/lucide';
 
                 <tr class="mat-row" *matNoDataRow>
                     <td
-                        class="mat-cell p-10 text-center text-muted-foreground"
+                        class="mat-cell p-12 text-center text-muted-foreground lowercase"
                         [attr.colspan]="allDisplayedColumns().length"
                     >
-                        Nenhum registro encontrado.
+                        nenhum registro encontrado.
                     </td>
                 </tr>
             </table>
 
             <mat-paginator
-                class="border-t border-border"
+                class="border-t border-border lowercase"
                 [length]="totalItems()"
                 [pageSize]="pageSize()"
                 [pageIndex]="currentPage() - 1"
@@ -82,56 +85,53 @@ import { lucideEdit, lucideTrash2 } from '@ng-icons/lucide';
     styles: [
         `
             .mat-mdc-table {
-                background-color: var(--card) !important;
+                background-color: transparent !important;
+            }
+
+            .custom-row {
+                transition: background-color 0.15s ease;
             }
             .custom-row:hover {
-                background-color: color-mix(in srgb, var(--primary), transparent 92%) !important;
-                transition: background-color 0.2s ease;
+                background-color: color-mix(in srgb, var(--foreground), transparent 96%) !important;
             }
-            .compact-icon-button {
-                width: 32px !important;
-                height: 32px !important;
-                min-width: 32px !important;
-                padding: 0 !important;
+
+            .action-btn {
+                color: var(--muted-foreground);
+                transition: color 0.2s ease;
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-                border-radius: 50% !important;
             }
-            .compact-icon-button ng-icon {
-                color: var(--muted-foreground);
-                transition: color 0.2s ease;
+
+            .action-btn mat-icon {
+                font-size: 20px;
+                width: 20px;
+                height: 20px;
+                line-height: 1 !important;
+                font-variation-settings:
+                    'FILL' 0,
+                    'wght' 400,
+                    'GRAD' 0,
+                    'opsz' 20;
             }
+
             .edit-btn:hover {
-                background-color: color-mix(in srgb, var(--primary), transparent 90%) !important;
-            }
-            .edit-btn:hover ng-icon {
                 color: var(--primary) !important;
             }
             .delete-btn:hover {
-                background-color: color-mix(
-                    in srgb,
-                    var(--destructive),
-                    transparent 90%
-                ) !important;
-            }
-            .delete-btn:hover ng-icon {
                 color: var(--destructive) !important;
             }
+
             .mat-mdc-header-cell {
-                background-color: var(--card) !important;
-                border-bottom: 1px solid var(--border) !important;
-            }
-            .mat-mdc-cell {
-                padding-top: 8px !important;
-                padding-bottom: 8px !important;
+                text-transform: lowercase;
+                letter-spacing: 0.025em;
                 border-bottom: 1px solid var(--border) !important;
             }
         `,
     ],
 })
 export class AppTableComponent<T> {
-    data = input.required<T[]>();
+    data = input.required<any[]>();
     columns = input.required<TableColumn[]>();
     totalItems = input<number>(0);
     pageSize = input<number>(5);
