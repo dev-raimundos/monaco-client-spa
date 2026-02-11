@@ -1,8 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableColumn } from '../../models/table-config.model';
-
-// PrimeNG Stack
 import { TableModule } from 'primeng/table';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { ButtonModule } from 'primeng/button';
@@ -13,7 +11,7 @@ import { ButtonModule } from 'primeng/button';
     imports: [CommonModule, TableModule, PaginatorModule, ButtonModule],
     template: `
         <div class="rounded-lg border border-border bg-card overflow-hidden shadow-sm">
-            <p-table [value]="data()" styleClass="p-datatable-sm" [responsiveLayout]="'scroll'">
+            <p-table [value]="data()" class="p-datatable-sm" [responsiveLayout]="'scroll'">
                 <ng-template pTemplate="header">
                     <tr class="border-b border-border">
                         @for (col of columns(); track col.key) {
@@ -80,13 +78,12 @@ import { ButtonModule } from 'primeng/button';
                 [rowsPerPageOptions]="[5, 10, 20]"
                 [first]="(currentPage() - 1) * pageSize()"
                 (onPageChange)="pageChange.emit($event)"
-                styleClass="border-t border-border bg-transparent lowercase"
+                class="border-t border-border bg-transparent lowercase"
             />
         </div>
     `,
     styles: [
         `
-            /* Removido ::ng-deep desnecessário - confiando no CSS scoping do Angular */
             .action-btn {
                 width: 32px !important;
                 height: 32px !important;
@@ -101,7 +98,6 @@ import { ButtonModule } from 'primeng/button';
 
             .action-btn span {
                 font-size: 20px;
-                /* Força o centro exato do Material Symbol */
                 font-variation-settings:
                     'FILL' 0,
                     'wght' 400,

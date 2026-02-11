@@ -9,7 +9,7 @@ export const routes: Routes = [
     {
         path: '',
         loadComponent: () =>
-            import('@shared/layout/main-layout/main-layout.component').then(
+            import('@shared/layout/main-layout/main-layout').then(
                 (m) => m.MainLayoutComponent,
             ),
         canActivate: [authGuard],

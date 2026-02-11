@@ -1,0 +1,92 @@
+<div class="flex h-screen w-screen overflow-hidden bg-background font-sans text-foreground">
+    <aside class="flex w-64 shrink-0 flex-col border-r border-border bg-background">
+        <div class="p-8 pb-4">
+            <h1 class="flex items-center text-left text-xl font-bold leading-none tracking-tight">
+                SisMônaco
+            </h1>
+        </div>
+
+        <nav class="flex-1 space-y-1 overflow-y-auto px-4 py-4 custom-scrollbar">
+            @for (item of navigation; track item.label) {
+                <app-nav-item [item]="item" />
+            }
+        </nav>
+
+        <div class="relative border-t border-border p-4">
+            @if (isProfileMenuOpen()) {
+                <div
+                    class="absolute bottom-full left-4 right-4 mb-3 z-50 flex flex-col overflow-hidden rounded-xl border border-border bg-white dark:bg-zinc-950 shadow-2xl animate-in fade-in zoom-in-95 slide-in-from-bottom-6 duration-500 ease-out"
+                >
+                    <div
+                        class="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-muted-foreground border-b border-border/50 bg-muted/30"
+                    >
+                        {{ user()?.company || 'grupo mônaco' }}
+                    </div>
+
+                    <div class="p-1.5">
+                        <button
+                            (click)="setTheme('light'); toggleProfileMenu()"
+                            class="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm transition-colors hover:bg-muted text-foreground"
+                        >
+                            <span class="material-symbols-rounded text-lg">light_mode</span> tema
+                            claro
+                        </button>
+
+                        <button
+                            (click)="setTheme('dark'); toggleProfileMenu()"
+                            class="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm transition-colors hover:bg-muted text-foreground"
+                        >
+                            <span class="material-symbols-rounded text-lg">dark_mode</span> tema
+                            escuro
+                        </button>
+
+                        <div class="my-1.5 border-t border-border/50"></div>
+
+                        <button
+                            (click)="onLogout()"
+                            class="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm text-destructive transition-colors hover:bg-destructive/10"
+                        >
+                            <span class="material-symbols-rounded text-lg">logout</span> sair
+                        </button>
+                    </div>
+                </div>
+                <div
+                    class="fixed inset-0 z-40 bg-black/10 backdrop-blur-[2px] transition-all duration-500"
+                    (click)="toggleProfileMenu()"
+                ></div>
+            }
+
+            <button
+                (click)="toggleProfileMenu()"
+                class="relative z-50 flex h-14 w-full items-center gap-3 rounded-xl px-3 text-left transition-all duration-200 hover:bg-muted/50 focus:outline-none"
+                [class.bg-muted]="isProfileMenuOpen()"
+            >
+                <div
+                    class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-foreground text-background font-bold text-xs uppercase shadow-sm"
+                >
+                    {{ userInitials() }}
+                </div>
+                <div class="flex flex-1 flex-col overflow-hidden">
+                    <span
+                        class="truncate text-sm font-semibold leading-none text-foreground mb-1"
+                        >{{ displayName() }}</span
+                    >
+                    <span
+                        class="truncate text-[10px] text-muted-foreground uppercase font-medium tracking-tighter"
+                    >
+                        {{ user()?.occupation || 'cargo não definido' }}
+                    </span>
+                </div>
+                <span
+                    class="material-symbols-rounded text-muted-foreground/60 transition-transform duration-500"
+                    [class.rotate-180]="isProfileMenuOpen()"
+                    >unfold_more</span
+                >
+            </button>
+        </div>
+    </aside>
+
+    <main class="h-full flex-1 overflow-y-auto bg-background/50">
+        <router-outlet></router-outlet>
+    </main>
+</div>

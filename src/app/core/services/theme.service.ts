@@ -4,7 +4,7 @@ export type ThemeMode = 'light' | 'dark' | 'system';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-    themeMode = signal<ThemeMode>((localStorage.getItem('theme') as ThemeMode) || 'system');
+    themeMode = signal<ThemeMode>((localStorage.getItem('theme') as ThemeMode) || 'light');
 
     constructor() {
         effect(() => {
@@ -20,12 +20,14 @@ export class ThemeService {
 
     private applyTheme(mode: ThemeMode) {
         const root = document.documentElement;
-        root.classList.remove('light-mode', 'dark-mode');
 
-        if (mode === 'light') {
-            root.classList.add('light-mode');
-        } else if (mode === 'dark') {
-            root.classList.add('dark-mode');
+        root.classList.remove('dark');
+
+        if (mode === 'dark') {
+            root.classList.add('dark');
+        } else if (mode === 'system') {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (prefersDark) root.classList.add('dark');
         }
     }
 }

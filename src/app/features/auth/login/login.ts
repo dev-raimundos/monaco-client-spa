@@ -24,7 +24,7 @@ import { LoginCredentials } from '@shared/models/auth.model';
         ButtonModule,
         IftaLabelModule,
     ],
-    templateUrl: './login.component.html',
+    templateUrl: './login.html',
 })
 export class LoginComponent {
     private fb = inject(FormBuilder);
