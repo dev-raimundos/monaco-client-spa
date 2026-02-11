@@ -8,7 +8,6 @@ export interface NavItem {
     icon?: string;
     children?: NavItem[];
 }
-
 @Component({
     selector: 'app-nav-item',
     standalone: true,
@@ -18,14 +17,14 @@ export interface NavItem {
             @if (item.children && item.children.length > 0) {
                 <button
                     (click)="toggle()"
-                    class="group relative flex w-full items-start gap-3 rounded-lg px-3 py-2 text-left text-sm font-bold transition-all duration-200"
+                    class="group relative flex w-full items-start gap-2 rounded-lg pr-3 pl-1 py-2 text-left text-sm font-bold transition-all duration-200"
                     [class.bg-muted/50]="isOpen()"
                     [class.text-primary]="isOpen()"
                     [class.text-muted-foreground]="!isOpen()"
                 >
                     @if (isOpen()) {
                         <div
-                            class="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-primary animate-in fade-in slide-in-from-left-1 duration-300"
+                            class="absolute -left-4 top-1 bottom-1 w-1 rounded-r-full bg-primary animate-in fade-in slide-in-from-left-2 duration-300"
                         ></div>
                     }
 
@@ -40,14 +39,14 @@ export interface NavItem {
                     }
 
                     <span
-                        class="flex-1 pt-0.5 leading-tight transition-colors"
+                        class="flex-1 pt-0.5 leading-tight transition-colors wrap-break-word"
                         [class.text-foreground]="isOpen()"
                     >
                         {{ item.label }}
                     </span>
 
                     <span
-                        class="material-symbols-rounded text-lg transition-transform duration-500 opacity-50 shrink-0 ml-auto"
+                        class="material-symbols-rounded text-lg transition-transform duration-500 opacity-50 shrink-0"
                         [class.rotate-180]="isOpen()"
                     >
                         expand_more
@@ -55,7 +54,7 @@ export interface NavItem {
                 </button>
 
                 <div
-                    class="grid overflow-hidden transition-[grid-template-rows,opacity,margin] duration-300 ease-in-out ml-4 border-l-2"
+                    class="grid overflow-hidden transition-[grid-template-rows,opacity,margin] duration-300 ease-in-out ml-3 border-l"
                     [style.grid-template-rows]="isOpen() ? '1fr' : '0fr'"
                     [class.border-primary/30]="isOpen()"
                     [class.border-transparent]="!isOpen()"
@@ -64,7 +63,7 @@ export interface NavItem {
                     [class.mt-1]="isOpen()"
                 >
                     <div class="min-h-0 overflow-hidden">
-                        <div class="pl-4 py-1 space-y-1">
+                        <div class="pl-2 py-1 space-y-1">
                             @for (child of item.children; track child.label) {
                                 <app-nav-item [item]="child" />
                             }
@@ -76,8 +75,14 @@ export interface NavItem {
                     [routerLink]="item.route"
                     routerLinkActive="bg-muted !text-primary !font-bold"
                     [routerLinkActiveOptions]="{ exact: true }"
-                    class="group flex items-start gap-3 rounded-lg px-3 py-2 text-sm font-normal text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground"
+                    class="group relative flex items-start gap-2 rounded-lg pr-3 pl-1 py-2 text-sm font-normal text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground"
                 >
+                    <div
+                        routerLinkActive="opacity-100"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        class="absolute -left-4 top-2 bottom-2 w-1 rounded-r-full bg-primary opacity-0 transition-opacity"
+                    ></div>
+
                     @if (item.icon) {
                         <span
                             class="material-symbols-rounded text-[22px] opacity-80 group-hover:text-foreground shrink-0"
@@ -85,7 +90,7 @@ export interface NavItem {
                             {{ item.icon }}
                         </span>
                     }
-                    <span class="group-hover:text-foreground pt-0.5 leading-tight">
+                    <span class="group-hover:text-foreground pt-0.5 leading-tight wrap-break-word">
                         {{ item.label }}
                     </span>
                 </a>
