@@ -4,13 +4,9 @@ import { RouterModule } from '@angular/router';
 import { ThemeService, ThemeMode } from '@core/services/theme.service';
 import { AuthService } from '@core/services/auth.service';
 import { NAV_ITEMS_TOKEN } from '@shared/models/navigation.model';
-
-// Angular Material
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
-
-// Icons
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
     lucideChevronDown,
@@ -50,6 +46,9 @@ export class MainLayoutComponent {
     public user = this._authService.user;
     public expandedMenu = signal<string | null>(null);
 
+    /**
+     * Exibe apenas o primeiro e segundo nome do usuário logado
+     */
     public displayName = computed(() => {
         const u = this.user();
         if (!u) return 'usuário';
@@ -57,6 +56,9 @@ export class MainLayoutComponent {
         return parts.length > 1 ? `${parts[0]} ${parts[1]}` : parts[0];
     });
 
+    /**
+     * Exibe as iniciais do primeiro e segundo nome do usuário logado
+     */
     public userInitials = computed(() => {
         const name = this.displayName();
         if (name === 'usuário') return '??';
@@ -66,14 +68,25 @@ export class MainLayoutComponent {
             : name.substring(0, 2).toLowerCase();
     });
 
+    /**
+     * Abre ou fecha o menu de navegação
+     * @param label
+     */
     toggleMenu(label: string) {
         this.expandedMenu.set(this.expandedMenu() === label ? null : label);
     }
 
+    /**
+     * Muda o tema do sistema
+     * @param mode
+     */
     setTheme(mode: ThemeMode) {
         this._themeService.setTheme(mode);
     }
 
+    /**
+     * Fecha a sessão do usuário
+     */
     onLogout() {
         this._authService.logout();
     }
