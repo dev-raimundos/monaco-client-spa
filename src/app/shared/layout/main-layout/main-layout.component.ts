@@ -1,8 +1,9 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { ThemeService, ThemeMode } from '@core/services/theme.service';
 import { AuthService } from '@core/services/auth.service';
+import { NAV_ITEMS_TOKEN } from '@shared/models/navigation.model';
 
 // Angular Material
 import { MatMenuModule } from '@angular/material/menu';
@@ -43,44 +44,11 @@ import {
 export class MainLayoutComponent {
     private _themeService = inject(ThemeService);
     private _authService = inject(AuthService);
+
+    public readonly navItems = inject(NAV_ITEMS_TOKEN);
+
     public user = this._authService.user;
     public expandedMenu = signal<string | null>(null);
-
-    public navItems = [
-        // Dashboard
-        { label: 'dashboard', route: '/dashboard', icon: 'lucideLayoutDashboard' },
-        // Recursos humanos
-        {
-            label: 'recursos humanos',
-            icon: 'lucideUsers',
-            children: [
-                { label: 'pesquisa de clima', route: '/rh/pesquisa-clima' },
-                { label: 'folha de pagamento', route: '/rh/folha' },
-                { label: 'cargos e salários', route: '/rh/cargos' },
-            ],
-        },
-        // Logística e frota
-        {
-            label: 'logística e frota',
-            icon: 'lucideLayoutDashboard',
-            children: [
-                { label: 'controle de viagens', route: '/logistica/viagens' },
-                { label: 'manutenção preventiva', route: '/logistica/manutencao' },
-                { label: 'abastecimento', route: '/logistica/combustivel' },
-            ],
-        },
-        // Financeiro
-        {
-            label: 'financeiro',
-            icon: 'lucideUserCircle',
-            children: [
-                { label: 'contas a pagar', route: '/financeiro/pagar' },
-                { label: 'fluxo de caixa', route: '/financeiro/caixa' },
-            ],
-        },
-        // Configurações
-        { label: 'configurações', route: '/settings', icon: 'lucideMonitor' },
-    ];
 
     public displayName = computed(() => {
         const u = this.user();
