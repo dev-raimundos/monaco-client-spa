@@ -7,13 +7,15 @@
                 <img
                     src="/companyLogo.svg"
                     alt="Logo Grupo Mônaco"
-                    class="h-12 w-auto dark:invert"
+                    [class]="
+                        isDarkMode()
+                            ? 'h-12 w-auto'
+                            : 'h-12 w-auto dark:invert'
+                    "
                 />
             </div>
 
-            <h2 class="text-xl font-black uppercase tracking-tight text-foreground">
-                SisMônaco
-            </h2>
+            <h2 class="text-xl font-black uppercase tracking-tight text-foreground">SisMônaco V3</h2>
             <p class="mt-1 text-xs lowercase tracking-wide text-muted-foreground">
                 Acesse sua conta corporativa
             </p>

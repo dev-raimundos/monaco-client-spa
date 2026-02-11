@@ -1,17 +1,16 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-// PrimeNG Stack
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { IftaLabelModule } from 'primeng/iftalabel';
 
-// Core Services
 import { AuthService } from '@core/services/auth.service';
 import { NotificationService } from '@core/services/notification.service';
 import { LoginCredentials } from '@shared/models/auth.model';
+import { ThemeService } from '@core/services/theme.service';
 
 @Component({
     selector: 'app-login',
@@ -30,6 +29,15 @@ export class LoginComponent {
     private fb = inject(FormBuilder);
     private authService = inject(AuthService);
     private notification = inject(NotificationService);
+    private themeService = inject(ThemeService);
+
+    isDarkMode = computed(() => {
+        const mode = this.themeService.themeMode();
+        if (mode === 'system') {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
+        return mode === 'dark';
+    });
 
     isLoading = signal(false);
 
