@@ -1,36 +1,75 @@
-<div class="flex h-screen items-center justify-center bg-zinc-50 px-4 font-sans text-zinc-900">
-    <p-card class="w-full max-w-md shadow-xl border-none overflow-hidden rounded-3xl">
-
-        <div class="flex flex-col items-center py-6 text-center">
-            <div class="mb-4 bg-zinc-900 p-4 rounded-2xl text-white flex items-center justify-center shadow-lg">
-                <span class="material-symbols-rounded text-3xl">verified_user</span>
+<div class="flex h-screen items-center justify-center bg-background px-4 font-sans text-foreground">
+    <p-card
+        class="w-full max-w-md overflow-hidden rounded-xl border border-border bg-card shadow-sm"
+    >
+        <div class="flex flex-col items-center py-10 text-center">
+            <div class="mb-8 flex items-center justify-center">
+                <img
+                    src="/companyLogo.svg"
+                    alt="Logo Grupo Mônaco"
+                    class="h-12 w-auto dark:invert"
+                />
             </div>
-            <h2 class="text-2xl font-black tracking-tighter uppercase">Grupo Mônaco</h2>
-            <p class="text-zinc-500 text-sm lowercase mt-1">Acesse sua conta corporativa</p>
+
+            <h2 class="text-xl font-black uppercase tracking-tight text-foreground">
+                SisMônaco
+            </h2>
+            <p class="mt-1 text-xs lowercase tracking-wide text-muted-foreground">
+                Acesse sua conta corporativa
+            </p>
         </div>
 
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4 mt-2">
-
+        <form
+            [formGroup]="loginForm"
+            (ngSubmit)="onSubmit()"
+            class="mt-2 flex flex-col gap-6"
+        >
             <p-iftalabel>
-                <input pInputText id="email" formControlName="email"
-                    class="w-full border-zinc-200 focus:border-zinc-900 transition-all h-12" autocomplete="email" />
-                <label for="email" class="lowercase">E-mail corporativo</label>
+                <input
+                    pInputText
+                    id="email"
+                    formControlName="email"
+                    autocomplete="email"
+                    class="h-11 w-full border-border bg-transparent text-sm text-foreground transition-all focus:border-primary focus:ring-1 focus:ring-primary"
+                />
+                <label
+                    for="email"
+                    class="text-xs lowercase text-muted-foreground"
+                >
+                    E-mail corporativo
+                </label>
             </p-iftalabel>
 
             <p-iftalabel>
-                <input pInputText id="password" type="password" formControlName="password"
-                    class="w-full border-zinc-200 focus:border-zinc-900 transition-all h-12" />
-                <label for="password" class="lowercase">Senha</label>
+                <input
+                    pInputText
+                    id="password"
+                    type="password"
+                    formControlName="password"
+                    class="h-11 w-full border-border bg-transparent text-sm text-foreground transition-all focus:border-primary focus:ring-1 focus:ring-primary"
+                />
+                <label
+                    for="password"
+                    class="text-xs lowercase text-muted-foreground"
+                >
+                    Senha
+                </label>
             </p-iftalabel>
 
-            <button pButton type="submit" label="Entrar no Sistema" [loading]="isLoading()"
+            <button
+                pButton
+                type="submit"
+                label="Entrar no Sistema"
+                [loading]="isLoading()"
                 [disabled]="loginForm.invalid"
-                class="w-full h-12 bg-zinc-900 border-none hover:bg-zinc-800 transition-all rounded-xl mt-4 font-bold lowercase tracking-tight">
-            </button>
+                class="mt-2 h-11 w-full rounded-md border-none bg-primary font-bold lowercase tracking-tight text-primary-foreground transition-all hover:opacity-90 active:scale-[0.98]"
+            ></button>
         </form>
 
-        <div class="mt-10 mb-4 text-center border-t border-zinc-100 pt-6">
-            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-300">
+        <div class="mt-12 mb-2 border-t border-border pt-6 text-center">
+            <span
+                class="text-[10px] font-medium uppercase tracking-[0.3em] text-muted-foreground opacity-40"
+            >
                 Tecnologia da Informação &copy; 2026
             </span>
         </div>
