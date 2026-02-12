@@ -15,7 +15,7 @@
         </div>
 
         <nav class="flex-1 space-y-1 overflow-y-auto px-4 py-4 custom-scrollbar">
-            @for (item of navigation; track item.label) {
+            @for (item of navigation(); track item.label) {
                 <app-nav-item [item]="item" />
             }
         </nav>

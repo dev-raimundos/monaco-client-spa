@@ -20,23 +20,49 @@ export class MainLayoutComponent {
     public user = this._authService.user;
     public themeMode = this._themeService.themeMode;
 
-    public readonly navigation: NavItem[] = [
+    private readonly _fullNavigation: NavItem[] = [
         { label: 'Calendário', route: '/dashboard', icon: 'dashboard' },
         {
             label: 'RH',
             icon: 'group',
+            service: 'humanresources',
             children: [
                 {
                     label: 'Pesquisa de Clima',
+                    service: 'prodeval',
                     children: [
-                        { label: 'Dashboard', route: '/rh/folha/holerites' },
-                        { label: '13º salário', route: '/rh/folha/decimo' },
+                        {
+                            label: 'Dashboard',
+                            route: '/rh/folha/holerites',
+                            service: 'prodeval.list',
+                        },
+                        {
+                            label: '13º salário',
+                            route: '/rh/folha/decimo',
+                            service: 'prodeval.update',
+                        },
                     ],
                 },
-                { label: 'Outros', route: '/rh/cargos' },
+                { label: 'Outros', route: '/rh/cargos', service: 'occupations.list' },
             ],
         },
     ];
+
+    public navigation = computed(() => {
+        const userServices = this.user()?.services || [];
+
+        const filterItems = (items: NavItem[]): NavItem[] => {
+            return items
+                .filter((item) => !item.service || userServices.includes(item.service))
+                .map((item) => ({
+                    ...item,
+                    children: item.children ? filterItems(item.children) : undefined,
+                }))
+                .filter((item) => (item.children && item.children.length > 0) || item.route);
+        };
+
+        return filterItems(this._fullNavigation);
+    });
 
     public displayName = computed(() => {
         const u = this.user();
