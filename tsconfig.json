@@ -9,8 +9,8 @@
             "@shared/*": [
                 "./src/app/shared/*"
             ],
-            "@features/*": [
-                "./src/app/features/*"
+            "@domains/*": [
+                "./src/app/domains/*"
             ],
             "@env": [
                 "./src/environments/environment"

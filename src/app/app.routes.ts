@@ -7,7 +7,7 @@ export const routes: Routes = [
      */
     {
         path: 'auth',
-        loadChildren: () => import('./features/auth/auth.routes').then((m) => m.AUTH_ROUTES),
+        loadChildren: () => import('@domains/auth/auth.routes').then((m) => m.AUTH_ROUTES),
     },
 
     /**
@@ -16,19 +16,21 @@ export const routes: Routes = [
     {
         path: '',
         loadComponent: () =>
-            import('@shared/layout/main-layout/main-layout.component').then((m) => m.MainLayoutComponent),
+            import('@shared/layout/main-layout/main-layout.component').then(
+                (m) => m.MainLayoutComponent,
+            ),
         canActivate: [authGuard], // Barreira de segurança
         children: [
             // Main
             {
                 path: '',
-                loadChildren: () => import('@features/main/main.routes').then((m) => m.MAIN_ROUTES),
+                loadChildren: () => import('@domains/main/main.routes').then((m) => m.MAIN_ROUTES),
             },
             // Pesquisa de Clima
             {
                 path: 'rh/pesquisa-clima',
                 loadChildren: () =>
-                    import('@features/hr/climate-survey/cimate-survey.routes').then(
+                    import('@domains/hr/climate-survey/cimate-survey.routes').then(
                         (m) => m.CLIMATE_SURVEY_ROUTES,
                     ),
             },
