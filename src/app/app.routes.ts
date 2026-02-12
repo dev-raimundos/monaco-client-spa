@@ -16,7 +16,7 @@ export const routes: Routes = [
     {
         path: '',
         loadComponent: () =>
-            import('@shared/layout/main-layout/main-layout').then((m) => m.MainLayoutComponent),
+            import('@shared/layout/main-layout/main-layout.component').then((m) => m.MainLayoutComponent),
         canActivate: [authGuard], // Barreira de segurança
         children: [
             // Main

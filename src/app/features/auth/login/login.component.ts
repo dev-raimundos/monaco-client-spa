@@ -23,7 +23,7 @@ import { ThemeService } from '@core/services/theme.service';
         ButtonModule,
         IftaLabelModule,
     ],
-    templateUrl: './login.html',
+    templateUrl: './login.component.html',
 })
 export class LoginComponent {
     private fb = inject(FormBuilder);

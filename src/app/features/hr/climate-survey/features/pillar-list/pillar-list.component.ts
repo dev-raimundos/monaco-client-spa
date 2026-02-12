@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 // Core & Shared
 import { PillarService } from '../../data-access/pillar.service';
-import { AppTableComponent } from '@shared/components/table/table-paginated';
+import { AppTableComponent } from '@shared/components/table/table-paginated.component';
 import { TableColumn } from '@shared/models/table-config.model';
 
 // PrimeNG Stack

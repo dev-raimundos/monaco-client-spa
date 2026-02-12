@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ThemeService, ThemeMode } from '@core/services/theme.service';
 import { AuthService } from '@core/services/auth.service';
-import { NavItem, NavItemComponent } from '@shared/components/sidebar/nav-item';
+import { NavItem, NavItemComponent } from '@shared/components/sidebar/nav-item.component';
 
 @Component({
     selector: 'app-main-layout',
     standalone: true,
     imports: [CommonModule, RouterModule, NavItemComponent],
-    templateUrl: './main-layout.html',
-    styleUrl: './main-layout.css',
+    templateUrl: './main-layout.component.html',
+    styleUrl: './main-layout.component.css',
 })
 export class MainLayoutComponent {
     private _themeService = inject(ThemeService);

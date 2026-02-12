@@ -9,7 +9,27 @@
     "projects": {
         "monaco-client-spa": {
             "projectType": "application",
-            "schematics": {},
+            "schematics": {
+                "@schematics/angular:component": {
+                    "flat": false,
+                    "displayBlock": true,
+                    "type": "component"
+                },
+                "@schematics/angular:service": {
+                    "flat": false,
+                    "type": "service"
+                },
+                "@schematics/angular:directive": {
+                    "flat": false,
+                    "type": "directive"
+                },
+                "@schematics/angular:pipe": {
+                    "flat": false
+                },
+                "@schematics/angular:interceptor": {
+                    "flat": false
+                }
+            },
             "root": "",
             "sourceRoot": "src",
             "prefix": "app",

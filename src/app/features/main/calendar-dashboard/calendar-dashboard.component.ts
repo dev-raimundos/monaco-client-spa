@@ -9,8 +9,8 @@ import { HttpClient } from '@angular/common/http';
     selector: 'app-calendar-dashboard',
     standalone: true,
     imports: [CommonModule, FullCalendarModule],
-    templateUrl: './calendar-dashboard.html',
-    styleUrls: ['./calendar-dashboard.css'],
+    templateUrl: './calendar-dashboard.component.html',
+    styleUrls: ['./calendar-dashboard.component.css'],
     encapsulation: ViewEncapsulation.None,
 })
 export class CalendarDashboard implements OnInit {

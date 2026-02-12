@@ -4,6 +4,8 @@ export const MAIN_ROUTES: Routes = [
     {
         path: 'dashboard',
         loadComponent: () =>
-            import('./calendar-dashboard/calendar-dashboard').then((m) => m.CalendarDashboard),
+            import('./calendar-dashboard/calendar-dashboard.component').then(
+                (m) => m.CalendarDashboard,
+            ),
     },
 ];
