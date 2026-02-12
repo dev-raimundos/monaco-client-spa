@@ -15,7 +15,7 @@ import { NavItem, NavItemComponent } from '@shared/components/sidebar/nav-item';
 export class MainLayoutComponent {
     private _themeService = inject(ThemeService);
     private _authService = inject(AuthService);
-
+    private themeService = inject(ThemeService);
     public isProfileMenuOpen = signal(false);
     public user = this._authService.user;
 
@@ -83,4 +83,12 @@ export class MainLayoutComponent {
     onLogout() {
         this._authService.logout();
     }
+
+    isDarkMode = computed(() => {
+        const mode = this.themeService.themeMode();
+        if (mode === 'system') {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
+        return mode === 'dark';
+    });
 }
