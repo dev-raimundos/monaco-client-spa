@@ -9,7 +9,7 @@ export class NotificationService {
     success(message: string): void {
         this.messageService.add({
             severity: 'success',
-            summary: 'sucesso',
+            summary: 'Sucesso',
             detail: message,
             life: 4000,
         });
@@ -18,7 +18,7 @@ export class NotificationService {
     error(message: string): void {
         this.messageService.add({
             severity: 'error',
-            summary: 'erro',
+            summary: 'Erro',
             detail: message,
             life: 5000,
         });
@@ -27,7 +27,7 @@ export class NotificationService {
     info(message: string): void {
         this.messageService.add({
             severity: 'info',
-            summary: 'informação',
+            summary: 'Informação',
             detail: message,
             life: 4000,
         });

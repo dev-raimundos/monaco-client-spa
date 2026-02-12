@@ -56,10 +56,6 @@ export class AuthService {
                 this.loadError.set(false);
                 return safeUser;
             }),
-            tap((user) => {
-                const firstName = user.name.split(' ')[0];
-                this.notification.success(`Bem-vindo de volta, ${firstName}!`);
-            }),
             catchError((err) => {
                 if (err.status === 0) {
                     this.loadError.set(true);

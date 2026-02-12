@@ -53,7 +53,8 @@ export class LoginComponent {
 
             this.authService.login(credentials).subscribe({
                 next: (user) => {
-                    this.notification.success(`Bem-vindo, ${user.name}!`);
+                     const firstName = user.name.split(' ')[0];
+                     this.notification.success(`Bem-vindo de volta, ${firstName}!`);
                 },
                 error: () => {
                     this.isLoading.set(false);
