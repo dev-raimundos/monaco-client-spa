@@ -9,20 +9,28 @@ import { environment } from '@env';
 export const httpInterceptor: HttpInterceptorFn = (req, next) => {
     const injector = inject(Injector);
 
+    const trustedDomains = ['localhost:8080', 'monaco-api.grupomonaco.com.br'];
+
     let url = req.url;
     if (url.startsWith('/api')) {
         url = `${environment.apiUrl}${url.replace('/api', '')}`;
     }
 
+    const isTrustedDomain = trustedDomains.some((domain) => url.includes(domain));
+
     const secureReq = req.clone({
         url,
-        withCredentials: true,
+        withCredentials: isTrustedDomain,
     });
 
     return next(secureReq).pipe(
         catchError((error: HttpErrorResponse) => {
             const notification = injector.get(NotificationService);
             const authService = injector.get(AuthService);
+
+            if (!isTrustedDomain) {
+                return throwError(() => error);
+            }
 
             const laravelError = error.error as LaravelResponse<any>;
             let errorMessage = 'Ocorreu um erro inesperado no sistema Mônaco.';
@@ -48,6 +56,7 @@ export const httpInterceptor: HttpInterceptorFn = (req, next) => {
             }
 
             notification.error(errorMessage);
+
             return throwError(() => error);
         }),
     );

@@ -24,17 +24,15 @@ export class AuthService {
      * @param credentials
      * @returns Token JWT
      */
+    // No seu AuthService
     login(credentials: LoginCredentials): Observable<UserProfile> {
         return this.http
-            .post<
-                LaravelResponse<LoginResponse>
-            >(`${this.BASE_URL}/authentication/login`, credentials)
+            .post<LaravelResponse<LoginResponse>>(`${this.BASE_URL}/authentication/login`, credentials)
             .pipe(
                 switchMap(() => this.loadProfile()),
-                tap(() => this.router.navigate(['/dashboard'])),
+                tap(() => {this.router.navigate(['/dashboard']);}),
             );
     }
-
     /**
      * lê o perfil do usuário logado usando o access_token e armazena no estado local.
      * @returns UserProfile
