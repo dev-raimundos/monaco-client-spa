@@ -15,9 +15,10 @@ import { NavItem, NavItemComponent } from '@shared/components/sidebar/nav-item';
 export class MainLayoutComponent {
     private _themeService = inject(ThemeService);
     private _authService = inject(AuthService);
-    private themeService = inject(ThemeService);
+
     public isProfileMenuOpen = signal(false);
     public user = this._authService.user;
+    public themeMode = this._themeService.themeMode;
 
     public readonly navigation: NavItem[] = [
         { label: 'dashboard', route: '/dashboard', icon: 'dashboard' },
@@ -85,7 +86,7 @@ export class MainLayoutComponent {
     }
 
     isDarkMode = computed(() => {
-        const mode = this.themeService.themeMode();
+        const mode = this.themeMode();
         if (mode === 'system') {
             return window.matchMedia('(prefers-color-scheme: dark)').matches;
         }

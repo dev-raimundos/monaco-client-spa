@@ -23,45 +23,46 @@
         <div class="relative border-t border-border p-4">
             @if (isProfileMenuOpen()) {
                 <div
-                    class="absolute bottom-full left-4 right-4 mb-3 z-50 flex flex-col overflow-hidden rounded-xl border border-border shadow-2xl animate-in fade-in zoom-in-95 slide-in-from-bottom-6 duration-500 ease-out bg-background! opacity-100! backdrop-blur-none!"
+                    class="absolute bottom-full left-4 right-4 mb-3 z-50 flex flex-col overflow-hidden rounded-xl border border-border shadow-2xl animate-in fade-in zoom-in-95 slide-in-from-bottom-6 duration-500 ease-out bg-background!"
                 >
                     <div
                         class="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-muted-foreground border-b border-border bg-muted/20"
                     >
                         {{ user()?.company || 'grupo mônaco' }}
                     </div>
-
-                    <div class="p-1.5 flex flex-col gap-0.5 opacity-100!">
+                    <div class="p-1.5 flex flex-col gap-0.5">
                         <button
                             (click)="setTheme('light'); toggleProfileMenu()"
-                            class="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm transition-colors hover:bg-muted text-foreground opacity-100!"
+                            class="theme-option flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm transition-all duration-200"
+                            [class.active]="themeMode() === 'light'"
                         >
                             <span class="material-symbols-rounded text-lg">light_mode</span>
-                            <span>tema claro</span>
+                            <span class="font-medium">tema claro</span>
                         </button>
 
                         <button
                             (click)="setTheme('dark'); toggleProfileMenu()"
-                            class="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm transition-colors hover:bg-muted text-foreground opacity-100!"
+                            class="theme-option flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm transition-all duration-200"
+                            [class.active]="themeMode() === 'dark'"
                         >
                             <span class="material-symbols-rounded text-lg">dark_mode</span>
-                            <span>tema escuro</span>
+                            <span class="font-medium">tema escuro</span>
                         </button>
 
                         <div class="my-1.5 border-t border-border"></div>
 
                         <button
                             (click)="onLogout()"
-                            class="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm text-destructive transition-colors hover:bg-destructive/10 opacity-100!"
+                            class="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm text-destructive transition-all duration-200 hover:bg-destructive/10"
                         >
                             <span class="material-symbols-rounded text-lg">logout</span>
-                            <span class="font-medium">sair</span>
+                            <span class="font-bold uppercase tracking-tight">sair</span>
                         </button>
                     </div>
                 </div>
 
                 <div
-                    class="fixed inset-0 z-40 bg-black/20 backdrop-blur-[2px] transition-all duration-500"
+                    class="fixed inset-0 z-40 bg-black/20 backdrop-blur-[2px]"
                     (click)="toggleProfileMenu()"
                 ></div>
             }

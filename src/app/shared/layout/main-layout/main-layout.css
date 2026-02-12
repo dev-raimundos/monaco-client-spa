@@ -26,3 +26,27 @@
 .custom-scrollbar {
     scrollbar-gutter: stable;
 }
+
+/* Feedback visual para as opções de tema */
+.theme-option {
+    color: var(--muted-foreground);
+    background-color: transparent;
+    cursor: pointer;
+}
+
+/* Efeito de Hover (Passar o mouse) */
+.theme-option:hover {
+    background-color: var(--muted) !important;
+    color: var(--foreground) !important;
+}
+
+/* Estado Ativo (Tema selecionado) */
+.theme-option.active {
+    background-color: oklch(from var(--primary) l c h / 0.1) !important;
+    color: var(--primary) !important;
+}
+
+/* Ajuste para o botão de sair manter destaque no hover */
+.text-destructive:hover {
+    background-color: oklch(from var(--destructive) l c h / 0.1) !important;
+}
