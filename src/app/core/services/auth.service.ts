@@ -6,6 +6,7 @@ import { catchError, map, switchMap, tap } from 'rxjs';
 import { environment } from '@env';
 import { LaravelResponse } from '@shared/models/api.model';
 import { LoginResponse, LoginCredentials, UserProfile } from '@shared/models/auth.model';
+import { NotificationService } from './notification.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -15,6 +16,8 @@ export class AuthService {
     private _user = signal<UserProfile | null>(null);
     readonly user = this._user.asReadonly();
     readonly isAuthenticated = computed(() => !!this._user());
+    public loadError = signal(false);
+    private notification = inject(NotificationService);
 
     /**
      * Dado o payload de login, recebe o access_token e e redireciona para a rota /dashboard
@@ -42,6 +45,7 @@ export class AuthService {
                 if (!res.data || !res.data.name || !res.data.id) {
                     throw new Error('Contrato da API quebrado: Dados do perfil são inválidos.');
                 }
+
                 const safeUser: UserProfile = {
                     ...res.data,
                     avatar: res.data.avatar ?? '',
@@ -49,8 +53,20 @@ export class AuthService {
                     occupation: res.data.occupation ?? 'Não Definido',
                     company: res.data.company ?? 'Não Definido',
                 };
+
                 this._user.set(safeUser);
+                this.loadError.set(false);
                 return safeUser;
+            }),
+            tap((user) => {
+                const firstName = user.name.split(' ')[0];
+                this.notification.success(`Bem-vindo de volta, ${firstName}!`);
+            }),
+            catchError((err) => {
+                if (err.status === 0) {
+                    this.loadError.set(true);
+                }
+                return throwError(() => err);
             }),
         );
     }

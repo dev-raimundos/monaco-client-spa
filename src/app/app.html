@@ -1,1 +1,7 @@
-<router-outlet />
+<p-toast position="top-right" />
+
+@if (authService.loadError()) {
+    <app-error-page />
+} @else {
+    <router-outlet />
+}
