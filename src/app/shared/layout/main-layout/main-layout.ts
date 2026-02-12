@@ -21,40 +21,21 @@ export class MainLayoutComponent {
     public themeMode = this._themeService.themeMode;
 
     public readonly navigation: NavItem[] = [
-        { label: 'dashboard', route: '/dashboard', icon: 'dashboard' },
+        { label: 'Calendário', route: '/dashboard', icon: 'dashboard' },
         {
-            label: 'recursos humanos',
+            label: 'RH',
             icon: 'group',
             children: [
-                { label: 'pesquisa de clima', route: '/rh/pesquisa-clima' },
                 {
-                    label: 'folha de pagamento',
+                    label: 'Pesquisa de Clima',
                     children: [
-                        { label: 'holerites', route: '/rh/folha/holerites' },
+                        { label: 'Dashboard', route: '/rh/folha/holerites' },
                         { label: '13º salário', route: '/rh/folha/decimo' },
                     ],
                 },
-                { label: 'cargos e salários', route: '/rh/cargos' },
+                { label: 'Outros', route: '/rh/cargos' },
             ],
         },
-        {
-            label: 'logística e frota',
-            icon: 'local_shipping',
-            children: [
-                { label: 'controle de viagens', route: '/logistica/viagens' },
-                { label: 'manutenção preventiva', route: '/logistica/manutencao' },
-                { label: 'abastecimento', route: '/logistica/combustivel' },
-            ],
-        },
-        {
-            label: 'financeiro',
-            icon: 'account_balance_wallet',
-            children: [
-                { label: 'contas a pagar', route: '/financeiro/pagar' },
-                { label: 'fluxo de caixa', route: '/financeiro/caixa' },
-            ],
-        },
-        { label: 'configurações', route: '/settings', icon: 'settings' },
     ];
 
     public displayName = computed(() => {

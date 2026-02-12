@@ -8,26 +8,22 @@ export interface NavItem {
     icon?: string;
     children?: NavItem[];
 }
+
 @Component({
     selector: 'app-nav-item',
     standalone: true,
-    imports: [CommonModule, RouterModule, NavItemComponent],
+    imports: [CommonModule, RouterModule],
     template: `
         <div class="flex flex-col">
             @if (item.children && item.children.length > 0) {
                 <button
                     (click)="toggle()"
-                    class="group relative flex w-full items-start gap-2 rounded-lg pr-3 pl-1 py-2 text-left text-sm font-bold transition-all duration-200"
-                    [class.bg-muted/50]="isOpen()"
-                    [class.text-primary]="isOpen()"
+                    class="group flex w-full items-start gap-2 rounded-lg px-3 py-2 text-left text-sm transition-all duration-200"
+                    [class.text-monaco-yellow]="isOpen()"
+                    [class.font-bold]="isOpen()"
                     [class.text-muted-foreground]="!isOpen()"
+                    [class.font-normal]="!isOpen()"
                 >
-                    @if (isOpen()) {
-                        <div
-                            class="absolute -left-4 top-1 bottom-1 w-1 rounded-r-full bg-primary animate-in fade-in slide-in-from-left-2 duration-300"
-                        ></div>
-                    }
-
                     @if (item.icon) {
                         <span
                             class="material-symbols-rounded text-[22px] transition-colors shrink-0"
@@ -38,10 +34,7 @@ export interface NavItem {
                         </span>
                     }
 
-                    <span
-                        class="flex-1 pt-0.5 leading-tight transition-colors wrap-break-word"
-                        [class.text-foreground]="isOpen()"
-                    >
+                    <span class="flex-1 pt-0.5 leading-tight wrap-break-word">
                         {{ item.label }}
                     </span>
 
@@ -56,7 +49,7 @@ export interface NavItem {
                 <div
                     class="grid overflow-hidden transition-[grid-template-rows,opacity,margin] duration-300 ease-in-out ml-3 border-l"
                     [style.grid-template-rows]="isOpen() ? '1fr' : '0fr'"
-                    [class.border-primary/30]="isOpen()"
+                    [class.border-monaco-yellow/30]="isOpen()"
                     [class.border-transparent]="!isOpen()"
                     [class.opacity-100]="isOpen()"
                     [class.opacity-0]="!isOpen()"
@@ -73,24 +66,25 @@ export interface NavItem {
             } @else {
                 <a
                     [routerLink]="item.route"
-                    routerLinkActive="bg-muted !text-primary !font-bold"
+                    routerLinkActive
+                    #rla="routerLinkActive"
                     [routerLinkActiveOptions]="{ exact: true }"
-                    class="group relative flex items-start gap-2 rounded-lg pr-3 pl-1 py-2 text-sm font-normal text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground"
+                    class="group flex items-start gap-2 rounded-lg px-3 py-2 text-sm transition-all duration-200 hover:bg-muted/50"
+                    [class.text-monaco-yellow]="rla.isActive"
+                    [class.font-bold]="rla.isActive"
+                    [class.text-muted-foreground]="!rla.isActive"
+                    [class.font-normal]="!rla.isActive"
                 >
-                    <div
-                        routerLinkActive="opacity-100"
-                        [routerLinkActiveOptions]="{ exact: true }"
-                        class="absolute -left-4 top-2 bottom-2 w-1 rounded-r-full bg-primary opacity-0 transition-opacity"
-                    ></div>
-
                     @if (item.icon) {
                         <span
-                            class="material-symbols-rounded text-[22px] opacity-80 group-hover:text-foreground shrink-0"
+                            class="material-symbols-rounded text-[22px] shrink-0 transition-opacity"
+                            [class.opacity-100]="rla.isActive"
+                            [class.opacity-60]="!rla.isActive"
                         >
                             {{ item.icon }}
                         </span>
                     }
-                    <span class="group-hover:text-foreground pt-0.5 leading-tight wrap-break-word">
+                    <span class="pt-0.5 leading-tight wrap-break-word">
                         {{ item.label }}
                     </span>
                 </a>

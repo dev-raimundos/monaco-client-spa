@@ -11,6 +11,7 @@
     --color-warning: var(--warning);
     --variant-dark: .dark &;
     --color-background: var(--background);
+    --monaco-yellow: #F2E96D;
 }
 
 :root {
@@ -54,6 +55,7 @@
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.708 0 0);
+    --monaco-yellow: #F2E96D;
 
     --p-primary-color: var(--primary);
     --p-primary-contrast-color: var(--primary-foreground);
@@ -63,7 +65,7 @@
 }
 
 .dark {
-    --background: oklch(18.674% 0.00002 271.152);
+    --background: oklch(15.434% 0.00002 271.152);
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.205 0 0);
     --card-foreground: oklch(0.985 0 0);
@@ -94,6 +96,7 @@
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.556 0 0);
+    --monaco-yellow: #F2E96D;
 
     --p-primary-color: var(--primary);
     --p-surface-0: var(--background);
