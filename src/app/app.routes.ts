@@ -21,16 +21,19 @@ export const routes: Routes = [
             ),
         canActivate: [authGuard], // Barreira de segurança
         children: [
-            // Main
+            // Calendário
             {
                 path: '',
-                loadChildren: () => import('@domains/main/main.routes').then((m) => m.MAIN_ROUTES),
+                loadChildren: () =>
+                    import('@domains/main/main.routes').then(
+                        (m) => m.MAIN_ROUTES
+                    ),
             },
             // Pesquisa de Clima
             {
-                path: 'rh/pesquisa-clima',
+                path: 'hr/climate-survey',
                 loadChildren: () =>
-                    import('@domains/hr/climate-survey/cimate-survey.routes').then(
+                    import('@domains/hr/climate-survey/climate-survey.routes').then(
                         (m) => m.CLIMATE_SURVEY_ROUTES,
                     ),
             },
@@ -45,6 +48,6 @@ export const routes: Routes = [
      */
     {
         path: '**',
-        redirectTo: 'auth/login',
+        redirectTo: 'dashboard',
     },
 ];

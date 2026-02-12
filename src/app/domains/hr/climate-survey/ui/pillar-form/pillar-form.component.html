@@ -1,0 +1,41 @@
+<form
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+    class="flex flex-col gap-6 pt-4"
+>
+    <p-iftalabel>
+        <input
+            pInputText
+            id="title"
+            formControlName="title"
+            class="w-full"
+        />
+        <label for="title">Título do Pilar</label>
+    </p-iftalabel>
+
+    <p-iftalabel>
+        <textarea
+            pInputTextarea
+            id="description"
+            formControlName="description"
+            rows="3"
+            class="w-full"
+        ></textarea>
+        <label for="description">Descrição detalhada</label>
+    </p-iftalabel>
+
+    <div class="flex justify-end gap-2 mt-4">
+        <p-button
+            label="Cancelar"
+            severity="secondary"
+            [text]="true"
+            (onClick)="cancel.emit()"
+        />
+        <p-button
+            [label]="isEdit ? 'Salvar Alterações' : 'Criar Pilar'"
+            type="submit"
+            [disabled]="form.invalid"
+            [loading]="loading"
+        />
+    </div>
+</form>

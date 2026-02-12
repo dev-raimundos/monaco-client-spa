@@ -11,25 +11,32 @@ import { ButtonModule } from 'primeng/button';
     imports: [CommonModule, TableModule, PaginatorModule, ButtonModule],
     template: `
         <div class="rounded-lg border border-border bg-card overflow-hidden shadow-sm">
-            <p-table [value]="data()" class="p-datatable-sm" [responsiveLayout]="'scroll'">
+            <p-table
+                [value]="data()"
+                class="p-datatable-sm"
+                [responsiveLayout]="'scroll'"
+            >
                 <ng-template pTemplate="header">
                     <tr class="border-b border-border">
                         @for (col of columns(); track col.key) {
                             <th
-                                class="py-4 px-6 text-left font-bold text-foreground lowercase bg-transparent"
+                                class="py-4 px-6 text-left font-bold text-foreground bg-transparent"
                             >
                                 {{ col.label }}
                             </th>
                         }
                         <th
-                            class="px-6 text-right font-bold text-foreground lowercase bg-transparent"
+                            class="px-6 text-right font-bold text-foreground bg-transparent"
                         >
-                            ações
+                            Ações
                         </th>
                     </tr>
                 </ng-template>
 
-                <ng-template pTemplate="body" let-item>
+                <ng-template
+                    pTemplate="body"
+                    let-item
+                >
                     <tr class="hover:bg-muted/30 border-b border-border transition-colors">
                         @for (col of columns(); track col.key) {
                             <td class="py-3 px-6 text-sm text-foreground">
@@ -41,7 +48,7 @@ import { ButtonModule } from 'primeng/button';
                                 <button
                                     pButton
                                     class="p-button-text p-button-rounded action-btn edit-btn"
-                                    (click)="edit.emit(item.id)"
+                                    (click)="edit.emit(item)"
                                     title="editar"
                                 >
                                     <span class="material-symbols-rounded">edit_square</span>
@@ -59,17 +66,6 @@ import { ButtonModule } from 'primeng/button';
                         </td>
                     </tr>
                 </ng-template>
-
-                <ng-template pTemplate="emptymessage">
-                    <tr>
-                        <td
-                            [attr.colspan]="columns().length + 1"
-                            class="p-12 text-center text-muted-foreground lowercase"
-                        >
-                            nenhum registro encontrado.
-                        </td>
-                    </tr>
-                </ng-template>
             </p-table>
 
             <p-paginator
@@ -78,7 +74,7 @@ import { ButtonModule } from 'primeng/button';
                 [rowsPerPageOptions]="[5, 10, 20]"
                 [first]="(currentPage() - 1) * pageSize()"
                 (onPageChange)="pageChange.emit($event)"
-                class="border-t border-border bg-transparent lowercase"
+                class="border-t border-border bg-transparent"
             />
         </div>
     `,
@@ -115,13 +111,13 @@ import { ButtonModule } from 'primeng/button';
     ],
 })
 export class AppTableComponent<T> {
-    data = input.required<any[]>();
+    data = input.required<T[]>();
     columns = input.required<TableColumn[]>();
     totalItems = input<number>(0);
     pageSize = input<number>(5);
     currentPage = input<number>(1);
 
-    edit = output<string>();
+    edit = output<T>();
     delete = output<string>();
 
     pageChange = output<PaginatorState>();
