@@ -1,6 +1,9 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatRippleModule } from '@angular/material/core';
 
 export interface NavItem {
     label: string;
@@ -13,52 +16,55 @@ export interface NavItem {
 @Component({
     selector: 'app-nav-item',
     standalone: true,
-    imports: [CommonModule, RouterModule],
+    imports: [CommonModule, RouterModule, MatButtonModule, MatIconModule, MatRippleModule],
     template: `
         <div class="flex flex-col">
-            @if (item.children && item.children.length > 0) {
+            @if (item().children && item().children!.length > 0) {
                 <button
+                    matRipple
                     (click)="toggle()"
-                    class="group flex w-full items-start gap-2 rounded-lg px-3 py-2 text-left text-sm transition-all duration-200"
-                    [class.text-monaco-yellow]="isOpen()"
-                    [class.font-bold]="isOpen()"
-                    [class.text-muted-foreground]="!isOpen()"
-                    [class.font-normal]="!isOpen()"
+                    class="group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm transition-all duration-300 relative overflow-hidden"
+                    [class.bg-white/5]="isOpen()"
                 >
-                    @if (item.icon) {
-                        <span
-                            class="material-symbols-rounded text-[22px] transition-colors shrink-0"
-                            [class.opacity-100]="isOpen()"
-                            [class.opacity-60]="!isOpen()"
+                    @if (item().icon) {
+                        <mat-icon
+                            class="w-5.5! h-5.5! text-[22px]! transition-colors"
+                            [class.text-monaco-yellow]="isOpen()"
+                            [class.text-white/60]="!isOpen()"
                         >
-                            {{ item.icon }}
-                        </span>
+                            {{ item().icon }}
+                        </mat-icon>
                     }
 
-                    <span class="flex-1 pt-0.5 leading-tight wrap-break-word">
-                        {{ item.label }}
+                    <span
+                        class="flex-1 font-medium leading-tight transition-colors"
+                        [class.text-white]="isOpen()"
+                        [class.text-white/60]="!isOpen()"
+                    >
+                        {{ item().label }}
                     </span>
 
-                    <span
-                        class="material-symbols-rounded text-lg transition-transform duration-500 opacity-50 shrink-0"
+                    <mat-icon
+                        class="w-4.5! h-4.5! text-[18px]! transition-all duration-500"
                         [class.rotate-180]="isOpen()"
+                        [class.text-monaco-yellow]="isOpen()"
+                        [class.text-white/20]="!isOpen()"
                     >
                         expand_more
-                    </span>
+                    </mat-icon>
                 </button>
 
                 <div
-                    class="grid overflow-hidden transition-[grid-template-rows,opacity,margin] duration-300 ease-in-out ml-3 border-l"
+                    class="grid overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-in-out ml-4 border-l-2"
                     [style.grid-template-rows]="isOpen() ? '1fr' : '0fr'"
-                    [class.border-monaco-yellow/30]="isOpen()"
-                    [class.border-transparent]="!isOpen()"
+                    [class.border-monaco-yellow/40]="isOpen()"
+                    [class.border-white/10]="!isOpen()"
                     [class.opacity-100]="isOpen()"
                     [class.opacity-0]="!isOpen()"
-                    [class.mt-1]="isOpen()"
                 >
-                    <div class="min-h-0 overflow-hidden">
+                    <div class="min-h-0">
                         <div class="pl-2 py-1 space-y-1">
-                            @for (child of item.children; track child.label) {
+                            @for (child of item().children; track child.label) {
                                 <app-nav-item [item]="child" />
                             }
                         </div>
@@ -66,35 +72,48 @@ export interface NavItem {
                 </div>
             } @else {
                 <a
-                    [routerLink]="item.route"
-                    routerLinkActive
+                    [routerLink]="item().route"
+                    routerLinkActive="active-link"
                     #rla="routerLinkActive"
                     [routerLinkActiveOptions]="{ exact: true }"
-                    class="group flex items-start gap-2 rounded-lg px-3 py-2 text-sm transition-all duration-200 hover:bg-muted/50"
-                    [class.text-monaco-yellow]="rla.isActive"
-                    [class.font-bold]="rla.isActive"
-                    [class.text-muted-foreground]="!rla.isActive"
-                    [class.font-normal]="!rla.isActive"
+                    matRipple
+                    class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all duration-200 hover:bg-white/5 relative overflow-hidden"
+                    [class.bg-monaco-yellow/10]="rla.isActive"
                 >
-                    @if (item.icon) {
-                        <span
-                            class="material-symbols-rounded text-[22px] shrink-0 transition-opacity"
-                            [class.opacity-100]="rla.isActive"
-                            [class.opacity-60]="!rla.isActive"
+                    @if (item().icon) {
+                        <mat-icon
+                            class="w-5.5! h-5.5! text-[22px]! transition-colors"
+                            [class.text-monaco-yellow]="rla.isActive"
+                            [class.text-white/60]="!rla.isActive"
                         >
-                            {{ item.icon }}
-                        </span>
+                            {{ item().icon }}
+                        </mat-icon>
                     }
-                    <span class="pt-0.5 leading-tight wrap-break-word">
-                        {{ item.label }}
+                    <span
+                        class="font-medium leading-tight transition-colors"
+                        [class.text-white]="rla.isActive"
+                        [class.text-white/60]="!rla.isActive"
+                    >
+                        {{ item().label }}
                     </span>
                 </a>
             }
         </div>
     `,
+    styles: [
+        `
+            :host {
+                display: block;
+            }
+            .active-link span {
+                font-weight: 700;
+                color: white !important;
+            }
+        `,
+    ],
 })
 export class NavItemComponent {
-    @Input({ required: true }) item!: NavItem;
+    item = input.required<NavItem>();
     public isOpen = signal(false);
 
     toggle() {
