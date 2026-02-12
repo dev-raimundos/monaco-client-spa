@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ThemeService, ThemeMode } from '@core/services/theme.service';
 import { AuthService } from '@core/services/auth.service';
 import { NavItem, NavItemComponent } from '@shared/components/sidebar/nav-item.component';
+import { FULL_NAVIGATION } from '@core/config/navigation.config';
 
 @Component({
     selector: 'app-main-layout',
@@ -20,34 +21,10 @@ export class MainLayoutComponent {
     public user = this._authService.user;
     public themeMode = this._themeService.themeMode;
 
-    private readonly _fullNavigation: NavItem[] = [
-        { label: 'Calendário', route: '/dashboard', icon: 'dashboard' },
-        {
-            label: 'RH',
-            icon: 'group',
-            service: 'humanresources',
-            children: [
-                {
-                    label: 'Pesquisa de Clima',
-                    service: 'prodeval',
-                    children: [
-                        {
-                            label: 'Dashboard',
-                            route: '/rh/folha/holerites',
-                            service: 'prodeval.list',
-                        },
-                        {
-                            label: '13º salário',
-                            route: '/rh/folha/decimo',
-                            service: 'prodeval.update',
-                        },
-                    ],
-                },
-                { label: 'Outros', route: '/rh/cargos', service: 'occupations.list' },
-            ],
-        },
-    ];
-
+    /**
+     * Filtra a árvore de navegação baseada nos serviços (permissions) do usuário logado.
+     * Retorna um Signal iterável para o template.
+     */
     public navigation = computed(() => {
         const userServices = this.user()?.services || [];
 
@@ -61,9 +38,12 @@ export class MainLayoutComponent {
                 .filter((item) => (item.children && item.children.length > 0) || item.route);
         };
 
-        return filterItems(this._fullNavigation);
+        return filterItems(FULL_NAVIGATION);
     });
 
+    /**
+     * Captura primeiro e segundo nome do usuário logado.
+     */
     public displayName = computed(() => {
         const u = this.user();
         if (!u) return 'Usuário';
@@ -71,6 +51,9 @@ export class MainLayoutComponent {
         return parts.length > 1 ? `${parts[0]} ${parts[1]}` : parts[0];
     });
 
+    /**
+     * Captura somente as letras iniciais do nome do usuário logado
+     */
     public userInitials = computed(() => {
         const name = this.displayName();
         if (name === 'Usuário') return '??';
@@ -80,18 +63,31 @@ export class MainLayoutComponent {
             : name.substring(0, 2).toUpperCase();
     });
 
+    /**
+     * Abre ou fecha o menu de links
+     */
     public toggleProfileMenu() {
         this.isProfileMenuOpen.update((v) => !v);
     }
 
+    /**
+     * Muda o tema do sismonaco
+     * @param mode
+     */
     setTheme(mode: ThemeMode) {
         this._themeService.setTheme(mode);
     }
 
+    /**
+     * Desloga o usuário
+     */
     onLogout() {
         this._authService.logout();
     }
 
+    /**
+     * Estado do tema
+     */
     isDarkMode = computed(() => {
         const mode = this.themeMode();
         if (mode === 'system') {
