@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, OnInit, signal, inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -11,6 +11,7 @@ import { HttpClient } from '@angular/common/http';
     imports: [CommonModule, FullCalendarModule],
     templateUrl: './calendar-dashboard.html',
     styleUrls: ['./calendar-dashboard.css'],
+    encapsulation: ViewEncapsulation.None,
 })
 export class CalendarDashboard implements OnInit {
     private http = inject(HttpClient);
@@ -19,11 +20,19 @@ export class CalendarDashboard implements OnInit {
         plugins: [dayGridPlugin],
         initialView: 'dayGridMonth',
         locale: 'pt-br',
+        buttonText: {
+            today: 'hoje',
+            month: 'mês',
+            week: 'semana',
+            day: 'dia',
+            list: 'lista',
+        },
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
             right: 'dayGridMonth,dayGridWeek',
         },
+        titleFormat: { year: 'numeric', month: 'long' },
         events: [],
         height: 'auto',
         expandRows: true,

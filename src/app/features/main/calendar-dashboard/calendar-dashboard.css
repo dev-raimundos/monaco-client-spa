@@ -1,36 +1,112 @@
-:host ::ng-deep {
-    .fc {
-        height: 100%;
-        font-family: var(--font-sans);
-    }
+/* Sincronização com o Tema do SisMônaco */
+.fc {
+    --fc-border-color: var(--border);
+    --fc-button-hover-bg-color: var(--primary);
+    --fc-button-active-bg-color: var(--primary);
 
-    .fc-toolbar-title {
-        font-size: 1.25rem !important;
-        font-weight: 700;
-        text-transform: capitalize;
-    }
+    background-color: transparent !important;
+    color: var(--foreground) !important;
+    font-family: var(--font-sans) !important;
+}
 
-    .fc-button-primary {
-        background-color: var(--primary) !important;
-        border: none !important;
-    }
+/* Força os pedaços da toolbar a usarem flexbox para manter 'hoje' na linha */
+.fc-header-toolbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 1.5rem !important;
+}
 
-    .fc-daygrid-day-number {
-        font-size: 0.875rem;
-        padding: 8px !important;
-    }
+.fc-toolbar-chunk {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    /* Espaço entre setas e o botão hoje */
+}
 
-    .fc-col-header-cell {
-        padding: 12px 0;
-        background: var(--muted) / 30;
-        font-weight: 600;
-    }
+.fc .fc-button-group {
+    display: flex !important;
+    gap: 4px !important;
+}
 
-    .holiday-event {
-        background-color: #ef4444 !important;
-        border: none !important;
-        font-size: 0.75rem;
-        font-weight: 600;
-        padding: 2px 4px;
-    }
+.fc .fc-button-group>.fc-button {
+    border-radius: var(--radius) !important;
+    margin-left: 0 !important;
+    flex: none !important;
+}
+
+.fc .fc-today-button {
+    margin: 0 !important;
+    /* Remove margens laterais que empurram o botão */
+    border-radius: var(--radius) !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.fc .fc-toolbar-title {
+    text-transform: capitalize !important;
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+}
+
+.fc .fc-col-header-cell {
+    background-color: var(--muted) !important;
+    color: var(--muted-foreground) !important;
+    padding: 12px 0 !important;
+    font-size: 0.7rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+}
+
+.fc .fc-daygrid-day-number {
+    color: var(--foreground) !important;
+    font-weight: 500 !important;
+    padding: 8px !important;
+}
+
+.fc .fc-daygrid-day:hover {
+    background-color: var(--muted) !important;
+}
+
+.fc .fc-button-primary {
+    background-color: var(--primary) !important;
+    border: none !important;
+    color: var(--primary-foreground) !important;
+    font-weight: 700 !important;
+    text-transform: lowercase !important;
+    transition: opacity 0.2s !important;
+    padding: 0.5rem 1rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 38px !important;
+    /* Mantém todos os botões com a mesma altura */
+}
+
+.fc .fc-button-primary:hover {
+    opacity: 0.9 !important;
+}
+
+.fc .fc-button-primary:focus {
+    box-shadow: none !important;
+}
+
+.holiday-event {
+    background-color: oklch(from var(--destructive) l c h / 0.1) !important;
+    border: none !important;
+    border-left: 3px solid var(--destructive) !important;
+    color: var(--destructive) !important;
+    font-size: 0.7rem !important;
+    font-weight: 700 !important;
+    padding: 2px 6px !important;
+    margin: 1px 4px !important;
+}
+
+.fc .fc-day-today {
+    background-color: oklch(from var(--primary) l c h / 0.05) !important;
+}
+
+.fc-theme-standard td,
+.fc-theme-standard th {
+    border-color: var(--border) !important;
 }

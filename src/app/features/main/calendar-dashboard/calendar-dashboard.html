@@ -1,9 +1,16 @@
- <div class="p-6 bg-background h-full flex flex-col gap-4">
-            <div class="flex items-center justify-between">
-                <h2 class="text-2xl font-bold tracking-tight">Calendário Corporativo</h2>
-            </div>
-
-            <div class="flex-1 rounded-xl border border-border bg-card p-4 shadow-sm">
-                <full-calendar [options]="calendarOptions()"></full-calendar>
-            </div>
+<div class="p-6 bg-background h-full flex flex-col gap-4 animate-in fade-in duration-500">
+    <div class="flex items-center justify-between">
+        <div class="flex flex-col">
+            <h2 class="text-2xl font-bold tracking-tight text-foreground">
+                Calendário Corporativo
+            </h2>
+            <p class="text-xs text-muted-foreground uppercase tracking-widest font-medium">
+                Gestão de feriados e eventos
+            </p>
         </div>
+    </div>
+
+    <div class="flex-1 rounded-xl border border-border bg-card p-4 shadow-sm overflow-hidden min-h-150">
+        <full-calendar [options]="calendarOptions()"></full-calendar>
+    </div>
+</div>
