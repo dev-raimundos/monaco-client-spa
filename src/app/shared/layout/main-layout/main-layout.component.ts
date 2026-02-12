@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ThemeService, ThemeMode } from '@core/services/theme.service';
 import { AuthService } from '@core/services/auth.service';
 import { NavItem, NavItemComponent } from '@shared/components/sidebar/nav-item.component';
-import { FULL_NAVIGATION } from '@core/config/navigation.config';
+import { NAVIGATION } from '@core/config/navigation.config';
 
 @Component({
     selector: 'app-main-layout',
@@ -38,7 +38,7 @@ export class MainLayoutComponent {
                 .filter((item) => (item.children && item.children.length > 0) || item.route);
         };
 
-        return filterItems(FULL_NAVIGATION);
+        return filterItems(NAVIGATION);
     });
 
     /**

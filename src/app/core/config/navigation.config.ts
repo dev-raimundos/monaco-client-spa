@@ -1,6 +1,6 @@
 import { NavItem } from '@shared/components/sidebar/nav-item.component';
 
-export const FULL_NAVIGATION: NavItem[] = [
+export const NAVIGATION: NavItem[] = [
     {
         label: 'Calendário',
         route: '/dashboard',
