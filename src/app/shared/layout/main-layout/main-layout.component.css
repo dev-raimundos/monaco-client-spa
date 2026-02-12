@@ -50,3 +50,23 @@
 .text-destructive:hover {
     background-color: oklch(from var(--destructive) l c h / 0.1) !important;
 }
+
+/* Feedback visual ao passar o mouse (Hover) */
+button.relative.z-50:hover {
+    background-color: hsl(var(--muted) / 0.8) !important;
+}
+
+/* Mudança de cor do texto no Hover para indicar interatividade */
+button.relative.z-50:hover span.text-foreground {
+    color: hsl(var(--primary)) !important;
+}
+
+/* Quando o menu está aberto, aplicamos um fundo levemente destacado (igual à sua imagem) */
+button.relative.z-50.bg-muted {
+    background-color: oklch(from var(--primary) l c h / 0.1) !important;
+}
+
+/* Força o container de texto a não reservar espaço desnecessário para ícones inexistentes */
+.flex.min-w-0.flex-1.flex-col {
+    width: 0;
+}

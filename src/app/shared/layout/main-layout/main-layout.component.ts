@@ -47,8 +47,18 @@ export class MainLayoutComponent {
     public displayName = computed(() => {
         const u = this.user();
         if (!u) return 'Usuário';
-        const parts = u.name.trim().split(/\s+/);
-        return parts.length > 1 ? `${parts[0]} ${parts[1]}` : parts[0];
+
+        // Filtra strings vazias resultantes do split caso haja espaços duplos
+        const parts = u.name
+            .trim()
+            .split(/\s+/)
+            .filter((p) => p.length > 0);
+
+        if (parts.length > 1) {
+            // Retorna Primeiro e Segundo nome
+            return `${parts[0]} ${parts[1]}`;
+        }
+        return parts[0];
     });
 
     /**

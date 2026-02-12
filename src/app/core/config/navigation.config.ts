@@ -16,7 +16,7 @@ export const NAVIGATION: NavItem[] = [
                 service: 'prodeval',
                 children: [
                     { label: 'Dashboard', route: '/rh/folha/holerites', service: 'prodeval.list' },
-                    { label: '13º salário', route: '/rh/folha/decimo', service: 'prodeval.update' },
+                    { label: 'Indicadores', route: '/rh/folha/decimo', service: 'prodeval.update' },
                 ],
             },
             { label: 'Outros', route: '/rh/cargos', service: 'occupations.list' },
