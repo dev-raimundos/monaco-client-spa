@@ -1,79 +1,96 @@
-<div class="flex h-screen items-center justify-center bg-background px-4 font-sans text-foreground">
-    <p-card
-        class="w-full max-w-md overflow-hidden rounded-xl border border-border bg-card shadow-sm"
+<div
+    class="flex h-screen items-center justify-center bg-background px-4 font-sans text-foreground transition-colors duration-500"
+>
+    <mat-card
+        appearance="outlined"
+        class="w-full max-w-md overflow-hidden rounded-2xl! border-border! bg-surface-container-low! shadow-lg"
     >
+        @if (isLoading()) {
+            <mat-progress-bar
+                mode="indeterminate"
+                class="absolute top-0 left-0"
+            ></mat-progress-bar>
+        }
+
         <div class="flex flex-col items-center py-10 text-center">
-            <div class="mb-8 flex items-center justify-center">
+            <div class="mb-6">
                 <img
                     src="/companyLogo.svg"
                     alt="Logo Grupo Mônaco"
-                    [class]="
-                        isDarkMode()
-                            ? 'h-12 w-auto'
-                            : 'h-12 w-auto dark:invert'
-                    "
+                    [class]="isDarkMode() ? 'h-12 w-auto' : 'h-12 w-auto dark:invert'"
                 />
             </div>
 
-            <h2 class="text-xl font-black uppercase tracking-tight text-foreground">SisMônaco V3</h2>
-            <p class="mt-1 text-xs tracking-wide text-muted-foreground">
-                Acesse sua conta corporativa
+            <h2 class="text-xl font-black uppercase tracking-tighter">SisMônaco V3</h2>
+            <p
+                class="text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground opacity-70"
+            >
+                Acesso Corporativo Restrito
             </p>
         </div>
 
-        <form
-            [formGroup]="loginForm"
-            (ngSubmit)="onSubmit()"
-            class="mt-2 flex flex-col gap-6"
-        >
-            <p-iftalabel>
-                <input
-                    pInputText
-                    id="email"
-                    formControlName="email"
-                    autocomplete="email"
-                    class="h-11 w-full border-border bg-transparent text-sm text-foreground transition-all focus:border-primary focus:ring-1 focus:ring-primary"
-                />
-                <label
-                    for="email"
-                    class="text-xs lowercase text-muted-foreground"
-                >
-                    E-mail corporativo
-                </label>
-            </p-iftalabel>
-
-            <p-iftalabel>
-                <input
-                    pInputText
-                    id="password"
-                    type="password"
-                    formControlName="password"
-                    class="h-11 w-full border-border bg-transparent text-sm text-foreground transition-all focus:border-primary focus:ring-1 focus:ring-primary"
-                />
-                <label
-                    for="password"
-                    class="text-xs lowercase text-muted-foreground"
-                >
-                    Senha
-                </label>
-            </p-iftalabel>
-
-            <button
-                pButton
-                type="submit"
-                label="Acessar"
-                [loading]="isLoading()"
-                [disabled]="loginForm.invalid"
-                class="mt-2 h-11 w-full rounded-md border-none bg-primary font-bold tracking-tight text-primary-foreground transition-all hover:opacity-90 active:scale-[0.98]"
-            ></button>
-        </form>
-
-        <div class="mt-12 mb-2 border-t border-border pt-6 text-center">
-            <span
-                class="text-[10px] font-medium uppercase tracking-[0.3em] text-muted-foreground opacity-40"
+        <mat-card-content>
+            <form
+                [formGroup]="loginForm"
+                (ngSubmit)="onSubmit()"
+                class="flex flex-col gap-2"
             >
-                Tecnologia da Informação &copy; 2026
+                <mat-form-field
+                    appearance="outline"
+                    class="w-full"
+                >
+                    <mat-label class="lowercase">E-mail corporativo</mat-label>
+                    <input
+                        matInput
+                        id="email"
+                        formControlName="email"
+                        autocomplete="email"
+                        type="email"
+                        placeholder="nome@grupomonaco.com.br"
+                    />
+                    <mat-icon
+                        matSuffix
+                        class="opacity-30"
+                        >alternate_email</mat-icon
+                    >
+                </mat-form-field>
+
+                <mat-form-field
+                    appearance="outline"
+                    class="w-full"
+                >
+                    <mat-label class="lowercase">Senha</mat-label>
+                    <input
+                        matInput
+                        id="password"
+                        formControlName="password"
+                        type="password"
+                    />
+                    <mat-icon
+                        matSuffix
+                        class="opacity-30"
+                        >lock</mat-icon
+                    >
+                </mat-form-field>
+
+                <button
+                    mat-flat-button
+                    color="primary"
+                    type="submit"
+                    [disabled]="loginForm.invalid || isLoading()"
+                    class="mt-4 h-12! rounded-xl! font-bold! tracking-tight! transition-transform active:scale-95"
+                >
+                    <span class="uppercase">Acessar</span>
+                </button>
+            </form>
+        </mat-card-content>
+
+        <mat-card-footer class="mt-8 mb-6 text-center">
+            <span
+                class="text-[9px] font-bold uppercase tracking-[0.4em] text-muted-foreground opacity-30"
+            >
+                TI Grupo Mônaco &copy; 2026
             </span>
-        </div>
-    </p-card>
+        </mat-card-footer>
+    </mat-card>
 </div>

@@ -26,4 +26,24 @@ export const NAVIGATION: NavItem[] = [
             { label: 'Outros', route: '/rh/cargos', service: 'occupations.list' },
         ],
     },
+    {
+        label: 'TI',
+        icon: 'group',
+        service: 'ti',
+        children: [
+            {
+                label: 'Angular Material Example',
+                service: 'ti.',
+                children: [
+                    {
+                        label: 'Dashboard',
+                        route: 'hr/climate-survey/pillars',
+                        service: 'prodeval.list',
+                    },
+                    { label: 'Indicadores', route: '/rh/folha/decimo', service: 'prodeval.update' },
+                ],
+            },
+            { label: 'Outros', route: '/rh/cargos', service: 'occupations.list' },
+        ],
+    },
 ];
