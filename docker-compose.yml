@@ -1,0 +1,6 @@
+services:
+    monaco-client:
+        build: .
+        restart: always
+        networks:
+            - monaco-network
