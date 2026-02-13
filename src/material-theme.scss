@@ -1,56 +1,64 @@
-@use 'sass:map';
 @use '@angular/material' as mat;
 
-@include mat.core();
-
-$my-theme-config: (
-    color: (primary: mat.$azure-palette,
-        tertiary: mat.$blue-palette,
-    ),
-    typography: (brand-family: 'Roboto',
-        plain-family: 'Roboto',
-    ),
-    density: (scale: 0,
-    ),
-);
-
-$light-theme: mat.define-theme($my-theme-config);
-$dark-theme: mat.define-theme(map.merge($my-theme-config, (color: (theme-type: dark))));
-
 html {
-    height: 100%;
-    @include mat.all-component-themes($light-theme);
-    @include mat.system-level-typography($light-theme);
-    @include mat.system-level-colors($light-theme);
+    color-scheme: light dark;
 
-    &.dark {
-        @include mat.all-component-colors($dark-theme);
-        @include mat.system-level-colors($dark-theme);
-        color-scheme: dark;
-    }
+    @include mat.theme((color: (primary: mat.$azure-palette,
+                tertiary: mat.$azure-palette,
+                theme-type: color-scheme,
+            ),
+            typography: Roboto,
+            density: 0,
+        ),
+        $overrides: (primary: #000000,
+            on-primary: #ffffff,
+            primary-container: #f5f5f5,
+            on-primary-container: #000000,
+            surface: #ffffff,
+            on-surface: #000000,
+            outline: #e0e0e0,
+            outline-variant: #f0f0f0,
+            surface-container-low: #fafafa,
+        ));
+
+    @include mat.system-classes();
 }
 
-.mat-mdc-card {
-    --mdc-outlined-card-container-color: var(--mat-sys-surface-container-low);
-}
+.dark {
+    color-scheme: dark;
 
-.mat-mdc-table {
-    background-color: var(--mat-sys-surface-container-low);
+    @include mat.theme-overrides((primary: #ffffff,
+            on-primary: #000000,
+            primary-container: #333333,
+            on-primary-container: #ffffff,
+            surface: #121212,
+            on-surface: #e3e3e3,
+            surface-container-low: #1e1e1e,
+            outline: #2c2c2c,
+            outline-variant: #3c3c3c,
+        ));
 }
 
 .sidebar-dark {
-    @include mat.all-component-colors($dark-theme);
-    @include mat.system-level-colors($dark-theme);
+    color-scheme: dark;
 
-    --mat-sys-outline-variant: rgba(255, 255, 255, 0.1);
+    @include mat.theme-overrides((primary: #ffffff,
+            on-primary: #000000,
+            surface: #0f0f0f,
+            on-surface: #ffffff,
+            outline-variant: rgba(255, 255, 255, 0.1),
+            surface-container-low: #1a1a1a,
+        ));
+
     background-color: #0f0f0f !important;
+    color: #ffffff;
 }
 
 body {
-    margin: 0;
-    height: 100%;
-    background-color: var(--mat-sys-surface);
+    background: var(--mat-sys-surface);
     color: var(--mat-sys-on-surface);
-    font: var(--mat-sys-body-medium);
+    margin: 0;
+    height: 100vh;
+    font-family: Roboto, sans-serif;
+    transition: background-color 0.3s ease;
 }
-
