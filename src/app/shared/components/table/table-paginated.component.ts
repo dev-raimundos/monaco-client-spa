@@ -1,7 +1,7 @@
-import { Component, input, output, viewChild } from '@angular/core';
+import { Component, input, output, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { TableColumn } from '../../models/table-config.model';
@@ -11,7 +11,7 @@ import { TableColumn } from '../../models/table-config.model';
     standalone: true,
     imports: [CommonModule, MatTableModule, MatPaginatorModule, MatButtonModule, MatIconModule],
     template: `
-        <div class="mat-elevation-z1 rounded-lg overflow-hidden bg-surface">
+        <div class="mat-elevation-z1 rounded-lg overflow-hidden">
             <table
                 mat-table
                 [dataSource]="data()"
@@ -21,7 +21,7 @@ import { TableColumn } from '../../models/table-config.model';
                         <th
                             mat-header-cell
                             *matHeaderCellDef
-                            class="font-bold text-on-surface"
+                            class="font-bold"
                         >
                             {{ col.label }}
                         </th>
@@ -38,7 +38,7 @@ import { TableColumn } from '../../models/table-config.model';
                     <th
                         mat-header-cell
                         *matHeaderCellDef
-                        class="text-right font-bold text-on-surface"
+                        class="text-right font-bold"
                     >
                         Ações
                     </th>
@@ -76,7 +76,7 @@ import { TableColumn } from '../../models/table-config.model';
                 <tr
                     mat-row
                     *matRowDef="let row; columns: displayedColumns()"
-                    class="hover:bg-surface-variant/10 transition-colors"
+                    class="hover:bg-surface-variant/5 transition-colors"
                 ></tr>
             </table>
 
@@ -86,16 +86,21 @@ import { TableColumn } from '../../models/table-config.model';
                 [pageSizeOptions]="[5, 10, 20]"
                 [showFirstLastButtons]="true"
                 (page)="pageChange.emit($event)"
-                class="bg-transparent"
             />
         </div>
     `,
     styles: [
         `
+            :host {
+                display: block;
+                width: 100%;
+            }
             table {
                 width: 100%;
             }
-            .mat-mdc-cell {
+            /* Mantendo o tamanho da fonte levemente menor para tabelas corporativas */
+            .mat-mdc-cell,
+            .mat-mdc-header-cell {
                 font-size: 14px;
             }
         `,
@@ -112,7 +117,6 @@ export class AppTableComponent<T> {
     delete = output<string>();
     pageChange = output<any>();
 
-    displayedColumns() {
-        return [...this.columns().map((c) => c.key), 'actions'];
-    }
+    // Transformei em um Signal computado para melhor performance no Angular 21
+    displayedColumns = computed(() => [...this.columns().map((c) => c.key), 'actions']);
 }

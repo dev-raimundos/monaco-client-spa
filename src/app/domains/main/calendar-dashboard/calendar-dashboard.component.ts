@@ -1,8 +1,8 @@
-import { Component, OnInit, signal, inject, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { CalendarOptions } from '@fullcalendar/core';
+import { CalendarOptions, EventContentArg } from '@fullcalendar/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -10,8 +10,7 @@ import { HttpClient } from '@angular/common/http';
     standalone: true,
     imports: [CommonModule, FullCalendarModule],
     templateUrl: './calendar-dashboard.component.html',
-    styleUrls: ['./calendar-dashboard.component.css'],
-    encapsulation: ViewEncapsulation.None,
+    styleUrls: ['./calendar-dashboard.component.scss'],
 })
 export class CalendarDashboard implements OnInit {
     private http = inject(HttpClient);
@@ -20,26 +19,30 @@ export class CalendarDashboard implements OnInit {
         plugins: [dayGridPlugin],
         initialView: 'dayGridMonth',
         locale: 'pt-br',
-        buttonText: {
-            today: 'hoje',
-            month: 'mês',
-            week: 'semana',
-            day: 'dia',
-            list: 'lista',
-        },
         headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,dayGridWeek',
+            left: 'title',
+            center: '',
+            right: 'prev,today,next',
         },
-        titleFormat: { year: 'numeric', month: 'long' },
-        events: [],
+        buttonText: { today: 'hoje' },
         height: 'auto',
-        expandRows: true,
+        dayMaxEvents: 2,
+        events: [],
+        eventContent: this.renderEventContent,
+        dayCellClassNames: (arg) => (arg.isToday ? ['is-today-cell'] : []),
     });
 
     ngOnInit() {
         this.fetchHolidays();
+    }
+
+    renderEventContent(arg: EventContentArg) {
+        return {
+            html: `<div class="monaco-event-wrapper">
+                    <span class="monaco-event-dot"></span>
+                    <span class="monaco-event-title">${arg.event.title}</span>
+                   </div>`,
+        };
     }
 
     fetchHolidays() {
@@ -51,8 +54,7 @@ export class CalendarDashboard implements OnInit {
                     title: h.name,
                     start: h.date,
                     allDay: true,
-                    className: 'holiday-event',
-                    display: 'block',
+                    className: 'monaco-holiday',
                 }));
 
                 this.calendarOptions.update((options) => ({

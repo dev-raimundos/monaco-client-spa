@@ -1,36 +1,111 @@
 @import "tailwindcss";
 
 @theme {
-    /* --- Tokens de Sistema (Dinâmicos) --- */
+    --font-sans: "Roboto", ui-sans-serif, system-ui;
     --color-background: var(--mat-sys-surface);
     --color-foreground: var(--mat-sys-on-surface);
     --color-primary: var(--mat-sys-primary);
     --color-border: var(--mat-sys-outline-variant);
-
-    /* --- Tokens da Sidebar (Estáticos / Hardcoded) --- */
-    --color-sidebar: #0f0f0f;
-    --color-sidebar-foreground: #ffffff;
-    --color-sidebar-muted: #9ca3af;
-    --color-sidebar-border: rgba(255, 255, 255, 0.1);
-
-    /* Identidade Monaco */
+    --color-muted-foreground: var(--mat-sys-on-surface-variant);
     --color-monaco-yellow: #F2E96D;
-
     --variant-dark: .dark &;
 }
 
-/* Identidade Visual do Sidebar Escuro */
-.sidebar-dark {
-    background-color: var(--color-sidebar) !important;
-    color: var(--color-sidebar-foreground) !important;
-}
-
-.active-theme {
-    background-color: rgba(242, 233, 109, 0.1) !important;
-    color: var(--color-monaco-yellow) !important;
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--mat-sys-outline-variant);
     border-radius: 10px;
+}
+
+.snackbar-success {
+    --mdc-snackbar-container-color: #2e7d32;
+    --mdc-snackbar-supporting-text-color: #ffffff;
+}
+
+.snackbar-error {
+    --mdc-snackbar-container-color: var(--mat-sys-error);
+    --mdc-snackbar-supporting-text-color: var(--mat-sys-on-error);
+}
+
+body {
+    background-color: var(--mat-sys-surface) !important;
+    margin: 0;
+    height: 100vh;
+    font-family: Roboto, sans-serif;
+    transition: background-color 0.3s ease;
+}
+
+mat-card,
+.mat-mdc-card,
+.mat-mdc-table,
+mat-expansion-panel,
+.mat-expansion-panel {
+    background-color: var(--mat-sys-surface-container) !important;
+    border: 1px solid var(--mat-sys-outline-variant) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    overflow: hidden;
+}
+
+mat-card:hover,
+.mat-mdc-card:hover,
+mat-expansion-panel:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.mat-mdc-header-row {
+    background-color: var(--mat-sys-surface-container-high) !important;
+    height: 56px !important;
+}
+
+.mat-mdc-card-content {
+    padding-top: 16px !important;
+}
+
+.mat-mdc-form-field {
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+.mat-expansion-panel-header {
+    background-color: transparent !important;
+    padding: 12px 24px !important;
+    height: auto !important;
+}
+
+.mat-mdc-paginator {
+    background-color: var(--mat-sys-surface-container-high) !important;
+    color: var(--mat-sys-on-surface-variant) !important;
+    border-top: 1px solid var(--mat-sys-outline-variant) !important;
+    border-left: 1px solid var(--mat-sys-outline-variant) !important;
+    border-right: 1px solid var(--mat-sys-outline-variant) !important;
+    border-bottom: 1px solid var(--mat-sys-outline-variant) !important;
+    border-bottom-left-radius: 12px !important;
+    border-bottom-right-radius: 12px !important;
+}
+
+.mat-mdc-table:has(+ mat-paginator) {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom: none !important;
+}
+
+.mat-mdc-paginator .mat-mdc-button-base {
+    color: var(--mat-sys-on-surface) !important;
+}
+
+.mat-mdc-row:last-child .mat-mdc-cell {
+    border-bottom: none;
+}
+
+.mat-mdc-row:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.01);
+}
+
+.dark .mat-mdc-row:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.01);
 }

@@ -106,7 +106,7 @@ export interface NavItem {
                 display: block;
             }
             .active-link span {
-                font-weight: 700;
+                font-weight: 500;
                 color: white !important;
             }
         `,

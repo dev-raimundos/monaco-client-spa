@@ -1,13 +1,11 @@
-import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { Pillar, CreatePillarDto } from '../../models/pillars.model';
-
-// PrimeNG
-import { InputTextModule } from 'primeng/inputtext';
-import { TextareaModule } from 'primeng/textarea';
-import { ButtonModule } from 'primeng/button';
-import { IftaLabelModule } from 'primeng/iftalabel';
 
 @Component({
     selector: 'app-pillar-form',
@@ -15,35 +13,36 @@ import { IftaLabelModule } from 'primeng/iftalabel';
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        InputTextModule,
-        TextareaModule,
-        ButtonModule,
-        IftaLabelModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatDialogModule,
     ],
-    template: ``,
+    templateUrl: './pillar-form.component.html',
 })
 export class PillarFormComponent {
-    private fb = inject(FormBuilder);
+    private readonly fb = inject(FormBuilder);
+    private readonly dialogRef = inject(MatDialogRef<PillarFormComponent>);
+    // Injeção dos dados enviados pela página (Pillar ou null)
+    public readonly data = inject<{ pillar: Pillar | null }>(MAT_DIALOG_DATA);
 
-    @Input() set pillar(val: Pillar | null) {
-        if (val) {
-            this.isEdit = true;
-            this.form.patchValue(val);
-        }
-    }
-    @Input() loading = false;
-    @Output() save = new EventEmitter<CreatePillarDto>();
-    @Output() cancel = new EventEmitter<void>();
+    public isSaving = signal(false);
+    public isEdit = !!this.data.pillar;
 
-    isEdit = false;
-    form = this.fb.group({
-        title: ['', [Validators.required, Validators.minLength(3)]],
-        description: ['', [Validators.required]],
+    public form = this.fb.group({
+        title: [this.data.pillar?.title || '', [Validators.required, Validators.minLength(3)]],
+        description: [this.data.pillar?.description || '', [Validators.required]],
     });
 
-    submit() {
+    public cancel(): void {
+        this.dialogRef.close(false);
+    }
+
+    public submit(): void {
         if (this.form.valid) {
-            this.save.emit(this.form.value as CreatePillarDto);
+            this.isSaving.set(true);
+            // Retorna os dados para o componente pai tratar o salvamento
+            this.dialogRef.close(this.form.value as CreatePillarDto);
         }
     }
 }

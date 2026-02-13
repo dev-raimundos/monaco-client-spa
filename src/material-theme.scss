@@ -1,50 +1,65 @@
 @use '@angular/material' as mat;
 
-@include mat.core();
-
-$my-theme-config: (
-  color: (
-    primary: mat.$azure-palette,
-    tertiary: mat.$blue-palette,
-  ),
-  typography: (
-    brand-family: 'Roboto',
-    plain-family: 'Roboto',
-  ),
-  density: 0,
-);
-$my-light-theme: mat.define-theme($my-theme-config);
-$my-dark-theme: mat.define-theme(
-  map-merge($my-theme-config, (
-    color: (theme-type: dark)
-  ))
-);
-
 html {
-  height: 100%;
+    color-scheme: light dark;
 
-  @include mat.all-component-themes($my-light-theme);
-  @include mat.system-level-typography($my-light-theme);
-  @include mat.system-level-colors($my-light-theme);
+    @include mat.theme((color: (primary: mat.$azure-palette,
+                theme-type: color-scheme,
+            ),
+            typography: Roboto,
+            density: 0,
+        ),
+        $overrides: (surface: #f3f5f7,
+            on-surface: #1a1c1e,
 
-  &.dark {
-    @include mat.all-component-colors($my-dark-theme);
-    @include mat.system-level-colors($my-dark-theme);
-    color-scheme: dark;
-  }
+            surface-container: #ffffff,
+            surface-container-low: #eeeeee,
+            surface-container-high: #f0f0f0,
+
+            outline: #dddddd,
+            outline-variant: #e1e5ea00,
+
+            primary: #968900,
+            on-primary: #ffffff,
+        ));
+
+    @include mat.system-classes();
+}
+
+.dark {
+    @include mat.theme-overrides((surface: #0b0c0d,
+            on-surface: #e2e2e6,
+
+            surface-container: #181818,
+            surface-container-low: #181818,
+            surface-container-high: #111111,
+
+            outline: #363636,
+            outline-variant: #3a3a3a00,
+
+            primary: #ddd561,
+            on-primary: #000000,
+        ));
 }
 
 .sidebar-dark {
-  @include mat.all-component-colors($my-dark-theme);
-  @include mat.system-level-colors($my-dark-theme);
-  --mat-sys-outline-variant: rgba(255, 255, 255, 0.1);
-  background-color: #0f0f0f !important;
+    color-scheme: dark;
+    @include mat.theme-overrides((primary: #ffffff,
+            on-primary: #000000,
+            surface: #0f0f0f,
+            on-surface: #ffffff,
+            outline-variant: rgba(255, 255, 255, 0.1),
+            surface-container-low: #1a1a1a,
+        ));
+    background-color: #121212 !important;
+    color: #ffffff;
 }
 
 body {
-  margin: 0;
-  height: 100%;
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
+    background: var(--mat-sys-surface);
+    color: var(--mat-sys-on-surface);
+    margin: 0;
+    height: 100vh;
+    font-family: Roboto, sans-serif;
+    transition: background-color 0.3s ease;
 }

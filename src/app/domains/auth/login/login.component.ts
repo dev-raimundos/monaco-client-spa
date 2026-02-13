@@ -2,15 +2,17 @@ import { Component, inject, signal, computed } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-import { CardModule } from 'primeng/card';
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-import { IftaLabelModule } from 'primeng/iftalabel';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { AuthService } from '@core/services/auth.service';
 import { NotificationService } from '@core/services/notification.service';
-import { LoginCredentials } from '@shared/models/auth.model';
 import { ThemeService } from '@core/services/theme.service';
+import { LoginCredentials } from '@shared/models/auth.model';
 
 @Component({
     selector: 'app-login',
@@ -18,18 +20,21 @@ import { ThemeService } from '@core/services/theme.service';
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        CardModule,
-        InputTextModule,
-        ButtonModule,
-        IftaLabelModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
+        MatProgressBarModule,
     ],
     templateUrl: './login.component.html',
+    styleUrl: './login.component.scss',
 })
 export class LoginComponent {
     private fb = inject(FormBuilder);
     private authService = inject(AuthService);
     private notification = inject(NotificationService);
-    private themeService = inject(ThemeService);
+    public themeService = inject(ThemeService);
 
     isDarkMode = computed(() => {
         const mode = this.themeService.themeMode();
@@ -38,7 +43,6 @@ export class LoginComponent {
         }
         return mode === 'dark';
     });
-
     isLoading = signal(false);
 
     loginForm = this.fb.group({
@@ -53,12 +57,10 @@ export class LoginComponent {
 
             this.authService.login(credentials).subscribe({
                 next: (user) => {
-                     const firstName = user.name.split(' ')[0];
-                     this.notification.success(`Bem-vindo de volta, ${firstName}!`);
+                    const firstName = user.name.split(' ')[0];
+                    this.notification.success(`Bem-vindo de volta, ${firstName}!`);
                 },
-                error: () => {
-                    this.isLoading.set(false);
-                },
+                error: () => this.isLoading.set(false),
             });
         }
     }

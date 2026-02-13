@@ -9,21 +9,41 @@ export const NAVIGATION: NavItem[] = [
     {
         label: 'RH',
         icon: 'group',
-        service: 'humanresources',
+        service: 'ti',
         children: [
             {
                 label: 'Pesquisa de Clima',
-                service: 'prodeval',
+                service: 'ti',
                 children: [
                     {
                         label: 'Dashboard',
                         route: 'hr/climate-survey/pillars',
-                        service: 'prodeval.list',
+                        service: 'ti',
                     },
-                    { label: 'Indicadores', route: '/rh/folha/decimo', service: 'prodeval.update' },
+                    { label: 'Indicadores', route: '/rh/folha/decimo', service: 'ti' },
                 ],
             },
-            { label: 'Outros', route: '/rh/cargos', service: 'occupations.list' },
+            { label: 'Outros', route: '/rh/cargos', service: 'ti' },
+        ],
+    },
+    {
+        label: 'TI',
+        icon: 'group',
+        service: 'ti',
+        children: [
+            {
+                label: 'Angular Material Example',
+                service: 'ti.',
+                children: [
+                    {
+                        label: 'Demos',
+                        route: 'it/demo/material-demo',
+                        service: 'ti',
+                    },
+                    { label: 'Indicadores', route: '/rh/folha/decimo', service: 'ti' },
+                ],
+            },
+            { label: 'Outros', route: '/rh/cargos', service: 'ti' },
         ],
     },
 ];
