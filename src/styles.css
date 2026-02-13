@@ -8,7 +8,6 @@
     --color-border: var(--mat-sys-outline-variant);
     --color-muted-foreground: var(--mat-sys-on-surface-variant);
     --color-monaco-yellow: #F2E96D;
-
     --variant-dark: .dark &;
 }
 
@@ -33,42 +32,60 @@
 
 body {
     background-color: var(--mat-sys-surface) !important;
+    margin: 0;
+    height: 100vh;
+    font-family: Roboto, sans-serif;
+    transition: background-color 0.3s ease;
 }
 
 mat-card,
 .mat-mdc-card,
-.mat-mdc-table {
+.mat-mdc-table,
+mat-expansion-panel,
+.mat-expansion-panel {
     background-color: var(--mat-sys-surface-container) !important;
     border: 1px solid var(--mat-sys-outline-variant) !important;
     border-radius: 12px !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1) !important;
     transition: box-shadow 0.3s ease, transform 0.2s ease;
+    overflow: hidden;
+}
+
+mat-card:hover,
+.mat-mdc-card:hover,
+mat-expansion-panel:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
 }
 
 .mat-mdc-header-row {
     background-color: var(--mat-sys-surface-container-high) !important;
+    height: 56px !important;
 }
 
-mat-card:hover,
-.mat-mdc-card:hover {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+.mat-mdc-card-content {
+    padding-top: 16px !important;
+}
+
+.mat-mdc-form-field {
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+.mat-expansion-panel-header {
+    background-color: transparent !important;
+    padding: 12px 24px !important;
+    height: auto !important;
 }
 
 .mat-mdc-paginator {
     background-color: var(--mat-sys-surface-container-high) !important;
     color: var(--mat-sys-on-surface-variant) !important;
     border-top: 1px solid var(--mat-sys-outline-variant) !important;
-    background-color: var(--mat-sys-surface-container-high) !important;
-    color: var(--mat-sys-on-surface-variant) !important;
-
     border-left: 1px solid var(--mat-sys-outline-variant) !important;
     border-right: 1px solid var(--mat-sys-outline-variant) !important;
     border-bottom: 1px solid var(--mat-sys-outline-variant) !important;
-
     border-bottom-left-radius: 12px !important;
     border-bottom-right-radius: 12px !important;
-
-    border-top: 1px solid var(--mat-sys-outline-variant) !important;
 }
 
 .mat-mdc-table:has(+ mat-paginator) {
