@@ -1,24 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-    /* Layout e Espaçamento */
     --font-sans: "Roboto", ui-sans-serif, system-ui;
-
-    /* Sincronização com Material 3 Tokens */
-    /* Agora bg-background e text-foreground são nativos */
     --color-background: var(--mat-sys-surface);
     --color-foreground: var(--mat-sys-on-surface);
     --color-primary: var(--mat-sys-primary);
     --color-border: var(--mat-sys-outline-variant);
     --color-muted-foreground: var(--mat-sys-on-surface-variant);
-
-    /* Tokens Monaco */
     --color-monaco-yellow: #F2E96D;
 
     --variant-dark: .dark &;
 }
 
-/* Utilitários de UI que não existem no Material */
 .custom-scrollbar::-webkit-scrollbar {
     width: 4px;
 }
@@ -28,7 +21,6 @@
     border-radius: 10px;
 }
 
-/* Camada de Notificações */
 .snackbar-success {
     --mdc-snackbar-container-color: #2e7d32;
     --mdc-snackbar-supporting-text-color: #ffffff;
