@@ -4,54 +4,41 @@ html {
     color-scheme: light dark;
 
     @include mat.theme((color: (primary: mat.$azure-palette,
-                tertiary: mat.$azure-palette,
                 theme-type: color-scheme,
             ),
             typography: Roboto,
             density: 0,
         ),
-        $overrides: (primary: #968900,
+        $overrides: (surface: #f3f5f7,
+            on-surface: #1a1c1e,
+
+            surface-container: #ffffff,
+            surface-container-low: #eeeeee,
+            surface-container-high: #f0f0f0,
+
+            outline: #cfd4d9,
+            outline-variant: #e1e5ea,
+
+            primary: #968900,
             on-primary: #ffffff,
-            primary-container: #f5f5f5,
-            on-primary-container: #000000,
-
-            secondary: #424242,
-            on-secondary: #ffffff,
-            secondary-container: #eeeeee,
-            on-secondary-container: #000000,
-
-            tertiary: #616161,
-            on-tertiary: #ffffff,
-
-            surface: #ffffff,
-            on-surface: #000000,
-            outline: #e0e0e0,
-            outline-variant: #f0f0f0,
-            surface-container-low: #fafafa,
         ));
 
     @include mat.system-classes();
 }
 
 .dark {
-    color-scheme: dark;
+    @include mat.theme-overrides((surface: #0b0c0d,
+            on-surface: #e2e2e6,
 
-    @include mat.theme-overrides((primary: #ddd561,
+            surface-container: #181818,
+            surface-container-low: #181818,
+            surface-container-high: #111111,
+
+            outline: #363636,
+            outline-variant: #3a3a3a,
+
+            primary: #ddd561,
             on-primary: #000000,
-            primary-container: #333333,
-            on-primary-container: #ffffff,
-
-            secondary: #b3b3b3,
-            on-secondary: #000000,
-
-            tertiary: #d1d1d1,
-            on-tertiary: #000000,
-
-            surface: #121212,
-            on-surface: #e3e3e3,
-            surface-container-low: #1e1e1e,
-            outline: #2c2c2c,
-            outline-variant: #3c3c3c,
         ));
 }
 
