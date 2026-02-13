@@ -1,6 +1,13 @@
 services:
     monaco-client:
-        build: .
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: monaco-client
         restart: always
         networks:
             - monaco-network
+
+networks:
+    monaco-network:
+        external: true

@@ -1,4 +1,4 @@
 export const environment = {
-    production: true,
-    apiUrl: 'https://monaco-api.grupomonaco.com.br/api',
+    production: false,
+    apiUrl: 'http://localhost:8080/api',
 };
