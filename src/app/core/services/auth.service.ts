@@ -13,6 +13,8 @@ export class AuthService {
     private http = inject(HttpClient);
     private router = inject(Router);
     private readonly BASE_URL = environment.apiUrl;
+    private readonly LOGIN_APP_ROUTE = '/auth/login';
+
     private _user = signal<UserProfile | null>(null);
     readonly user = this._user.asReadonly();
     readonly isAuthenticated = computed(() => !!this._user());
@@ -24,24 +26,24 @@ export class AuthService {
      * @param credentials
      * @returns Token JWT
      */
-    // No seu AuthService
     login(credentials: LoginCredentials): Observable<UserProfile> {
         return this.http
-            .post<LaravelResponse<LoginResponse>>(`${this.BASE_URL}/authentication/login`, credentials)
+            .post<
+                LaravelResponse<LoginResponse>
+            >(`${this.BASE_URL}/authentication/login`, credentials)
             .pipe(
                 switchMap(() => this.loadProfile()),
-                tap(() => {this.router.navigate(['/dashboard']);}),
+                tap(() => {
+                    this.router.navigate(['/dashboard']);
+                }),
             );
     }
-    /**
-     * lê o perfil do usuário logado usando o access_token e armazena no estado local.
-     * @returns UserProfile
-     */
+
     loadProfile(): Observable<UserProfile> {
         return this.http.get<LaravelResponse<UserProfile>>(`${this.BASE_URL}/user/me`).pipe(
             map((res) => {
                 if (!res.data || !res.data.name || !res.data.id) {
-                    throw new Error('Contrato da API quebrado: Dados do perfil são inválidos.');
+                    throw new Error('Contrato da API quebrado.');
                 }
 
                 const safeUser: UserProfile = {
@@ -57,31 +59,27 @@ export class AuthService {
                 return safeUser;
             }),
             catchError((err) => {
-                if (err.status === 0) {
-                    this.loadError.set(true);
-                }
+                if (err.status === 0) this.loadError.set(true);
                 return throwError(() => err);
             }),
         );
     }
 
-    /**
-     * Limpa o estado local e chama o backend para invalidar o cookie.
-     */
     logout(): void {
+        this.handleUnauthorized();
+
         this.http.post(`${this.BASE_URL}/authentication/logout`, {}).subscribe({
-            next: () => this.handleUnauthorized(),
-            error: () => this.handleUnauthorized(),
+            next: () => console.log('Sessão encerrada no backend.'),
+            error: () => console.warn('Aviso: Falha ao invalidar cookie no servidor.'),
         });
     }
 
-    /**
-     * Reseta o estado do app sem necessariamente chamar a API.
-     */
+
     handleUnauthorized(): void {
         this._user.set(null);
-        if (this.router.url !== '/login') {
-            this.router.navigate(['/login']);
+
+        if (this.router.url !== this.LOGIN_APP_ROUTE) {
+            this.router.navigateByUrl(this.LOGIN_APP_ROUTE);
         }
     }
 

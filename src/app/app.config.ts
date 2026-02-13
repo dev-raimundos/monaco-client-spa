@@ -13,7 +13,8 @@ import { providePrimeNG } from 'primeng/config';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import Aura from '@primeuix/themes/aura';
 import { routes } from './app.routes';
-import { httpInterceptor } from '@core/interceptors/http.interceptors';
+import { apiInterceptor } from '@core/interceptors/api.interceptor';
+import { errorInterceptor } from '@core/interceptors/auth.interceptor';
 import { AuthService } from '@core/services/auth.service';
 
 export const appConfig: ApplicationConfig = {
@@ -31,7 +32,7 @@ export const appConfig: ApplicationConfig = {
 
         provideZonelessChangeDetection(),
         provideRouter(routes, withComponentInputBinding()),
-        provideHttpClient(withFetch(), withInterceptors([httpInterceptor])),
+        provideHttpClient(withFetch(), withInterceptors([errorInterceptor, apiInterceptor])),
         provideAnimationsAsync(),
 
         provideAppInitializer(() => {
