@@ -1,0 +1,85 @@
+:host ::ng-deep {
+    .fc {
+        --fc-border-color: var(--mat-sys-outline-variant) !important;
+        --fc-page-bg-color: transparent;
+        --fc-neutral-bg-color: transparent;
+        --fc-list-event-hover-bg-color: rgba(255, 255, 255, 0.05);
+
+        background-color: transparent !important;
+        color: var(--mat-sys-on-surface) !important;
+
+        .fc-scrollgrid {
+            border-color: var(--mat-sys-outline-variant) !important;
+        }
+
+        .fc-col-header-cell {
+            background-color: var(--mat-sys-surface-container-low) !important;
+            padding: 12px 0 !important;
+            border-color: var(--mat-sys-outline-variant) !important;
+        }
+
+        .is-today-cell {
+            background-color: rgba(242, 233, 109, 0.05) !important;
+
+            .fc-daygrid-day-number {
+                background-color: var(--monaco-yellow) !important;
+                color: #000 !important;
+                border-radius: 50%;
+                width: 24px;
+                height: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 4px;
+            }
+        }
+
+        .fc-daygrid-event {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.05) !important;
+            }
+        }
+
+        .monaco-event-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 2px 6px;
+            background-color: var(--mat-sys-on-surface);
+            border-radius: 4px;
+            border-left: 3px solid var(--monaco-yellow);
+            margin: 1px 4px;
+        }
+
+        .monaco-event-title {
+            color: var(--mat-sys-surface) !important;
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .fc-button-primary {
+            background-color: transparent !important;
+            border: none !important;
+            color: var(--mat-sys-on-surface) !important;
+            box-shadow: none !important;
+
+            &:hover {
+                background-color: rgba(128, 128, 128, 0.1) !important;
+            }
+
+            &.fc-today-button {
+                border: 1px solid var(--monaco-yellow) !important;
+                color: var(--monaco-yellow) !important;
+                text-transform: lowercase;
+            }
+        }
+    }
+}

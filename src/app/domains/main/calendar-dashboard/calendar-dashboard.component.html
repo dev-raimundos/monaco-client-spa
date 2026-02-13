@@ -1,16 +1,23 @@
-<div class="p-6 bg-background h-full flex flex-col gap-4 animate-in fade-in duration-500">
-    <div class="flex items-center justify-between">
-        <div class="flex flex-col">
-            <h2 class="text-2xl font-bold tracking-tight text-foreground">
-                Calendário Corporativo
-            </h2>
-            <p class="text-xs text-muted-foreground uppercase tracking-widest font-medium">
-                Gestão de feriados e eventos
+<div class="p-6 h-full flex flex-col gap-6 animate-in fade-in duration-700">
+    <header class="flex flex-col gap-1">
+        <h1 class="text-2xl font-black uppercase tracking-tighter text-foreground">
+            Calendário Corporativo
+        </h1>
+        <div class="flex items-center gap-2">
+            <span class="h-2 w-2 rounded-full bg-monaco-yellow animate-pulse"></span>
+            <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground opacity-70">
+                Gestão de Feriados Nacionais & Eventos Mônaco
             </p>
         </div>
-    </div>
+    </header>
 
-    <div class="flex-1 rounded-xl border border-border bg-card p-4 shadow-sm overflow-hidden min-h-150">
+    <div class="flex-1 rounded-2xl border border-border bg-surface-container-low p-6 shadow-sm overflow-hidden min-h-150 transition-colors">
         <full-calendar [options]="calendarOptions()"></full-calendar>
     </div>
+
+    <footer class="flex justify-center">
+         <span class="text-[9px] font-bold uppercase tracking-[0.4em] text-muted-foreground opacity-30">
+            Tecnologia da Informação &copy; 2026
+        </span>
+    </footer>
 </div>
