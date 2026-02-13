@@ -7,13 +7,11 @@ export type ThemeMode = 'light' | 'dark' | 'system';
 @Injectable({ providedIn: 'root' })
 export class ThemeService implements OnDestroy {
     private _document = inject(DOCUMENT);
-    private _overlay = inject(OverlayContainer); // Essencial para Diálogos e Menus
+    private _overlay = inject(OverlayContainer);
     private _mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
-    // Signal de estado persistido
     public themeMode = signal<ThemeMode>((localStorage.getItem('theme') as ThemeMode) || 'system');
 
-    // Signal auxiliar para lógica de UI (ex: trocar logo)
     public isDark = signal<boolean>(false);
 
     constructor() {

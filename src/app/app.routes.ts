@@ -7,7 +7,11 @@ export const routes: Routes = [
      */
     {
         path: 'auth',
-        loadChildren: () => import('@domains/auth/auth.routes').then((m) => m.AUTH_ROUTES),
+        loadChildren: () =>
+            import('@domains/auth/auth.routes')
+                .then(
+                    (m) => m.AUTH_ROUTES
+                ),
     },
 
     /**
@@ -35,6 +39,14 @@ export const routes: Routes = [
                 loadChildren: () =>
                     import('@domains/hr/climate-survey/climate-survey.routes').then(
                         (m) => m.CLIMATE_SURVEY_ROUTES,
+                    ),
+            },
+            // Demos
+            {
+                path: 'it/demo',
+                loadChildren: () =>
+                    import('@domains/it/demo/demo.routes').then(
+                        (m) => m.DEMO_ROUTES,
                     ),
             },
             // Redirecionamento padrão para rota interna

@@ -1,7 +1,5 @@
 import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-// Material Modules
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -17,7 +15,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { PageEvent } from '@angular/material/paginator';
-
 import { AppTableComponent } from '@shared/components/table/table-paginated.component';
 import { TableColumn } from '@shared/models/table-config.model';
 import { NotificationService } from '@core/services/notification.service';
@@ -43,9 +40,9 @@ import { NotificationService } from '@core/services/notification.service';
         MatSelectModule,
         MatSliderModule,
     ],
-    templateUrl: './pillar-list.component.html',
+    templateUrl: './material-demo.component.html',
 })
-export class PillarListComponent implements OnInit {
+export class DemoComponent implements OnInit {
     private readonly _notification = inject(NotificationService);
 
     // MOCK DATA: Lista estática para demonstração

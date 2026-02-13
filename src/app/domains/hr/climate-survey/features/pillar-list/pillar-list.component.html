@@ -1,96 +1,113 @@
-<div class="p-6 space-y-6 bg-background text-foreground transition-colors duration-300">
-    <div class="flex justify-between items-center mb-8">
-        <div>
-            <h1 class="text-2xl font-black tracking-tighter uppercase">Pilares da Pesquisa</h1>
-            <p class="text-sm text-muted-foreground lowercase">Gestão Centralizada M3.</p>
-        </div>
-        <button
-            mat-flat-button
-            color="primary"
-            (click)="openCreate()"
-            class="rounded-xl! px-5 py-6"
-        >
-            <mat-icon>add</mat-icon> <span>Novo Pilar</span>
-        </button>
-    </div>
+<div class="p-10 space-y-16 bg-background text-foreground transition-colors duration-500 max-w-7xl mx-auto">
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <mat-card appearance="outlined">
-            <mat-card-header>
-                <div
-                    mat-card-avatar
-                    class="bg-primary text-on-primary flex items-center justify-center rounded-full"
-                >
-                    <mat-icon>verified</mat-icon>
-                </div>
-                <mat-card-title>Teste de Elevação</mat-card-title>
-                <mat-card-subtitle>Automático por SCSS</mat-card-subtitle>
+    <header class="flex justify-between items-start border-b-4 border-foreground pb-10">
+        <div>
+            <h1 class="text-6xl font-black tracking-tighter uppercase leading-none">M3 UI Showcase</h1>
+            <p class="text-[10px] font-bold uppercase tracking-[0.5em] text-muted-foreground mt-4">
+                SisMônaco V3 • Core Engine • Professional Edition
+            </p>
+        </div>
+        <div class="flex gap-4">
+            <button mat-stroked-button class="rounded-2xl! px-8 border-2!" (click)="showInfo()">
+                DOCUMENTAÇÃO
+            </button>
+            <button mat-flat-button class="rounded-2xl! px-10 py-8 bg-foreground! text-background! font-black" (click)="openCreate()">
+                NOVO_REGISTRO
+            </button>
+        </div>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+
+        <mat-card appearance="outlined" class="bg-surface-container! rounded-2xl! border-2!">
+            <mat-card-header class="border-b border-border pb-4">
+                <mat-card-title class="text-xs! font-black! uppercase tracking-[0.3em]">Interação</mat-card-title>
             </mat-card-header>
-            <mat-card-content class="pt-4">
-                <p>O fundo muda entre Dark/Light sem classes manuais.</p>
-                <button
-                    mat-button
-                    matRipple
-                    color="primary"
-                    class="mt-2"
-                >
-                    Clique para Testar Ripple
-                </button>
+            <mat-card-content class="pt-8 space-y-6">
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Sessão_ID</mat-label>
+                    <input matInput placeholder="AUTH_MODE">
+                    <mat-icon matSuffix>security</mat-icon>
+                </mat-form-field>
+
+                <div class="flex items-center justify-between p-5 bg-surface-container-high border border-border rounded-xl">
+                    <span class="text-[10px] font-black uppercase tracking-widest">Enclave Ativo</span>
+                    <mat-slide-toggle [checked]="true"></mat-slide-toggle>
+                </div>
             </mat-card-content>
         </mat-card>
 
-        <mat-card appearance="outlined">
-            <mat-card-header>
-                <mat-card-title>Badges e Chips</mat-card-title>
+        <mat-card appearance="outlined" class="bg-surface-container! rounded-2xl! border-2!">
+            <mat-card-header class="border-b border-border pb-4">
+                <mat-card-title class="text-xs! font-black! uppercase tracking-[0.3em]">Status_Nodes</mat-card-title>
             </mat-card-header>
-            <mat-card-content class="pt-4 space-y-6">
+            <mat-card-content class="pt-8 space-y-12">
                 <mat-chip-set>
-                    <mat-chip>Ativo</mat-chip>
-                    <mat-chip>Grupo Mônaco</mat-chip>
+                    <mat-chip class="border-2! font-black">ENCRYPTED</mat-chip>
+                    <mat-chip class="border-2!">LOCAL_HOST</mat-chip>
                 </mat-chip-set>
 
-                <div class="flex items-center gap-6">
-                    <span
-                        matBadge="7"
-                        matBadgeColor="warn"
-                        >Notificações</span
-                    >
-                    <span
-                        matBadge="OK"
-                        matBadgeColor="primary"
-                        >Status</span
-                    >
+                <div class="flex items-center gap-12">
+                    <span matBadge="!" matBadgeColor="warn" class="font-black">LOGS</span>
+                    <span matBadge="OK" class="font-black">HEALTH</span>
+                    <mat-icon class="scale-150">sync_alt</mat-icon>
                 </div>
             </mat-card-content>
         </mat-card>
+
+        <mat-card appearance="outlined" class="bg-surface-container! rounded-2xl! border-2! overflow-hidden">
+            <mat-tab-group mat-stretch-tabs="false">
+                <mat-tab label="CORE_LOAD">
+                    <div class="p-8 space-y-8">
+                        <div class="flex justify-between text-[10px] font-black uppercase tracking-[0.2em]">
+                            <span>Carga_Processamento</span>
+                            <span class="animate-pulse">THREAD_01</span>
+                        </div>
+                        <mat-progress-bar mode="indeterminate" class="h-3! rounded-full"></mat-progress-bar>
+                        <p class="text-[9px] uppercase font-bold opacity-40 italic">Aceleração via WebGL Ativa</p>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </mat-card>
     </div>
 
-    <div class="mat-elevation-z1 rounded-xl overflow-hidden p-4">
-        <mat-tab-group>
-            <mat-tab label="Geral">
-                <div class="p-4 space-y-4">
-                    <p class="text-sm">As animações agora estão integradas ao core.</p>
-                    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <section class="space-y-8">
+        <div class="flex items-center gap-6">
+            <h3 class="font-black uppercase text-sm tracking-[0.6em]">Data_Grid_Engine</h3>
+            <div class="h-1 flex-1 bg-foreground opacity-20"></div>
+        </div>
+
+        <div class="mb-10">
+        <mat-expansion-panel appearance="outlined" class="bg-surface-container! rounded-2xl! shadow-sm">
+            <mat-expansion-panel-header class="h-20!">
+                <mat-panel-title class="text-[10px] font-black uppercase tracking-widest">
+                    <mat-icon class="mr-2">tune</mat-icon> Filtros de Amostragem
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 py-8 px-4">
+                <mat-form-field appearance="outline">
+                    <mat-label>Categoria</mat-label>
+                    <mat-select>
+                        <mat-option value="all">TODOS_OS_DADOS</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="flex flex-col gap-2">
+                    <span class="text-[9px] font-bold uppercase opacity-50">Intensidade</span>
+                    <mat-slider min="0" max="100" step="10" showTickMarks discrete>
+                        <input matSliderThumb>
+                    </mat-slider>
                 </div>
-            </mat-tab>
-        </mat-tab-group>
-    </div>
+            </div>
+        </mat-expansion-panel>
+        </div>
 
-    <div class="mt-8">
-        <h3 class="font-bold mb-4 uppercase text-xs tracking-widest text-primary">
-            Lista Oficial de Pilares
-        </h3>
-        @if (isLoading()) {
-            <div class="flex justify-center p-12"><mat-spinner diameter="40"></mat-spinner></div>
-        } @else {
-            <app-shared-table 
-                [data]="pillars()"
-                [columns]="myColumns"
-                [totalItems]="total()"
-                [pageSize]="pageSize()"
-                [currentPage]="currentPage()"
-                (pageChange)="handlePage($event)"
-            />
-        }
-    </div>
+        <app-shared-table
+            [data]="pillars()"
+            [columns]="myColumns"
+            [totalItems]="total()"
+            [pageSize]="pageSize()"
+            [currentPage]="currentPage()"
+            (pageChange)="handlePage($event)"
+        />
+    </section>
 </div>
