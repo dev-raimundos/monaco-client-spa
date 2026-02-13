@@ -33,7 +33,7 @@ export const NAVIGATION: NavItem[] = [
         children: [
             {
                 label: 'Angular Material Example',
-                service: 'ti.',
+                service: 'ti',
                 children: [
                     {
                         label: 'Demos',

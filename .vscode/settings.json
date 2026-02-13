@@ -1,4 +1,5 @@
 {
+    "window.title": "Angular - Mônaco Client",
     "tailwindCSS.emmetCompletions": true,
     "tailwindCSS.includeLanguages": {
         "plaintext": "html",
