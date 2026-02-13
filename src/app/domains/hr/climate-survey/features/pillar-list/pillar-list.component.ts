@@ -1,21 +1,22 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
 
-// Core & Shared
 import { PillarService } from '../../data-access/pillar.service';
 import { AppTableComponent } from '@shared/components/table/table-paginated.component';
 import { TableColumn } from '@shared/models/table-config.model';
 import { NotificationService } from '@core/services/notification.service';
 import { Pillar, CreatePillarDto } from '../../models/pillars.model';
-
-// UI Components
 import { PillarFormComponent } from '../../ui/pillar-form/pillar-form.component';
-
-// PrimeNG Stack
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { ButtonModule } from 'primeng/button';
-import { PaginatorState } from 'primeng/paginator';
-import { DialogModule } from 'primeng/dialog';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
     selector: 'app-pillar-list',
@@ -23,29 +24,29 @@ import { DialogModule } from 'primeng/dialog';
     imports: [
         CommonModule,
         AppTableComponent,
-        ProgressSpinnerModule,
-        ButtonModule,
-        DialogModule,
-        PillarFormComponent,
+        MatButtonModule,
+        MatIconModule,
+        MatProgressSpinnerModule,
+        MatDialogModule,
+        // Novos módulos para teste:
+        MatCardModule,
+        MatChipsModule,
+        MatBadgeModule,
+        MatTabsModule,
+        MatProgressBarModule,
     ],
     templateUrl: './pillar-list.component.html',
 })
 export class PillarListComponent implements OnInit {
     private readonly _pillarService = inject(PillarService);
     private readonly _notification = inject(NotificationService);
+    private readonly _dialog = inject(MatDialog);
 
-    // Sinais vinculados ao Service (Data-Access)
     public pillars = this._pillarService.pillars;
     public isLoading = this._pillarService.loading;
 
-    // Sinais para controle do estado local (UI)
-    public isDialogVisible = signal(false);
-    public isSaving = signal(false);
-    public selectedPillar = signal<Pillar | null>(null);
-
-    // Sinais da paginação
     public total = signal(0);
-    public pageSize = signal(15);
+    public pageSize = signal(5);
     public currentPage = signal(1);
 
     public myColumns: TableColumn[] = [
@@ -57,10 +58,7 @@ export class PillarListComponent implements OnInit {
         this.fetchPillars();
     }
 
-    /**
-     * Busca os dados no servidor.
-     */
-    fetchPillars(page: number = 1, size: number = 5): void {
+    fetchPillars(page: number = 1, size: number = this.pageSize()): void {
         this._pillarService.getPillarsPaginated(page, size).subscribe((res) => {
             this.total.set(res.total);
             this.pageSize.set(res.per_page);
@@ -68,62 +66,55 @@ export class PillarListComponent implements OnInit {
         });
     }
 
-    /**
-     * Gerencia a troca de páginas.
-     */
-    handlePage(event: PaginatorState) {
-        const pageToFetch = (event.page ?? 0) + 1;
-        this.fetchPillars(pageToFetch, event.rows ?? 5);
+    handlePage(event: PageEvent) {
+        this.fetchPillars(event.pageIndex + 1, event.pageSize);
     }
 
     /**
-     * Prepara o estado para criar um novo registro.
+     * Implementação profissional do MatDialog
      */
-    openCreate() {
-        this.selectedPillar.set(null);
-        this.isDialogVisible.set(true);
+    private _openDialog(pillar: Pillar | null = null): void {
+        const dialogRef = this._dialog.open(PillarFormComponent, {
+            width: '500px',
+            disableClose: true, // Força o usuário a usar os botões do form
+            data: { pillar }, // Passa os dados via MAT_DIALOG_DATA
+        });
+
+        // O segredo está aqui: o salvamento acontece e o modal retorna os dados
+        dialogRef.afterClosed().subscribe((result: CreatePillarDto | null) => {
+            if (result) {
+                this._processSave(result, pillar);
+            }
+        });
     }
 
-    /**
-     * Prepara o estado para edição recebendo o objeto completo da tabela.
-     */
-    onEdit(pillar: Pillar): void {
-        this.selectedPillar.set(pillar);
-        this.isDialogVisible.set(true);
-    }
-
-    /**
-     * Orquestra a persistência (Criação ou Edição).
-     */
-    handleSave(data: CreatePillarDto) {
-        this.isSaving.set(true);
-        const pilarAtual = this.selectedPillar();
-
-        // Se pilarAtual existe, é PUT; caso contrário, POST.
-        const request = pilarAtual
-            ? this._pillarService.update(pilarAtual.id, data)
+    private _processSave(data: CreatePillarDto, existingPillar: Pillar | null): void {
+        const request = existingPillar
+            ? this._pillarService.update(existingPillar.id, data)
             : this._pillarService.create(data);
 
         request.subscribe({
             next: () => {
-                this._notification.success(
-                    `Pilar ${pilarAtual ? 'atualizado' : 'criado'} com sucesso!`,
-                );
-                this.isDialogVisible.set(false);
+                this._notification.success(`Pilar ${existingPillar ? 'atualizado' : 'criado'}!`);
                 this.fetchPillars(this.currentPage());
             },
-            error: () => this.isSaving.set(false),
-            complete: () => this.isSaving.set(false),
         });
     }
 
-    /**
-     * Remove um registro.
-     */
+    openCreate() {
+        this._openDialog();
+    }
+
+    onEdit(pillar: Pillar) {
+        this._openDialog(pillar);
+    }
+
     onDelete(id: string): void {
+        // Alerta de Mentor: Evite o confirm() nativo.
+        // Em produção, use um MatDialog para manter o tema Dark/Light.
         if (confirm('Deseja realmente excluir este pilar?')) {
             this._pillarService.delete(id).subscribe(() => {
-                this._notification.success('Pilar removido com sucesso.');
+                this._notification.success('Pilar removido.');
                 this.fetchPillars(this.currentPage());
             });
         }

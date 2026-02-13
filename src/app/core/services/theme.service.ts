@@ -1,46 +1,64 @@
-import { Injectable, signal, effect, OnDestroy } from '@angular/core';
+import { Injectable, signal, effect, inject, OnDestroy } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService implements OnDestroy {
-    themeMode = signal<ThemeMode>((localStorage.getItem('theme') as ThemeMode) || 'light');
+    private _document = inject(DOCUMENT);
+    private _overlay = inject(OverlayContainer); // Essencial para Diálogos e Menus
+    private _mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
-    private mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    // Signal de estado persistido
+    public themeMode = signal<ThemeMode>((localStorage.getItem('theme') as ThemeMode) || 'system');
+
+    // Signal auxiliar para lógica de UI (ex: trocar logo)
+    public isDark = signal<boolean>(false);
 
     constructor() {
         effect(() => {
             const mode = this.themeMode();
             localStorage.setItem('theme', mode);
-            this.applyTheme(mode);
+            this._updateThemeState();
         });
 
-        this.mediaQuery.addEventListener('change', this.handleSystemThemeChange.bind(this));
+        this._mediaQuery.addEventListener('change', this._handleSystemChange.bind(this));
     }
 
-    setTheme(mode: ThemeMode) {
+    public setTheme(mode: ThemeMode): void {
         this.themeMode.set(mode);
     }
 
-    private handleSystemThemeChange() {
+    private _handleSystemChange(): void {
         if (this.themeMode() === 'system') {
-            this.applyTheme('system');
+            this._updateThemeState();
         }
     }
 
-    private applyTheme(mode: ThemeMode) {
-        const root = document.documentElement;
+    private _updateThemeState(): void {
+        const mode = this.themeMode();
+        const prefersDark = this._mediaQuery.matches;
+        const shouldBeDark = mode === 'dark' || (mode === 'system' && prefersDark);
 
-        root.classList.remove('dark');
+        this.isDark.set(shouldBeDark);
+        this._applyThemeClasses(shouldBeDark);
+    }
 
-        const isDark = mode === 'dark' || (mode === 'system' && this.mediaQuery.matches);
+    private _applyThemeClasses(isDark: boolean): void {
+        const root = this._document.documentElement;
+        const overlayContainer = this._overlay.getContainerElement();
 
         if (isDark) {
             root.classList.add('dark');
+            overlayContainer.classList.add('dark');
+        } else {
+            root.classList.remove('dark');
+            overlayContainer.classList.remove('dark');
         }
     }
 
-    ngOnDestroy() {
-        this.mediaQuery.removeEventListener('change', this.handleSystemThemeChange);
+    ngOnDestroy(): void {
+        this._mediaQuery.removeEventListener('change', this._handleSystemChange);
     }
 }

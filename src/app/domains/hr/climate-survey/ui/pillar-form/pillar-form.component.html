@@ -1,41 +1,69 @@
-<form
-    [formGroup]="form"
-    (ngSubmit)="submit()"
-    class="flex flex-col gap-6 pt-4"
+<h2
+    mat-dialog-title
+    class="!text-xl !font-black !tracking-tight uppercase text-foreground"
 >
-    <p-iftalabel>
-        <input
-            pInputText
-            id="title"
-            formControlName="title"
-            class="w-full"
-        />
-        <label for="title">Título do Pilar</label>
-    </p-iftalabel>
+    {{ isEdit ? 'Editar pilar' : 'Novo pilar' }}
+</h2>
 
-    <p-iftalabel>
-        <textarea
-            pInputTextarea
-            id="description"
-            formControlName="description"
-            rows="3"
+<mat-dialog-content class="pt-4">
+    <form
+        [formGroup]="form"
+        (ngSubmit)="submit()"
+        id="pillarForm"
+        class="flex flex-col gap-4"
+    >
+        <mat-form-field
+            appearance="outline"
             class="w-full"
-        ></textarea>
-        <label for="description">Descrição detalhada</label>
-    </p-iftalabel>
+        >
+            <mat-label>Título do Pilar</mat-label>
+            <input
+                matInput
+                formControlName="title"
+                placeholder="Ex: Qualidade de Vida"
+            />
+            @if (form.get('title')?.hasError('required')) {
+                <mat-error>O título é obrigatório</mat-error>
+            }
+        </mat-form-field>
 
-    <div class="flex justify-end gap-2 mt-4">
-        <p-button
-            label="Cancelar"
-            severity="secondary"
-            [text]="true"
-            (onClick)="cancel.emit()"
-        />
-        <p-button
-            [label]="isEdit ? 'Salvar Alterações' : 'Criar Pilar'"
-            type="submit"
-            [disabled]="form.invalid"
-            [loading]="loading"
-        />
-    </div>
-</form>
+        <mat-form-field
+            appearance="outline"
+            class="w-full"
+        >
+            <mat-label>Descrição detalhada</mat-label>
+            <textarea
+                matInput
+                formControlName="description"
+                rows="4"
+                placeholder="Descreva os objetivos deste pilar..."
+            >
+            </textarea>
+            @if (form.get('description')?.hasError('required')) {
+                <mat-error>A descrição é obrigatória</mat-error>
+            }
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions
+    align="end"
+    class="pb-6 px-6 gap-2"
+>
+    <button
+        mat-button
+        (click)="cancel()"
+        [disabled]="isSaving()"
+    >
+        cancelar
+    </button>
+    <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        form="pillarForm"
+        [disabled]="form.invalid || isSaving()"
+    >
+        {{ isEdit ? 'salvar alterações' : 'criar pilar' }}
+    </button>
+</mat-dialog-actions>

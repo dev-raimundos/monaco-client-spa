@@ -1,36 +1,40 @@
 @import "tailwindcss";
 
 @theme {
-    /* --- Tokens de Sistema (Dinâmicos) --- */
+    /* Layout e Espaçamento */
+    --font-sans: "Roboto", ui-sans-serif, system-ui;
+
+    /* Sincronização com Material 3 Tokens */
+    /* Agora bg-background e text-foreground são nativos */
     --color-background: var(--mat-sys-surface);
     --color-foreground: var(--mat-sys-on-surface);
     --color-primary: var(--mat-sys-primary);
     --color-border: var(--mat-sys-outline-variant);
+    --color-muted-foreground: var(--mat-sys-on-surface-variant);
 
-    /* --- Tokens da Sidebar (Estáticos / Hardcoded) --- */
-    --color-sidebar: #0f0f0f;
-    --color-sidebar-foreground: #ffffff;
-    --color-sidebar-muted: #9ca3af;
-    --color-sidebar-border: rgba(255, 255, 255, 0.1);
-
-    /* Identidade Monaco */
+    /* Tokens Monaco */
     --color-monaco-yellow: #F2E96D;
 
     --variant-dark: .dark &;
 }
 
-/* Identidade Visual do Sidebar Escuro */
-.sidebar-dark {
-    background-color: var(--color-sidebar) !important;
-    color: var(--color-sidebar-foreground) !important;
-}
-
-.active-theme {
-    background-color: rgba(242, 233, 109, 0.1) !important;
-    color: var(--color-monaco-yellow) !important;
+/* Utilitários de UI que não existem no Material */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--mat-sys-outline-variant);
     border-radius: 10px;
+}
+
+/* Camada de Notificações */
+.snackbar-success {
+    --mdc-snackbar-container-color: #2e7d32;
+    --mdc-snackbar-supporting-text-color: #ffffff;
+}
+
+.snackbar-error {
+    --mdc-snackbar-container-color: var(--mat-sys-error);
+    --mdc-snackbar-supporting-text-color: var(--mat-sys-on-error);
 }
