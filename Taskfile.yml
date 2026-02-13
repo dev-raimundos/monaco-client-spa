@@ -1,0 +1,56 @@
+version: "3"
+# ==============================================================================
+# MONACO CLIENT - TASKFILE (v1.0 - Angular 21 + Docker)
+# ==============================================================================
+# Autor: Raimundos Marques - raimundosmarque@grupomonaco.com.br
+# ==============================================================================
+
+vars:
+    PROJECT_NAME: monaco-client
+    DOCKER_DEV_COMPOSE: docker compose -f docker-compose.yml -f docker-compose.override.yml
+    DOCKER_PROD_COMPOSE: docker compose -f docker-compose.yml
+
+tasks:
+    # --- AMBIENTE LOCAL (DESENVOLVIMENTO) ---
+
+    install:
+        desc: "Executa npm install dentro do container para garantir compatibilidade com Alpine"
+        cmds:
+          - docker compose run --rm monaco-client npm install
+        sources:
+          - package.json
+        generates:
+          - node_modules/**/*
+
+    dev:
+        desc: "Sobe o ambiente LOCAL com Hot Reload (HMR)"
+        deps: [ install ]
+        cmds:
+          - "{{.DOCKER_DEV_COMPOSE}} up -d"
+          - echo "✔ SisMônaco Frontend (DEV) pronto em http://localhost:4200"
+
+    # --- AMBIENTE DE PRODUÇÃO ---
+
+    prod:build:
+        desc: "Gera a imagem de PRODUÇÃO (Multi-stage + Nginx) para o Grupo Mônaco"
+        cmds:
+          - docker build -t {{.PROJECT_NAME}}:latest -f Dockerfile .
+          - echo "✔ Artefato de produção gerado. Pronto para o Nginx Proxy Manager."
+
+    prod:up:
+        desc: "Sobe o container de PRODUÇÃO (Nginx estático) para teste local"
+        cmds:
+          - "{{.DOCKER_PROD_COMPOSE}} up -d"
+          - echo "✔ Frontend (PROD) rodando via Nginx na porta 80"
+
+    # --- UTILITÁRIOS ---
+
+    down:
+        desc: "Para todos os containers do frontend"
+        cmds:
+          - docker compose down --remove-orphans
+
+    logs:
+        desc: "Segue os logs do container (útil para ver erros de compilação)"
+        cmds:
+          - docker compose logs -f monaco-client
