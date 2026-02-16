@@ -1,8 +1,7 @@
 version: "3"
+
 # ==============================================================================
-# MONACO CLIENT - TASKFILE (v1.0 - Angular 21 + Docker)
-# ==============================================================================
-# Autor: Raimundos Marques - raimundosmarque@grupomonaco.com.br
+# MONACO CLIENT - TASKFILE (v1.2 - Angular 21 + Docker)
 # ==============================================================================
 
 vars:
@@ -11,46 +10,67 @@ vars:
     DOCKER_PROD_COMPOSE: docker compose -f docker-compose.yml
 
 tasks:
-    # --- AMBIENTE LOCAL (DESENVOLVIMENTO) ---
+    # --- AMBIENTE LOCAL ---
 
     install:
-        desc: "Executa npm install dentro do container para garantir compatibilidade com Alpine"
+        desc: "Executa npm install padrão"
         cmds:
           - docker compose run --rm monaco-client npm install
+          - task: fix-permissions
         sources:
           - package.json
         generates:
           - node_modules/**/*
 
+    ng:install:
+        desc: "Instala um pacote específico (uso: task ng:install pkg=nome-do-pacote)"
+        cmds:
+          - 'docker compose run --rm monaco-client npm install {{.pkg}}'
+          - task: fix-permissions
+        preconditions:
+          - sh: '[ -n "{{.pkg}}" ]'
+            msg: "ERRO: Você precisa passar o pacote. Ex: task ng:install pkg=lodash"
+
     dev:
-        desc: "Sobe o ambiente LOCAL com Hot Reload (HMR)"
+        desc: "Sobe o ambiente LOCAL com Hot Reload"
         deps: [ install ]
         cmds:
           - "{{.DOCKER_DEV_COMPOSE}} up -d"
-          - echo "✔ SisMônaco Frontend (DEV) pronto em http://localhost:4200"
+          - echo "✔ SisMônaco Frontend pronto em http://localhost:4200"
 
-    # --- AMBIENTE DE PRODUÇÃO ---
+    # --- QUALIDADE ---
+
+    lint:
+        desc: "Executa a checagem de linting no projeto"
+        cmds:
+          - docker compose run --rm monaco-client npm run lint
+
+    # --- PRODUÇÃO ---
 
     prod:build:
-        desc: "Gera a imagem de PRODUÇÃO (Multi-stage + Nginx) para o Grupo Mônaco"
+        desc: "Gera imagem de PRODUÇÃO"
         cmds:
           - docker build -t {{.PROJECT_NAME}}:latest -f Dockerfile .
-          - echo "✔ Artefato de produção gerado. Pronto para o Nginx Proxy Manager."
 
     prod:up:
-        desc: "Sobe o container de PRODUÇÃO (Nginx estático) para teste local"
+        desc: "Sobe container de PRODUÇÃO (Nginx)"
         cmds:
           - "{{.DOCKER_PROD_COMPOSE}} up -d"
-          - echo "✔ Frontend (PROD) rodando via Nginx na porta 80"
 
     # --- UTILITÁRIOS ---
 
+    fix-permissions:
+        desc: "Corrige permissões de arquivos (Root -> User)"
+        cmds:
+          - sudo chown -R $USER:$USER .
+        silent: true
+
     down:
-        desc: "Para todos os containers do frontend"
+        desc: "Para todos os containers"
         cmds:
           - docker compose down --remove-orphans
 
-    logs:
-        desc: "Segue os logs do container (útil para ver erros de compilação)"
+    shell:
+        desc: "Shell dentro do container Node"
         cmds:
-          - docker compose logs -f monaco-client
+          - docker compose run --rm monaco-client sh

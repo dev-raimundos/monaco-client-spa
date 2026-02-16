@@ -1,4 +1,3 @@
-# Estágio 1: Build (Node.js)
 FROM node:20-alpine AS build
 WORKDIR /app
 

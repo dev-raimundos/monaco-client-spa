@@ -1,9 +1,11 @@
 services:
     monaco-client:
-        image: node:20-alpine
-        command: sh -c "npm install && npx ng serve --host 0.0.0.0 --poll 2000"
+        build:
+            context: .
+            dockerfile: .devcontainer/Dockerfile.dev
+        user: "node"
         volumes:
-            - .:/app
-        working_dir: /app
+            - .:/app:cached
         ports:
             - "4200:4200"
+        command: /bin/sh -c "while sleep 1000; do :; done"

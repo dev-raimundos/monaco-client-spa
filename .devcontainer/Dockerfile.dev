@@ -1,0 +1,11 @@
+FROM node:20-alpine
+
+RUN apk add --no-cache git openssh libc6-compat
+
+RUN npm install -g @angular/cli@21
+
+WORKDIR /app
+
+RUN chown -R node:node /app
+
+USER node
