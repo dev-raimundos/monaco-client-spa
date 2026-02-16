@@ -1,5 +1,5 @@
 {
-    "name": "Monaco Client Dev Environment",
+    "name": "Angular",
     "dockerComposeFile": [
         "../docker-compose.yml",
         "../docker-compose.override.yml"
