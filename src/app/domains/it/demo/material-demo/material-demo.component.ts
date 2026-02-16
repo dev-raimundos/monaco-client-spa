@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, computed, inject } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -96,7 +96,7 @@ export class DemoComponent implements OnInit {
         this.pillars.set(this._MOCK_DATA.slice(start, end));
     }
 
-    handlePage(event: PageEvent) {
+    handlePage(event: PageEvent): any {
         this.currentPage.set(event.pageIndex + 1);
         this.pageSize.set(event.pageSize);
         this.updateTable();

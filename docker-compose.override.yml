@@ -3,9 +3,9 @@ services:
         build:
             context: .
             dockerfile: .devcontainer/Dockerfile.dev
-        user: "node"
+        user: 'node'
         volumes:
             - .:/app:cached
         ports:
-            - "4200:4200"
-        command: /bin/sh -c "while sleep 1000; do :; done"
+            - '4200:4200'
+        command: npx ng serve --host 0.0.0.0 --poll 2000

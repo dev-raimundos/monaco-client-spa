@@ -6,6 +6,7 @@
     ],
     "service": "monaco-client",
     "workspaceFolder": "/app",
+    "overrideCommand": false,
     "customizations": {
         "vscode": {
             "extensions": [
