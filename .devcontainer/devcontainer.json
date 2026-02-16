@@ -13,7 +13,22 @@
                 "angular.ng-template",
                 "dbaeumer.vscode-eslint",
                 "esbenp.prettier-vscode",
-                "firsttris.vscode-jest-runner"
+                "angular.ng-template",
+                "ms-vscode.vscode-typescript-next",
+                "bradlc.vscode-tailwindcss",
+                "esbenp.prettier-vscode",
+                "pkief.material-icon-theme",
+                "christian-kohler.path-intellisense",
+                "VishnuVinod.angular-generator",
+                "steoates.autoimport",
+                "aaron-bond.better-comments",
+                "mikestead.dotenv",
+                "EditorConfig.EditorConfig",
+                "usernamehw.errorlens",
+                "dbaeumer.vscode-eslint",
+                "xabikos.JavaScriptSnippets",
+                "IBM.output-colorizer",
+                "christian-kohler.path-intellisense"
             ],
             "settings": {
                 "editor.formatOnSave": true,
