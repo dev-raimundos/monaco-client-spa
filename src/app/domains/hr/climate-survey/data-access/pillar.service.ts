@@ -4,30 +4,26 @@ import { Observable, tap, finalize } from 'rxjs';
 import {
     Pillar,
     CreatePillarDto,
-    SiglePillarResponse,
     PillarsPaginated,
+    SiglePillarResponse,
 } from '../models/pillars.model';
 
-/**
- * Classe responsável pelas operações CRUD da tabela de Pilares do Pesquisa de Clima
- */
 @Injectable({ providedIn: 'root' })
 export class PillarService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
     private readonly ENDPOINT = '/api/formmanagement/pillars';
 
     pillars = signal<Pillar[]>([]);
     loading = signal<boolean>(false);
 
     /**
-     * Retorna todos os pilares paginados
+     * Retorna uma lista paginada de pilares da pesquisa de clima
      * @param page
-     * @param per_page
+     * @param perPage
      * @returns
      */
-    getPillarsPaginated(page: number = 1, per_page: number = 5): Observable<PillarsPaginated> {
-        const params = new HttpParams().set('page', page).set('per_page', per_page);
-
+    getPillarsPaginated(page: number, perPage: number): Observable<PillarsPaginated> {
+        const params = new HttpParams().set('page', page).set('per_page', perPage);
         this.loading.set(true);
 
         return this.http.get<PillarsPaginated>(this.ENDPOINT, { params }).pipe(
@@ -37,7 +33,7 @@ export class PillarService {
     }
 
     /**
-     * Cria um novo pilar de acordo com o DTO
+     * Cria um novo pilar
      * @param data
      * @returns
      */
@@ -46,17 +42,17 @@ export class PillarService {
     }
 
     /**
-     * Atualiza um pilar identificado pelo ID e de acordo com o DTO
+     * Atualiza um pilar identificado pelo ID
      * @param id
      * @param data
      * @returns
      */
-    update(id: string, data: CreatePillarDto): Observable<SiglePillarResponse> {
+    update(id: string, data: Partial<CreatePillarDto>): Observable<SiglePillarResponse> {
         return this.http.put<SiglePillarResponse>(`${this.ENDPOINT}/${id}`, data);
     }
 
     /**
-     * Deleta um pilar de acordo com o ID
+     * Deleta um pilar existente dado o seu ID
      * @param id
      * @returns
      */
