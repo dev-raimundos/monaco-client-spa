@@ -1,7 +1,7 @@
 import { Component, input, output, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { TableColumn } from '../../models/table-config.model';
@@ -98,7 +98,6 @@ import { TableColumn } from '../../models/table-config.model';
             table {
                 width: 100%;
             }
-            /* Mantendo o tamanho da fonte levemente menor para tabelas corporativas */
             .mat-mdc-cell,
             .mat-mdc-header-cell {
                 font-size: 14px;
@@ -115,8 +114,6 @@ export class AppTableComponent<T> {
 
     edit = output<T>();
     delete = output<string>();
-    pageChange = output<any>();
-
-    // Transformei em um Signal computado para melhor performance no Angular 21
+    pageChange = output<PageEvent>();
     displayedColumns = computed(() => [...this.columns().map((c) => c.key), 'actions']);
 }
