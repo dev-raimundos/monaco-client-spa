@@ -1,48 +1,43 @@
-import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { Pillar, CreatePillarDto } from '../../models/pillars.model';
+import { Pillar } from '../../models/pillars.model';
 
 @Component({
     selector: 'app-pillar-form',
     standalone: true,
     imports: [
-        CommonModule,
         ReactiveFormsModule,
+        MatDialogModule,
         MatFormFieldModule,
         MatInputModule,
         MatButtonModule,
-        MatDialogModule,
     ],
     templateUrl: './pillar-form.component.html',
 })
-export class PillarFormComponent {
+export class PillarFormComponent implements OnInit {
     private readonly fb = inject(FormBuilder);
     private readonly dialogRef = inject(MatDialogRef<PillarFormComponent>);
-    // Injeção dos dados enviados pela página (Pillar ou null)
-    public readonly data = inject<{ pillar: Pillar | null }>(MAT_DIALOG_DATA);
+    readonly data: Pillar | null = inject(MAT_DIALOG_DATA, { optional: true });
 
-    public isSaving = signal(false);
-    public isEdit = !!this.data.pillar;
-
-    public form = this.fb.group({
-        title: [this.data.pillar?.title || '', [Validators.required, Validators.minLength(3)]],
-        description: [this.data.pillar?.description || '', [Validators.required]],
+    form = this.fb.group({
+        title: ['', [Validators.required, Validators.minLength(3)]],
+        description: ['', [Validators.required]],
     });
 
-    public cancel(): void {
-        this.dialogRef.close(false);
+    ngOnInit(): void {
+        if (this.data) this.form.patchValue(this.data);
     }
 
-    public submit(): void {
-        if (this.form.valid) {
-            this.isSaving.set(true);
-            // Retorna os dados para o componente pai tratar o salvamento
-            this.dialogRef.close(this.form.value as CreatePillarDto);
-        }
+    save(): void {
+        if (this.form.valid) this.dialogRef.close(this.form.value);
+        else this.form.markAllAsTouched();
+    }
+
+    cancel(): void {
+        this.dialogRef.close();
     }
 }

@@ -1,69 +1,55 @@
 <h2
     mat-dialog-title
-    class="text-xl! font-black! tracking-tight! uppercase text-foreground"
+    class="text-xl font-bold"
 >
-    {{ isEdit ? 'Editar pilar' : 'Novo pilar' }}
+    {{ data ? 'Editar' : 'Novo' }} Pilar
 </h2>
-
-<mat-dialog-content class="pt-4">
+<mat-dialog-content>
     <form
         [formGroup]="form"
-        (ngSubmit)="submit()"
-        id="pillarForm"
-        class="flex flex-col gap-4"
+        class="flex flex-col gap-4 mt-2"
     >
         <mat-form-field
             appearance="outline"
             class="w-full"
         >
-            <mat-label>Título do Pilar</mat-label>
+            <mat-label>Título</mat-label>
             <input
                 matInput
                 formControlName="title"
-                placeholder="Ex: Qualidade de Vida"
+                placeholder="Ex: Comunicação"
             />
-            @if (form.get('title')?.hasError('required')) {
-                <mat-error>O título é obrigatório</mat-error>
-            }
         </mat-form-field>
 
         <mat-form-field
             appearance="outline"
             class="w-full"
         >
-            <mat-label>Descrição detalhada</mat-label>
+            <mat-label>Descrição</mat-label>
             <textarea
                 matInput
                 formControlName="description"
-                rows="4"
-                placeholder="Descreva os objetivos deste pilar..."
-            >
-            </textarea>
-            @if (form.get('description')?.hasError('required')) {
-                <mat-error>A descrição é obrigatória</mat-error>
-            }
+                rows="3"
+            ></textarea>
         </mat-form-field>
     </form>
 </mat-dialog-content>
-
 <mat-dialog-actions
     align="end"
-    class="pb-6 px-6 gap-2"
+    class="gap-2"
 >
     <button
         mat-button
         (click)="cancel()"
-        [disabled]="isSaving()"
     >
-        cancelar
+        Cancelar
     </button>
     <button
         mat-flat-button
         color="primary"
-        type="submit"
-        form="pillarForm"
-        [disabled]="form.invalid || isSaving()"
+        [disabled]="form.invalid"
+        (click)="save()"
     >
-        {{ isEdit ? 'salvar alterações' : 'criar pilar' }}
+        Salvar
     </button>
 </mat-dialog-actions>
