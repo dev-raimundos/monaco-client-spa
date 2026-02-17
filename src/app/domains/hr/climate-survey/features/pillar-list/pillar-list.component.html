@@ -1,10 +1,11 @@
 <div class="p-6">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold">Pilares da Pesquisa</h1>
+
         <button
             mat-flat-button
             color="primary"
-            (click)="openForm()"
+            (click)="onCreate()"
         >
             <mat-icon>add</mat-icon>
             Novo Pilar
@@ -19,7 +20,7 @@
             [columns]="columns"
             [totalItems]="totalItems()"
             [pageSize]="pageSize()"
-            (edit)="openForm($event)"
+            (edit)="onEdit($event)"
             (delete)="onDelete($event)"
             (pageChange)="handlePageEvent($event)"
         />

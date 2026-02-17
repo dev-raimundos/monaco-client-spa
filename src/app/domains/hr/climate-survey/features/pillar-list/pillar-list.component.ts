@@ -9,7 +9,7 @@ import { PillarService } from '../../data-access/pillar.service';
 import { AppTableComponent } from '@shared/components/table/table-paginated.component';
 import { PillarFormComponent } from '../../ui/pillar-form/pillar-form.component';
 import { ConfirmDialogComponent } from '@shared/components/dialog/confirm-dialog.component';
-import { Pillar } from '../../models/pillars.model';
+import { Pillar, CreatePillarDto } from '../../models/pillars.model';
 import { TableColumn } from '@shared/models/table-config.model';
 
 @Component({
@@ -31,16 +31,10 @@ export class PillarListComponent implements OnInit {
     pageSize = signal(5);
     currentPage = signal(1);
 
-    /**
-     * Lógica executada no nascimento do componente
-     */
     ngOnInit(): void {
         this.loadData();
     }
 
-    /**
-     * Carrega os dados de fm_pillars
-     */
     loadData(): void {
         this.pillarService
             .getPillarsPaginated(this.currentPage(), this.pageSize())
@@ -50,42 +44,42 @@ export class PillarListComponent implements OnInit {
             });
     }
 
-    /**
-     * Muda a página atual da paginação
-     * @param e
-     */
     handlePageEvent(e: PageEvent): void {
         this.currentPage.set(e.pageIndex + 1);
         this.pageSize.set(e.pageSize);
         this.loadData();
     }
 
-    /**
-     * Se houver dados em pillar abre o modal de edição
-     * se não houver, abre o modal de criação
-     * @param pillar
-     */
-    openForm(pillar?: Pillar): void {
+    onCreate(): void {
         const dialogRef = this.dialog.open(PillarFormComponent, {
             width: '500px',
-            data: pillar || null,
+            data: null,
         });
 
-        dialogRef.afterClosed().subscribe((formData) => {
-            if (!formData) return;
-
-            const request$ = pillar
-                ? this.pillarService.update(pillar.id, formData)
-                : this.pillarService.create(formData);
-
-            request$.subscribe(() => this.loadData());
+        dialogRef.afterClosed().subscribe((formData: CreatePillarDto) => {
+            if (formData) {
+                this.pillarService.create(formData).subscribe(() => {
+                    this.loadData();
+                });
+            }
         });
     }
 
-    /**
-     * Abre o modal de exclusão
-     * @param id
-     */
+    onEdit(pillar: Pillar): void {
+        const dialogRef = this.dialog.open(PillarFormComponent, {
+            width: '500px',
+            data: pillar,
+        });
+
+        dialogRef.afterClosed().subscribe((formData: CreatePillarDto) => {
+            if (formData) {
+                this.pillarService.update(pillar.id, formData).subscribe(() => {
+                    this.loadData();
+                });
+            }
+        });
+    }
+
     onDelete(id: string): void {
         const dialogRef = this.dialog.open(ConfirmDialogComponent, {
             data: {
@@ -96,7 +90,9 @@ export class PillarListComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((confirmed) => {
             if (confirmed) {
-                this.pillarService.delete(id).subscribe(() => this.loadData());
+                this.pillarService.delete(id).subscribe(() => {
+                    this.loadData();
+                });
             }
         });
     }
