@@ -1,22 +1,41 @@
 @import "tailwindcss";
 
 @theme {
+    /* Tipografia */
     --font-sans: "Roboto", ui-sans-serif, system-ui;
+
+    /* Cores de Base (Nível de Página) */
     --color-background: var(--mat-sys-surface);
     --color-foreground: var(--mat-sys-on-surface);
     --color-primary: var(--mat-sys-primary);
+    --color-on-primary: var(--mat-sys-on-primary);
+
+    /* Cores de Superfície (Cards, Modais, Menus) */
+    --color-card: var(--mat-sys-surface-container);
+    --color-card-high: var(--mat-sys-surface-container-high);
+    --color-card-low: var(--mat-sys-surface-container-low);
+
+    /* Bordas e Estados Muted */
     --color-border: var(--mat-sys-outline-variant);
+    --color-outline: var(--mat-sys-outline);
     --color-muted-foreground: var(--mat-sys-on-surface-variant);
-    --color-monaco-yellow: #F2E96D;
+
+    /* Cores de Status */
+    --color-error: var(--mat-sys-error);
+    --color-on-error: var(--mat-sys-on-error);
+    --color-monaco-yellow: #f2e96d;
+
+    /* Configurações de Sistema */
     --variant-dark: .dark &;
 }
 
+/* --- Utilidades e Scrollbar --- */
 .custom-scrollbar::-webkit-scrollbar {
     width: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: var(--mat-sys-outline-variant);
+    background-color: var(--color-border);
     border-radius: 10px;
 }
 
@@ -26,42 +45,70 @@
 }
 
 .snackbar-error {
-    --mdc-snackbar-container-color: var(--mat-sys-error);
-    --mdc-snackbar-supporting-text-color: var(--mat-sys-on-error);
+    --mdc-snackbar-container-color: var(--color-error);
+    --mdc-snackbar-supporting-text-color: var(--color-on-error);
 }
 
+/* --- Reset e Base --- */
 body {
-    background-color: var(--mat-sys-surface) !important;
+    background-color: var(--color-background) !important;
+    color: var(--color-foreground);
     margin: 0;
     height: 100vh;
-    font-family: Roboto, sans-serif;
-    transition: background-color 0.3s ease;
+    font-family: var(--font-sans);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* --- Componentes de Superfície (Cards, Tables, Panels) --- */
 mat-card,
 .mat-mdc-card,
 .mat-mdc-table,
-mat-expansion-panel,
-.mat-expansion-panel {
-    background-color: var(--mat-sys-surface-container) !important;
-    border: 1px solid var(--mat-sys-outline-variant) !important;
+mat-expansion-panel {
+    background-color: var(--color-card) !important;
+    border: 1px solid var(--color-border) !important;
     border-radius: 12px !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+    /* Box-shadow suave adaptado para M3 */
+    box-shadow: 0 2px 4px color-mix(in srgb, var(--color-foreground) 5%, transparent) !important;
     transition: box-shadow 0.3s ease, transform 0.2s ease;
     overflow: hidden;
 }
 
-mat-card:hover,
-.mat-mdc-card:hover,
-mat-expansion-panel:hover {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
-}
-
+/* --- Tabela e Paginador --- */
 .mat-mdc-header-row {
-    background-color: var(--mat-sys-surface-container-high) !important;
+    background-color: var(--color-card-high) !important;
     height: 56px !important;
 }
 
+.mat-mdc-row:last-child .mat-mdc-cell {
+    border-bottom: none;
+}
+
+/* Zebra Stripes Inteligente (Funciona em Light e Dark) */
+.mat-mdc-row:nth-child(even) {
+    background-color: color-mix(in srgb, var(--color-foreground) 2%, transparent);
+}
+
+/* Conexão Visual Tabela + Paginador */
+.mat-mdc-table:has(+ mat-paginator) {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom: none !important;
+}
+
+.mat-mdc-paginator {
+    background-color: var(--color-card-high) !important;
+    color: var(--color-muted-foreground) !important;
+    border: 1px solid var(--color-border) !important;
+    border-top: none !important;
+    border-bottom-left-radius: 12px !important;
+    border-bottom-right-radius: 12px !important;
+}
+
+.mat-mdc-paginator .mat-mdc-button-base {
+    color: var(--color-foreground) !important;
+}
+
+/* --- Formulários e Expansão --- */
 .mat-mdc-card-content {
     padding-top: 16px !important;
 }
@@ -75,37 +122,4 @@ mat-expansion-panel:hover {
     background-color: transparent !important;
     padding: 12px 24px !important;
     height: auto !important;
-}
-
-.mat-mdc-paginator {
-    background-color: var(--mat-sys-surface-container-high) !important;
-    color: var(--mat-sys-on-surface-variant) !important;
-    border-top: 1px solid var(--mat-sys-outline-variant) !important;
-    border-left: 1px solid var(--mat-sys-outline-variant) !important;
-    border-right: 1px solid var(--mat-sys-outline-variant) !important;
-    border-bottom: 1px solid var(--mat-sys-outline-variant) !important;
-    border-bottom-left-radius: 12px !important;
-    border-bottom-right-radius: 12px !important;
-}
-
-.mat-mdc-table:has(+ mat-paginator) {
-    border-bottom-left-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
-    border-bottom: none !important;
-}
-
-.mat-mdc-paginator .mat-mdc-button-base {
-    color: var(--mat-sys-on-surface) !important;
-}
-
-.mat-mdc-row:last-child .mat-mdc-cell {
-    border-bottom: none;
-}
-
-.mat-mdc-row:nth-child(even) {
-    background-color: rgba(0, 0, 0, 0.01);
-}
-
-.dark .mat-mdc-row:nth-child(even) {
-    background-color: rgba(255, 255, 255, 0.01);
 }
