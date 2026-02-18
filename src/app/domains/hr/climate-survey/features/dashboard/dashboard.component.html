@@ -1,4 +1,4 @@
-<div class="p-8 min-h-screen text-(--mat-sys-on-surface) transition-colors duration-300">
+<div class="p-8 min-h-screen font-sans">
     <header class="flex flex-col md:flex-row justify-between items-start mb-10 gap-4">
         <div class="space-y-1">
             <h1 class="text-3xl font-semibold tracking-tight">Dashboard Administrativo</h1>
@@ -18,69 +18,135 @@
     </header>
 
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
-        @for (stat of stats; track stat.label) {
-            <mat-card>
-                <mat-card-header class="p-4!">
-                    <div class="flex justify-between items-center w-full">
-                        <mat-card-subtitle
-                            class="m-0! font-medium uppercase tracking-wider text-xs"
-                        >
-                            {{ stat.label }}
-                        </mat-card-subtitle>
-                        <mat-icon
-                            color="primary"
-                            class="opacity-60 scale-90"
-                            >{{ stat.icon }}</mat-icon
-                        >
-                    </div>
-                </mat-card-header>
-                <mat-card-content class="p-4! pt-0!">
-                    <h2 class="text-4xl font-bold my-2">{{ stat.value }}</h2>
-                    <p class="text-xs opacity-60">{{ stat.description }}</p>
-                </mat-card-content>
-            </mat-card>
-        }
+        <mat-card class="border rounded-xl! p-2 shadow-none!">
+            <mat-card-header class="p-4!">
+                <div class="flex justify-between items-center w-full">
+                    <mat-card-subtitle class="m-0! font-medium uppercase tracking-wider text-xs">
+                        Total de Respostas
+                    </mat-card-subtitle>
+                    <mat-icon class="scale-90">group</mat-icon>
+                </div>
+            </mat-card-header>
+            <mat-card-content class="p-4! pt-0!">
+                <h2 class="text-4xl font-bold my-2">{{ totalResponses }}</h2>
+                <p class="text-xs">Respostas recebidas</p>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="border rounded-xl! p-2 shadow-none!">
+            <mat-card-header class="p-4!">
+                <div class="flex justify-between items-center w-full">
+                    <mat-card-subtitle class="m-0! font-medium uppercase tracking-wider text-xs">
+                        Pesquisas Ativas
+                    </mat-card-subtitle>
+                    <mat-icon class="scale-90">description</mat-icon>
+                </div>
+            </mat-card-header>
+            <mat-card-content class="p-4! pt-0!">
+                <h2 class="text-4xl font-bold my-2">{{ activeSurveys }}</h2>
+                <p class="text-xs">Pesquisas em andamento</p>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="border rounded-xl! p-2 shadow-none!">
+            <mat-card-header class="p-4!">
+                <div class="flex justify-between items-center w-full">
+                    <mat-card-subtitle class="m-0! font-medium uppercase tracking-wider text-xs">
+                        Total de Pesquisas
+                    </mat-card-subtitle>
+                    <mat-icon class="scale-90">show_chart</mat-icon>
+                </div>
+            </mat-card-header>
+            <mat-card-content class="p-4! pt-0!">
+                <h2 class="text-4xl font-bold my-2">{{ totalSurveys }}</h2>
+                <p class="text-xs">Todas as pesquisas</p>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="border rounded-xl! p-2 shadow-none!">
+            <mat-card-header class="p-4!">
+                <div class="flex justify-between items-center w-full">
+                    <mat-card-subtitle class="m-0! font-medium uppercase tracking-wider text-xs">
+                        Índice Médio
+                    </mat-card-subtitle>
+                    <mat-icon class="scale-90">bar_chart</mat-icon>
+                </div>
+            </mat-card-header>
+            <mat-card-content class="p-4! pt-0!">
+                <h2 class="text-4xl font-bold my-2">{{ averageIndex }}</h2>
+                <p class="text-xs">Clima organizacional</p>
+            </mat-card-content>
+        </mat-card>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <mat-card>
-            <mat-card-header class="p-6 pb-2">
-                <mat-card-title class="font-semibold!">Ações Rápidas</mat-card-title>
+            <mat-card-header>
+                <mat-card-title>Ações Rápidas</mat-card-title>
                 <mat-card-subtitle>Acesso rápido às funcionalidades</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content class="p-0!">
                 <mat-nav-list>
-                    @for (action of quickActions; track action.label) {
-                        <a
-                            mat-list-item
-                            href="javascript:void(0)"
-                            class="h-14!"
+                    <a
+                        mat-list-item
+                        href="javascript:void(0)"
+                        class="h-14!"
+                    >
+                        <mat-icon matListItemIcon>add</mat-icon>
+                        <span
+                            matListItemTitle
+                            class="font-medium"
+                            >Criar Nova Pesquisa</span
                         >
-                            <mat-icon
-                                matListItemIcon
-                                color="primary"
-                                class="opacity-80"
-                                >{{ action.icon }}</mat-icon
-                            >
-                            <span
-                                matListItemTitle
-                                class="font-medium"
-                                >{{ action.label }}</span
-                            >
-                        </a>
-                    }
+                    </a>
+                    <a
+                        mat-list-item
+                        href="javascript:void(0)"
+                        class="h-14!"
+                    >
+                        <mat-icon matListItemIcon>list_alt</mat-icon>
+                        <span
+                            matListItemTitle
+                            class="font-medium"
+                            >Ver Relatórios Detalhados</span
+                        >
+                    </a>
+                    <a
+                        mat-list-item
+                        href="javascript:void(0)"
+                        class="h-14!"
+                    >
+                        <mat-icon matListItemIcon>account_tree</mat-icon>
+                        <span
+                            matListItemTitle
+                            class="font-medium"
+                            >Gerenciar Pilares</span
+                        >
+                    </a>
+                    <a
+                        mat-list-item
+                        href="javascript:void(0)"
+                        class="h-14!"
+                    >
+                        <mat-icon matListItemIcon>help_outline</mat-icon>
+                        <span
+                            matListItemTitle
+                            class="font-medium"
+                            >Configurar Perguntas</span
+                        >
+                    </a>
                 </mat-nav-list>
             </mat-card-content>
         </mat-card>
 
-        <mat-card>
+        <mat-card class="border rounded-xl! shadow-none!">
             <mat-card-header class="p-6 pb-2">
                 <mat-card-title class="text-xl! font-semibold!">Atividade Recente</mat-card-title>
                 <mat-card-subtitle>Últimas atividades no sistema</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content class="flex flex-col items-center justify-center min-h-60">
                 @if (recentActivity.length === 0) {
-                    <p class="opacity-40 italic">Nenhuma pesquisa encontrada</p>
+                    <p class="italic">Nenhuma pesquisa encontrada</p>
                 }
             </mat-card-content>
         </mat-card>

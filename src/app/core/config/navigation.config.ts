@@ -6,6 +6,7 @@ export const NAVIGATION: NavItem[] = [
         route: '/dashboard',
         icon: 'dashboard',
     },
+    // Recursos Humanos
     {
         label: 'RH',
         icon: 'group',
@@ -17,7 +18,7 @@ export const NAVIGATION: NavItem[] = [
                 children: [
                     {
                         label: 'Dashboard',
-                        route: 'hr/climate-survey/pillars',
+                        route: 'hr/climate-survey/dashboard',
                         service: 'ti',
                     },
                     { label: 'Indicadores', route: '/rh/folha/decimo', service: 'ti' },
@@ -26,6 +27,7 @@ export const NAVIGATION: NavItem[] = [
             { label: 'Outros', route: '/rh/cargos', service: 'ti' },
         ],
     },
+    // TI
     {
         label: 'TI',
         icon: 'group',
