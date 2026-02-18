@@ -12,6 +12,7 @@ html {
         $overrides: (
             surface: #f3f5f7,
             on-surface: #1a1c1e,
+            on-surface-variant: #1a1c1e,
 
             surface-container: #ffffff,
             surface-container-low: #eeeeee,
@@ -31,6 +32,7 @@ html {
     @include mat.theme-overrides((
             surface: #0b0c0d,
             on-surface: #e2e2e6,
+            on-surface-variant: #e2e2e6,
 
             surface-container: #181818,
             surface-container-low: #181818,

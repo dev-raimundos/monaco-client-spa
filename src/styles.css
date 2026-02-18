@@ -123,3 +123,7 @@ mat-expansion-panel {
     padding: 12px 24px !important;
     height: auto !important;
 }
+
+.mat-mdc-card-title {
+    font-weight: 600 !important;
+}
