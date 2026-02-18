@@ -9,7 +9,8 @@ html {
             typography: Roboto,
             density: 0,
         ),
-        $overrides: (surface: #f3f5f7,
+        $overrides: (
+            surface: #f3f5f7,
             on-surface: #1a1c1e,
 
             surface-container: #ffffff,
@@ -17,7 +18,7 @@ html {
             surface-container-high: #f0f0f0,
 
             outline: #dddddd,
-            outline-variant: #cfcfcf54,
+            outline-variant: #00000000,
 
             primary: #2e2e2e,
             on-primary: #ffffff,
@@ -27,7 +28,8 @@ html {
 }
 
 .dark {
-    @include mat.theme-overrides((surface: #0b0c0d,
+    @include mat.theme-overrides((
+            surface: #0b0c0d,
             on-surface: #e2e2e6,
 
             surface-container: #181818,
@@ -35,7 +37,7 @@ html {
             surface-container-high: #111111,
 
             outline: #363636,
-            outline-variant: #3a3a3a00,
+            outline-variant: #00000000,
 
             primary: #e2e2e6,
             on-primary: #000000,
