@@ -1,12 +1,26 @@
 import { Routes } from '@angular/router';
+import { ClimateSurveyLayoutComponent } from './layout/climate-survey-layout/climate-survey-layout.component';
 
 export const CLIMATE_SURVEY_ROUTES: Routes = [
     {
-        path: 'pillars',
-        loadComponent: () =>
-            import('@domains/hr/climate-survey/features/pillar-list/pillar-list.component').then(
-                (m) => m.PillarListComponent,
-            ),
+        path: '',
+        component: ClimateSurveyLayoutComponent,
+        children: [
+            {
+                path: 'dashboard',
+                loadComponent: () =>
+                    import('./features/dashboard/dashboard.component').then(
+                        (m) => m.DashboardComponent,
+                    ),
+            },
+            {
+                path: 'pillars',
+                loadComponent: () =>
+                    import('./features/pillar-list/pillar-list.component').then(
+                        (m) => m.PillarListComponent,
+                    ),
+            },
+            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+        ],
     },
-    { path: '', redirectTo: 'pillars', pathMatch: 'full' },
 ];

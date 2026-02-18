@@ -1,0 +1,64 @@
+<header class="pt-5 px-5">
+    <nav>
+        <a
+            mat-button
+            routerLinkActive="mat-primary"
+            routerLink="dashboard"
+        >
+            Dashboard
+        </a>
+
+        <!-- Ações Rápidas -->
+        <button
+            mat-button
+            [matMenuTriggerFor]="shortcutsMenu"
+        >
+            Ações Rápidas
+            <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #shortcutsMenu="matMenu">
+            <button mat-menu-item>
+                <mat-icon>add_circle_outline</mat-icon>
+                <span>Criar novo formulário</span>
+            </button>
+
+            <a
+                mat-menu-item
+                routerLink="responses"
+            >
+                <mat-icon>fact_check</mat-icon>
+                <span>Visualizar formulários respondidos</span>
+            </a>
+
+            <a
+                mat-menu-item
+                routerLink="indicators"
+            >
+                <mat-icon>insights</mat-icon>
+                <span>Indicadores</span>
+            </a>
+        </mat-menu>
+
+        <button
+            mat-button
+            [matMenuTriggerFor]="pillarMenu"
+        >
+            Pilares
+            <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
+        </button>
+
+        <mat-menu #pillarMenu="matMenu">
+            <a
+                mat-menu-item
+                routerLink="pillars"
+            >
+                <mat-icon>fact_check</mat-icon>
+                <span>Gerenciamento de Pilares</span>
+            </a>
+        </mat-menu>
+    </nav>
+</header>
+
+<main>
+    <router-outlet />
+</main>
