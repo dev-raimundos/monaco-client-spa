@@ -28,7 +28,7 @@ export class PillarListComponent implements OnInit {
     ];
 
     totalItems = signal(0);
-    pageSize = signal(5);
+    pageSize = signal(10);
     currentPage = signal(1);
 
     ngOnInit(): void {
