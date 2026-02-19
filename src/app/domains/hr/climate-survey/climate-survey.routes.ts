@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { ClimateSurveyLayoutComponent } from './layout/climate-survey-layout/climate-survey-layout.component';
+import { ClimateSurveyLayoutComponent } from './ui/layout/climate-survey-layout/climate-survey-layout.component';
 
 export const CLIMATE_SURVEY_ROUTES: Routes = [
     {

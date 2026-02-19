@@ -22,20 +22,20 @@ export class PillarListComponent implements OnInit {
     protected readonly pillarService = inject(PillarService);
     private readonly dialog = inject(MatDialog);
 
-    readonly columns: TableColumn[] = [
+    public readonly columns: TableColumn[] = [
         { key: 'title', label: 'Título' },
         { key: 'description', label: 'Descrição' },
     ];
 
-    totalItems = signal(0);
-    pageSize = signal(10);
-    currentPage = signal(1);
+    public totalItems = signal(0);
+    public pageSize = signal(10);
+    public currentPage = signal(1);
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.loadData();
     }
 
-    loadData(): void {
+    private loadData(): void {
         this.pillarService
             .getPillarsPaginated(this.currentPage(), this.pageSize())
             .subscribe((res) => {
@@ -44,13 +44,13 @@ export class PillarListComponent implements OnInit {
             });
     }
 
-    handlePageEvent(e: PageEvent): void {
+    public handlePageEvent(e: PageEvent): void {
         this.currentPage.set(e.pageIndex + 1);
         this.pageSize.set(e.pageSize);
         this.loadData();
     }
 
-    onCreate(): void {
+    public onCreate(): void {
         const dialogRef = this.dialog.open(PillarFormComponent, {
             width: '500px',
             data: null,
@@ -65,7 +65,7 @@ export class PillarListComponent implements OnInit {
         });
     }
 
-    onEdit(pillar: Pillar): void {
+    public onEdit(pillar: Pillar): void {
         const dialogRef = this.dialog.open(PillarFormComponent, {
             width: '500px',
             data: pillar,
@@ -80,7 +80,7 @@ export class PillarListComponent implements OnInit {
         });
     }
 
-    onDelete(id: string): void {
+    public onDelete(id: string): void {
         const dialogRef = this.dialog.open(ConfirmDialogComponent, {
             data: {
                 title: 'Excluir Pilar',
