@@ -21,23 +21,23 @@ import { Pillar } from '../../models/pillars.model';
 export class PillarFormComponent implements OnInit {
     private readonly fb = inject(FormBuilder);
     private readonly dialogRef = inject(MatDialogRef<PillarFormComponent>);
-    readonly data: Pillar | null = inject(MAT_DIALOG_DATA, { optional: true });
+    public readonly data: Pillar | null = inject(MAT_DIALOG_DATA, { optional: true });
 
-    form = this.fb.group({
+    public readonly form = this.fb.group({
         title: ['', [Validators.required, Validators.minLength(3)]],
         description: ['', [Validators.required]],
     });
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         if (this.data) this.form.patchValue(this.data);
     }
 
-    save(): void {
+    public save(): void {
         if (this.form.valid) this.dialogRef.close(this.form.value);
         else this.form.markAllAsTouched();
     }
 
-    cancel(): void {
+    public cancel(): void {
         this.dialogRef.close();
     }
 }

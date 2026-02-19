@@ -83,6 +83,7 @@ import { TableColumn } from '../../models/table-config.model';
             <mat-paginator
                 [length]="totalItems()"
                 [pageSize]="pageSize()"
+                [pageIndex]="currentPage() - 1"
                 [pageSizeOptions]="[5, 10, 20]"
                 [showFirstLastButtons]="true"
                 (page)="pageChange.emit($event)"
