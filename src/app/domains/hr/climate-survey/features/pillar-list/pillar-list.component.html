@@ -9,10 +9,17 @@
     </div>
 
     @if (pillarService.loading()) {
-    <div class="flex justify-center p-10">Carregando...</div>
+        <div class="flex justify-center p-10">Carregando...</div>
     } @else {
-    <app-shared-table [data]="pillarService.pillars()" [columns]="columns" [totalItems]="totalItems()"
-        [pageSize]="pageSize()" [currentPage]="currentPage()" (edit)="onEdit($event)" (delete)="onDelete($event)"
-        (pageChange)="handlePageEvent($event)" />
+        <app-shared-table
+            [data]="pillarService.pillars()"
+            [columns]="columns"
+            [totalItems]="totalItems()"
+            [pageSize]="pageSize()"
+            [currentPage]="currentPage()"
+            (edit)="onEdit($event)"
+            (delete)="onDelete($event)"
+            (pageChange)="handlePageEvent($event)"
+        />
     }
 </div>

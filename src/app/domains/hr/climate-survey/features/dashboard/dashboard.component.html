@@ -5,10 +5,7 @@
             <p>Visão geral do sistema de pesquisa de clima organizacional</p>
         </div>
         <div class="flex gap-3">
-            <button
-                mat-stroked-button
-                (click)="onUpdate()"
-            >
+            <button mat-stroked-button (click)="onUpdate()">
                 <mat-icon class="mr-1">refresh</mat-icon> Atualizar
             </button>
             <button mat-stroked-button>
@@ -87,53 +84,21 @@
             </mat-card-header>
             <mat-card-content class="p-0!">
                 <mat-nav-list>
-                    <a
-                        mat-list-item
-                        href="javascript:void(0)"
-                        class="h-14!"
-                    >
+                    <a mat-list-item href="javascript:void(0)" class="h-14!">
                         <mat-icon matListItemIcon>add</mat-icon>
-                        <span
-                            matListItemTitle
-                            class="font-medium"
-                            >Criar Nova Pesquisa</span
-                        >
+                        <span matListItemTitle class="font-medium">Criar Nova Pesquisa</span>
                     </a>
-                    <a
-                        mat-list-item
-                        href="javascript:void(0)"
-                        class="h-14!"
-                    >
+                    <a mat-list-item href="javascript:void(0)" class="h-14!">
                         <mat-icon matListItemIcon>list_alt</mat-icon>
-                        <span
-                            matListItemTitle
-                            class="font-medium"
-                            >Ver Relatórios Detalhados</span
-                        >
+                        <span matListItemTitle class="font-medium">Ver Relatórios Detalhados</span>
                     </a>
-                    <a
-                        mat-list-item
-                        href="javascript:void(0)"
-                        class="h-14!"
-                    >
+                    <a mat-list-item href="javascript:void(0)" class="h-14!">
                         <mat-icon matListItemIcon>account_tree</mat-icon>
-                        <span
-                            matListItemTitle
-                            class="font-medium"
-                            >Gerenciar Pilares</span
-                        >
+                        <span matListItemTitle class="font-medium">Gerenciar Pilares</span>
                     </a>
-                    <a
-                        mat-list-item
-                        href="javascript:void(0)"
-                        class="h-14!"
-                    >
+                    <a mat-list-item href="javascript:void(0)" class="h-14!">
                         <mat-icon matListItemIcon>help_outline</mat-icon>
-                        <span
-                            matListItemTitle
-                            class="font-medium"
-                            >Configurar Perguntas</span
-                        >
+                        <span matListItemTitle class="font-medium">Configurar Perguntas</span>
                     </a>
                 </mat-nav-list>
             </mat-card-content>
@@ -146,7 +111,7 @@
             </mat-card-header>
             <mat-card-content class="flex flex-col items-center justify-center min-h-60">
                 @if (recentActivity.length === 0) {
-                    <p class="italic">Nenhuma pesquisa encontrada</p>
+                <p class="italic">Nenhuma pesquisa encontrada</p>
                 }
             </mat-card-content>
         </mat-card>
