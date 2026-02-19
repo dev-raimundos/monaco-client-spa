@@ -1,55 +1,25 @@
-<h2
-    mat-dialog-title
-    class="text-xl font-bold"
->
+<h2 mat-dialog-title class="text-xl font-bold">
     {{ data ? 'Editar' : 'Novo' }} Pilar
 </h2>
 <mat-dialog-content>
-    <form
-        [formGroup]="form"
-        class="flex flex-col gap-4 mt-2"
-    >
-        <mat-form-field
-            appearance="outline"
-            class="w-full"
-        >
+    <form [formGroup]="form" class="flex flex-col gap-4 mt-2">
+        <mat-form-field appearance="outline" class="w-full">
             <mat-label>Título</mat-label>
-            <input
-                matInput
-                formControlName="title"
-                placeholder="Ex: Comunicação"
-            />
+            <input matInput formControlName="title" placeholder="Ex: Comunicação" />
         </mat-form-field>
 
-        <mat-form-field
-            appearance="outline"
-            class="w-full"
-        >
+        <mat-form-field appearance="outline" class="w-full">
             <mat-label>Descrição</mat-label>
-            <textarea
-                matInput
-                formControlName="description"
-                rows="3"
-            ></textarea>
+            <textarea matInput formControlName="description" rows="3">
+            </textarea>
         </mat-form-field>
     </form>
 </mat-dialog-content>
-<mat-dialog-actions
-    align="end"
-    class="gap-2"
->
-    <button
-        mat-button
-        (click)="cancel()"
-    >
+<mat-dialog-actions align="end" class="gap-2">
+    <button mat-button (click)="cancel()">
         Cancelar
     </button>
-    <button
-        mat-flat-button
-        color="primary"
-        [disabled]="form.invalid"
-        (click)="save()"
-    >
+    <button mat-flat-button color="primary" [disabled]="form.invalid" (click)="save()">
         Salvar
     </button>
 </mat-dialog-actions>

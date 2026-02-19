@@ -20,6 +20,13 @@ export const CLIMATE_SURVEY_ROUTES: Routes = [
                         (m) => m.PillarListComponent,
                     ),
             },
+            {
+                path: 'form-builder',
+                loadComponent: () =>
+                    import('./features/form-builder/form-builder.component').then(
+                        (m) => m.FormBuilderComponent,
+                    ),
+            },
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
         ],
     },

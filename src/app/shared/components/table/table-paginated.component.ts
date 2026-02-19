@@ -12,72 +12,38 @@ import { TableColumn } from '../../models/table-config.model';
     imports: [CommonModule, MatTableModule, MatPaginatorModule, MatButtonModule, MatIconModule],
     template: `
         <div class="mat-elevation-z1 rounded-lg overflow-hidden">
-            <table
-                mat-table
-                [dataSource]="data()"
-            >
+            <table mat-table [dataSource]="data()">
                 @for (col of columns(); track col.key) {
                     <ng-container [matColumnDef]="col.key">
-                        <th
-                            mat-header-cell
-                            *matHeaderCellDef
-                            class="font-bold"
-                        >
+                        <th mat-header-cell *matHeaderCellDef class="font-bold">
                             {{ col.label }}
                         </th>
-                        <td
-                            mat-cell
-                            *matCellDef="let item"
-                        >
+                        <td mat-cell *matCellDef="let item">
                             {{ item[col.key] }}
                         </td>
                     </ng-container>
                 }
 
                 <ng-container matColumnDef="actions">
-                    <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        class="text-right font-bold"
-                    >
-                        Ações
-                    </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let item"
-                        class="text-right"
-                    >
+                    <th mat-header-cell *matHeaderCellDef class="text-right font-bold">Ações</th>
+                    <td mat-cell *matCellDef="let item" class="text-right">
                         <div class="flex justify-end gap-1">
-                            <button
-                                mat-icon-button
-                                color="primary"
-                                (click)="edit.emit(item)"
-                                title="Editar"
-                            >
+                            <button mat-icon-button color="primary" (click)="edit.emit(item)" title="Editar">
                                 <mat-icon>edit_square</mat-icon>
                             </button>
 
-                            <button
-                                mat-icon-button
-                                color="warn"
-                                (click)="delete.emit(item.id)"
-                                title="Excluir"
-                            >
+                            <button mat-icon-button color="warn" (click)="delete.emit(item.id)" title="Excluir">
                                 <mat-icon>delete</mat-icon>
                             </button>
                         </div>
                     </td>
                 </ng-container>
 
-                <tr
-                    mat-header-row
-                    *matHeaderRowDef="displayedColumns()"
-                ></tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
                 <tr
                     mat-row
                     *matRowDef="let row; columns: displayedColumns()"
-                    class="hover:bg-surface-variant/5 transition-colors"
-                ></tr>
+                    class="hover:bg-surface-variant/5 transition-colors"></tr>
             </table>
 
             <mat-paginator
@@ -86,8 +52,7 @@ import { TableColumn } from '../../models/table-config.model';
                 [pageIndex]="currentPage() - 1"
                 [pageSizeOptions]="[5, 10, 20]"
                 [showFirstLastButtons]="true"
-                (page)="pageChange.emit($event)"
-            />
+                (page)="pageChange.emit($event)" />
         </div>
     `,
     styles: [

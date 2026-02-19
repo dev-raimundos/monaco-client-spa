@@ -1,16 +1,12 @@
-<div
-    class="flex h-screen w-screen flex-col items-center justify-center bg-background text-foreground p-6 text-center"
->
+<div class="flex h-screen w-screen flex-col items-center justify-center bg-background text-foreground p-6 text-center">
     <span class="material-symbols-rounded text-6xl text-destructive mb-4">cloud_off</span>
     <h1 class="text-2xl font-bold tracking-tight mb-2">Conexão Perdida</h1>
     <p class="text-muted-foreground max-w-md mb-6">
         Não conseguimos nos comunicar com o servidor do Grupo Mônaco. Verifique sua conexão ou tente
         novamente mais tarde.
     </p>
-    <button
-        (click)="retry()"
-        class="rounded-lg bg-primary px-4 py-2 text-primary-foreground font-bold hover:opacity-90 transition-all"
-    >
+    <button (click)="retry()"
+        class="rounded-lg bg-primary px-4 py-2 text-primary-foreground font-bold hover:opacity-90 transition-all">
         Tentar Novamente
     </button>
 </div>

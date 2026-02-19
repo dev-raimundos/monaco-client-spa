@@ -20,6 +20,7 @@ import { TableColumn } from '@shared/models/table-config.model';
 })
 export class PillarListComponent implements OnInit {
     protected readonly pillarService = inject(PillarService);
+
     private readonly dialog = inject(MatDialog);
 
     public readonly columns: TableColumn[] = [
@@ -36,12 +37,10 @@ export class PillarListComponent implements OnInit {
     }
 
     private loadData(): void {
-        this.pillarService
-            .getPillarsPaginated(this.currentPage(), this.pageSize())
-            .subscribe((res) => {
-                this.totalItems.set(res.total);
-                this.currentPage.set(res.current_page);
-            });
+        this.pillarService.getPillarsPaginated(this.currentPage(), this.pageSize()).subscribe((res) => {
+            this.totalItems.set(res.total);
+            this.currentPage.set(res.current_page);
+        });
     }
 
     public handlePageEvent(e: PageEvent): void {

@@ -2,28 +2,17 @@
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold">Pilares da Pesquisa</h1>
 
-        <button
-            mat-flat-button
-            color="primary"
-            (click)="onCreate()"
-        >
+        <button mat-flat-button color="primary" (click)="onCreate()">
             <mat-icon>add</mat-icon>
             Novo Pilar
         </button>
     </div>
 
     @if (pillarService.loading()) {
-        <div class="flex justify-center p-10">Carregando...</div>
+    <div class="flex justify-center p-10">Carregando...</div>
     } @else {
-        <app-shared-table
-            [data]="pillarService.pillars()"
-            [columns]="columns"
-            [totalItems]="totalItems()"
-            [pageSize]="pageSize()"
-            [currentPage]="currentPage()"
-            (edit)="onEdit($event)"
-            (delete)="onDelete($event)"
-            (pageChange)="handlePageEvent($event)"
-        />
+    <app-shared-table [data]="pillarService.pillars()" [columns]="columns" [totalItems]="totalItems()"
+        [pageSize]="pageSize()" [currentPage]="currentPage()" (edit)="onEdit($event)" (delete)="onDelete($event)"
+        (pageChange)="handlePageEvent($event)" />
     }
 </div>

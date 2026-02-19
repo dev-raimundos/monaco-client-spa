@@ -24,14 +24,12 @@ export interface NavItem {
                     matRipple
                     (click)="toggle()"
                     class="group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm transition-all duration-300 relative overflow-hidden"
-                    [class.bg-white/5]="isOpen()"
-                >
+                    [class.bg-white/5]="isOpen()">
                     @if (item().icon) {
                         <mat-icon
                             class="w-5.5! h-5.5! text-[22px]! transition-colors"
                             [class.text-monaco-yellow]="isOpen()"
-                            [class.text-white/60]="!isOpen()"
-                        >
+                            [class.text-white/60]="!isOpen()">
                             {{ item().icon }}
                         </mat-icon>
                     }
@@ -39,8 +37,7 @@ export interface NavItem {
                     <span
                         class="flex-1 font-medium leading-tight transition-colors"
                         [class.text-white]="isOpen()"
-                        [class.text-white/60]="!isOpen()"
-                    >
+                        [class.text-white/60]="!isOpen()">
                         {{ item().label }}
                     </span>
 
@@ -48,8 +45,7 @@ export interface NavItem {
                         class="w-4.5! h-4.5! text-[18px]! transition-all duration-500"
                         [class.rotate-180]="isOpen()"
                         [class.text-monaco-yellow]="isOpen()"
-                        [class.text-white/20]="!isOpen()"
-                    >
+                        [class.text-white/20]="!isOpen()">
                         expand_more
                     </mat-icon>
                 </button>
@@ -60,8 +56,7 @@ export interface NavItem {
                     [class.border-monaco-yellow/40]="isOpen()"
                     [class.border-white/10]="!isOpen()"
                     [class.opacity-100]="isOpen()"
-                    [class.opacity-0]="!isOpen()"
-                >
+                    [class.opacity-0]="!isOpen()">
                     <div class="min-h-0">
                         <div class="pl-2 py-1 space-y-1">
                             @for (child of item().children; track child.label) {
@@ -78,22 +73,19 @@ export interface NavItem {
                     [routerLinkActiveOptions]="{ exact: true }"
                     matRipple
                     class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all duration-200 hover:bg-white/5 relative overflow-hidden"
-                    [class.bg-monaco-yellow/10]="rla.isActive"
-                >
+                    [class.bg-monaco-yellow/10]="rla.isActive">
                     @if (item().icon) {
                         <mat-icon
                             class="w-5.5! h-5.5! text-[22px]! transition-colors"
                             [class.text-monaco-yellow]="rla.isActive"
-                            [class.text-white/60]="!rla.isActive"
-                        >
+                            [class.text-white/60]="!rla.isActive">
                             {{ item().icon }}
                         </mat-icon>
                     }
                     <span
                         class="font-medium leading-tight transition-colors"
                         [class.text-white]="rla.isActive"
-                        [class.text-white/60]="!rla.isActive"
-                    >
+                        [class.text-white/60]="!rla.isActive">
                         {{ item().label }}
                     </span>
                 </a>

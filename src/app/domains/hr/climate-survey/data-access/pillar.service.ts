@@ -1,12 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, tap, finalize } from 'rxjs';
-import {
-    Pillar,
-    CreatePillarDto,
-    PillarsPaginated,
-    SiglePillarResponse,
-} from '../models/pillars.model';
+import { Pillar, CreatePillarDto, PillarsPaginated, SiglePillarResponse } from '../models/pillars.model';
 
 @Injectable({ providedIn: 'root' })
 export class PillarService {
@@ -31,9 +26,7 @@ export class PillarService {
      * @returns Observable contendo os metadados de paginação e a lista de pilares.
      */
     public getPillarsPaginated(page: number, perPage: number): Observable<PillarsPaginated> {
-        const params = new HttpParams()
-            .set('page', page.toString())
-            .set('per_page', perPage.toString());
+        const params = new HttpParams().set('page', page.toString()).set('per_page', perPage.toString());
 
         this._loading.set(true);
 

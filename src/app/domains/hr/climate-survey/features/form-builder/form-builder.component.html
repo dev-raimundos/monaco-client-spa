@@ -1,0 +1,73 @@
+<div class="max-w-4xl mx-auto mt-4" [formGroup]="form">
+    <header>
+        <h1 class="text-2xl font-bold mb-2">Criação de Formulário</h1>
+
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Título do Formulário</mat-label>
+            <input matInput formControlName="title" />
+            <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+    </header>
+
+    <div formArrayName="questions" class="space-y-3">
+        @for (question of questions.controls; track $index) {
+        <mat-card [formGroupName]="$index" class="shadow-sm hover:shadow-md transition-shadow">
+            <mat-card-content class="p-4">
+                <div class="flex justify-between items-center mb-2">
+                    <div class="flex items-center gap-2">
+                        <span
+                            class="flex items-center justify-center w-6 h-6 rounded-full font-bold text-xs opacity-70">
+                            {{ $index + 1 }}
+                        </span>
+                        <span class="text-xs font-medium uppercase tracking-wide opacity-60">
+                            Pergunta
+                        </span>
+                    </div>
+
+                    <button mat-icon-button color="warn" type="button" (click)="removeQuestion($index)"
+                        matTooltip="Remover pergunta" class="scale-90">
+                        <mat-icon>delete_outline</mat-icon>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div class="md:col-span-2">
+                        <mat-form-field appearance="fill" class="w-full">
+                            <mat-label>Enunciado da Pergunta</mat-label>
+                            <input matInput formControlName="text" placeholder="Digite sua pergunta" />
+                        </mat-form-field>
+                    </div>
+
+                    <div class="md:col-span-1">
+                        <mat-form-field appearance="fill" class="w-full">
+                            <mat-label>Tipo de Resposta</mat-label>
+                            <mat-select formControlName="type">
+                                <mat-option value="short_answer">Dissertativo</mat-option>
+                                <mat-option value="multiple_choice">Múltipla Escolha</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        } @empty {
+        <div class="text-center py-8 opacity-20 rounded-xl">
+            <mat-icon class="scale-150 mb-2">quiz</mat-icon>
+            <p class="text-sm">Nenhuma pergunta adicionada ainda.</p>
+        </div>
+        }
+    </div>
+
+    <footer class="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4 p-4 rounded-xl">
+        <button mat-stroked-button color="primary" type="button" (click)="addQuestion()" class="w-full sm:w-auto">
+            <mat-icon>add_circle_outline</mat-icon>
+            <span class="ml-2">Adicionar Pergunta</span>
+        </button>
+
+        <button mat-raised-button color="primary" [disabled]="form.invalid || questions.length === 0"
+            (click)="onSubmit()" class="w-full sm:w-auto px-6!">
+            <mat-icon>send</mat-icon>
+            <span class="ml-2">Salvar</span>
+        </button>
+    </footer>
+</div>
