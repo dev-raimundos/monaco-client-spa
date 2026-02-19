@@ -10,53 +10,64 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class PillarService {
+    // Injeção de dependência
     private readonly http = inject(HttpClient);
+
+    // Endpoint do serviço
     private readonly ENDPOINT = '/api/formmanagement/pillars';
 
-    pillars = signal<Pillar[]>([]);
-    loading = signal<boolean>(false);
+    // Privado
+    private readonly _pillars = signal<Pillar[]>([]);
+    private readonly _loading = signal<boolean>(false);
+
+    // Público
+    public readonly pillars = this._pillars.asReadonly();
+    public readonly loading = this._loading.asReadonly();
 
     /**
-     * Retorna uma lista paginada de pilares da pesquisa de clima
-     * @param page
-     * @param perPage
-     * @returns
+     * Busca uma lista paginada de pilares no backend.
+     * @param page O número da página (iniciando em 1 para padrão Laravel).
+     * @param perPage A quantidade de registros por página.
+     * @returns Observable contendo os metadados de paginação e a lista de pilares.
      */
-    getPillarsPaginated(page: number, perPage: number): Observable<PillarsPaginated> {
-        const params = new HttpParams().set('page', page).set('per_page', perPage);
-        this.loading.set(true);
+    public getPillarsPaginated(page: number, perPage: number): Observable<PillarsPaginated> {
+        const params = new HttpParams()
+            .set('page', page.toString())
+            .set('per_page', perPage.toString());
+
+        this._loading.set(true);
 
         return this.http.get<PillarsPaginated>(this.ENDPOINT, { params }).pipe(
-            tap((res) => this.pillars.set(res.data)),
-            finalize(() => this.loading.set(false)),
+            tap((res) => this._pillars.set(res.data)),
+            finalize(() => this._loading.set(false)),
         );
     }
 
     /**
-     * Cria um novo pilar
-     * @param data
-     * @returns
+     * Envia os dados para a criação de um novo pilar.
+     * @param data Objeto contendo os dados do pilar (título e descrição).
+     * @returns Observable com a resposta do pilar criado.
      */
-    create(data: CreatePillarDto): Observable<SiglePillarResponse> {
+    public create(data: CreatePillarDto): Observable<SiglePillarResponse> {
         return this.http.post<SiglePillarResponse>(this.ENDPOINT, data);
     }
 
     /**
-     * Atualiza um pilar identificado pelo ID
-     * @param id
-     * @param data
-     * @returns
+     * Atualiza um pilar existente identificado pelo seu UUID.
+     * @param id O identificador único do pilar.
+     * @param data Dados parciais ou totais para atualização.
+     * @returns Observable com a resposta do pilar atualizado.
      */
-    update(id: string, data: Partial<CreatePillarDto>): Observable<SiglePillarResponse> {
+    public update(id: string, data: Partial<CreatePillarDto>): Observable<SiglePillarResponse> {
         return this.http.put<SiglePillarResponse>(`${this.ENDPOINT}/${id}`, data);
     }
 
     /**
-     * Deleta um pilar existente dado o seu ID
-     * @param id
-     * @returns
+     * Remove permanentemente um pilar do sistema.
+     * @param id O identificador único do pilar a ser excluído.
+     * @returns Observable vazio indicando o sucesso da operação.
      */
-    delete(id: string): Observable<void> {
+    public delete(id: string): Observable<void> {
         return this.http.delete<void>(`${this.ENDPOINT}/${id}`);
     }
 }
