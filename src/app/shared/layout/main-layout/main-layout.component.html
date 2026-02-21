@@ -1,92 +1,70 @@
 <div class="flex h-screen w-screen overflow-hidden bg-background font-sans text-foreground">
-    <aside
-        class="sidebar-dark flex w-64 shrink-0 flex-col border-r border-white/10 bg-sidebar text-white"
-    >
+    <aside class="sidebar-dark flex w-64 shrink-0 flex-col border-r border-white/10 bg-sidebar text-white">
         <div class="p-8 pb-4">
-            <h1
-                class="flex items-center gap-2 text-left text-xl font-bold leading-none tracking-tight"
-            >
-                <img
-                    src="/companyLogo.svg"
-                    alt="Logo Grupo Mônaco"
-                    class="h-[1em] w-auto"
-                />
+            <h1 class="flex items-center gap-2 text-left text-xl font-bold leading-none tracking-tight">
+                <img src="/companyLogo.svg" alt="Logo Grupo Mônaco" class="h-[1em] w-auto" />
                 <span>SisMônaco</span>
             </h1>
         </div>
 
         <nav class="flex-1 space-y-1 overflow-y-auto px-4 py-4 custom-scrollbar">
             @for (item of navigation(); track item.label) {
-                <app-nav-item [item]="item" />
+            <app-nav-item [item]="item" />
             }
         </nav>
 
         <div class="relative border-t border-white/10 p-4">
             @if (isProfileMenuOpen()) {
+            <div
+                class="absolute bottom-full left-4 right-4 mb-3 z-50 flex flex-col overflow-hidden rounded-xl border border-white/10 shadow-2xl bg-[#1e1e1e]">
                 <div
-                    class="absolute bottom-full left-4 right-4 mb-3 z-50 flex flex-col overflow-hidden rounded-xl border border-white/10 shadow-2xl bg-[#1e1e1e]"
-                >
-                    <div
-                        class="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-gray-500 border-b border-white/5 bg-white/5"
-                    >
-                        {{ user()?.company || 'grupo mônaco' }}
-                    </div>
-
-                    <div class="p-1.5 flex flex-col gap-0.5">
-                        <button
-                            (click)="setTheme('light'); toggleProfileMenu()"
-                            class="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm transition-all hover:bg-monaco-yellow/10 hover:text-white group"
-                            [class.text-monaco-yellow]="themeMode() === 'light'"
-                            [class.text-gray-400]="themeMode() !== 'light'"
-                        >
-                            <mat-icon class="text-lg! transition-colors">light_mode</mat-icon>
-                            <span class="font-medium">tema claro</span>
-                        </button>
-
-                        <button
-                            (click)="setTheme('dark'); toggleProfileMenu()"
-                            class="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm transition-all hover:bg-monaco-yellow/10 hover:text-white group"
-                            [class.text-monaco-yellow]="themeMode() === 'dark'"
-                            [class.text-gray-400]="themeMode() !== 'dark'"
-                        >
-                            <mat-icon class="text-lg! transition-colors">dark_mode</mat-icon>
-                            <span class="font-medium">tema escuro</span>
-                        </button>
-
-                        <div class="my-1.5 border-t border-white/5"></div>
-
-                        <button
-                            (click)="onLogout()"
-                            class="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm text-red-400 transition-all hover:bg-red-500/10 hover:text-red-300"
-                        >
-                            <mat-icon class="text-lg! transition-colors">logout</mat-icon>
-                            <span class="font-bold uppercase">sair</span>
-                        </button>
-                    </div>
+                    class="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-gray-500 border-b border-white/5 bg-white/5">
+                    {{ user()?.company || 'grupo mônaco' }}
                 </div>
 
-                <div
-                    class="fixed inset-0 z-40 bg-black/40"
-                    (click)="toggleProfileMenu()"
-                ></div>
+                <div class="p-1.5 flex flex-col gap-0.5">
+                    <button (click)="setTheme('light'); toggleProfileMenu()"
+                        class="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm transition-all hover:bg-white/5 hover:text-white group"
+                        [class.text-white]="themeMode() === 'light'" [class.text-gray-400]="themeMode() !== 'light'">
+                        <mat-icon class="text-lg! transition-colors" [class.text-white]="themeMode() === 'light'">
+                            light_mode
+                        </mat-icon>
+                        <span class="font-medium">tema claro</span>
+                    </button>
+
+                    <button (click)="setTheme('dark'); toggleProfileMenu()"
+                        class="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm transition-all hover:bg-white/5 hover:text-white group"
+                        [class.text-white]="themeMode() === 'dark'" [class.text-gray-400]="themeMode() !== 'dark'">
+                        <mat-icon class="text-lg! transition-colors" [class.text-white]="themeMode() === 'dark'">
+                            dark_mode
+                        </mat-icon>
+                        <span class="font-medium">tema escuro</span>
+                    </button>
+
+                    <div class="my-1.5 border-t border-white/5"></div>
+
+                    <button (click)="onLogout()"
+                        class="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm text-red-400 transition-all hover:bg-red-500/10 hover:text-red-300">
+                        <mat-icon class="text-lg! transition-colors">logout</mat-icon>
+                        <span class="font-bold uppercase">sair</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="fixed inset-0 z-40 bg-black/40" (click)="toggleProfileMenu()"></div>
             }
 
-            <button
-                (click)="toggleProfileMenu()"
-                matRipple
+            <button (click)="toggleProfileMenu()" matRipple
                 class="relative z-50 flex min-h-14 w-full items-center gap-2 rounded-xl px-2 text-left hover:bg-white/5 group"
-                [class.bg-white/10]="isProfileMenuOpen()"
-            >
+                [class.bg-white/10]="isProfileMenuOpen()">
+
                 <div
-                    class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-black font-bold text-[10px]"
-                >
+                    class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-black font-bold text-[10px]">
                     {{ userInitials() }}
                 </div>
 
                 <div class="flex min-w-0 flex-1 flex-col justify-center">
-                    <span
-                        class="truncate text-sm font-medium text-white group-hover:text-monaco-yellow transition-colors"
-                    >
+                    <span class="truncate text-sm font-medium text-white transition-colors">
                         {{ displayName() }}
                     </span>
                     <span class="truncate text-[9px] text-gray-500 uppercase font-medium">
@@ -94,10 +72,8 @@
                     </span>
                 </div>
 
-                <mat-icon
-                    class="text-white/20 text-base! transition-transform duration-500"
-                    [class.rotate-180]="isProfileMenuOpen()"
-                >
+                <mat-icon class="text-white/20 text-base! transition-transform duration-500"
+                    [class.rotate-180]="isProfileMenuOpen()">
                     keyboard_arrow_up
                 </mat-icon>
             </button>
