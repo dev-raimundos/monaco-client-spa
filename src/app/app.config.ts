@@ -14,7 +14,7 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import Aura from '@primeuix/themes/aura';
 import { routes } from './app.routes';
 import { apiInterceptor } from '@core/interceptors/api.interceptor';
-import { errorInterceptor } from '@core/interceptors/auth.interceptor';
+import { errorInterceptor } from '@core/interceptors/error.interceptor';
 import { AuthService } from '@core/services/auth.service';
 
 export const appConfig: ApplicationConfig = {
