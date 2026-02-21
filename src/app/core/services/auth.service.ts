@@ -1,12 +1,12 @@
+// auth.service.ts
 import { inject, Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs';
+import { catchError, finalize, map, switchMap, tap } from 'rxjs';
 import { environment } from '@env';
 import { LaravelResponse } from '@shared/models/api.model';
 import { LoginResponse, LoginCredentials, UserProfile } from '@shared/models/auth.model';
-import { NotificationService } from './notification.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -18,24 +18,14 @@ export class AuthService {
     private _user = signal<UserProfile | null>(null);
     readonly user = this._user.asReadonly();
     readonly isAuthenticated = computed(() => !!this._user());
-    public loadError = signal(false);
-    private notification = inject(NotificationService);
+    readonly loadError = signal(false);
 
-    /**
-     * Dado o payload de login, recebe o access_token e e redireciona para a rota /dashboard
-     * @param credentials
-     * @returns Token JWT
-     */
     login(credentials: LoginCredentials): Observable<UserProfile> {
         return this.http
-            .post<
-                LaravelResponse<LoginResponse>
-            >(`${this.BASE_URL}/authentication/login`, credentials)
+            .post<LaravelResponse<LoginResponse>>(`${this.BASE_URL}/authentication/login`, credentials)
             .pipe(
                 switchMap(() => this.loadProfile()),
-                tap(() => {
-                    this.router.navigate(['/dashboard']);
-                }),
+                tap(() => this.router.navigate(['/dashboard'])),
             );
     }
 
@@ -59,21 +49,20 @@ export class AuthService {
                 return safeUser;
             }),
             catchError((err) => {
-                if (err.status === 0) this.loadError.set(true);
+                if (err.status === 0 || err.status >= 500) {
+                    this.loadError.set(true);
+                }
                 return throwError(() => err);
             }),
         );
     }
 
     logout(): void {
-        this.handleUnauthorized();
-
-        this.http.post(`${this.BASE_URL}/authentication/logout`, {}).subscribe({
-            next: () => console.log('Sessão encerrada no backend.'),
-            error: () => console.warn('Aviso: Falha ao invalidar cookie no servidor.'),
-        });
+        this.http
+            .post(`${this.BASE_URL}/authentication/logout`, {})
+            .pipe(finalize(() => this.handleUnauthorized()))
+            .subscribe();
     }
-
 
     handleUnauthorized(): void {
         this._user.set(null);
