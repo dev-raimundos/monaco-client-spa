@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -13,6 +13,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormBuilderService } from '../../data-access/form-builder.service';
 import { CreateSurveyDto, CreateQuestionDto } from '../../models/form-builder.model';
 import { handleHttpError } from '@shared/operators/handle-error.operator';
+import { PillarService } from '../../data-access/pillar.service';
+import { Pillar } from '../../models/pillars.model';
 
 @Component({
     selector: 'app-form-builder',
@@ -32,12 +34,37 @@ import { handleHttpError } from '@shared/operators/handle-error.operator';
     templateUrl: './form-builder.component.html',
     styleUrl: './form-builder.component.css',
 })
-export class FormBuilderComponent {
+export class FormBuilderComponent implements OnInit {
     private readonly fb = inject(FormBuilder);
-    private readonly service = inject(FormBuilderService);
+    private readonly formBuilderService = inject(FormBuilderService);
+    private readonly pillarService = inject(PillarService);
     private readonly snackBar = inject(MatSnackBar);
 
     public readonly loading = signal<boolean>(false);
+
+    public readonly pillars = signal<Pillar[]>([]);
+    public readonly loadingPillars = signal<boolean>(false);
+
+    public ngOnInit(): void {
+        this.loadPillars();
+    }
+
+    private loadPillars(): void {
+        this.loadingPillars.set(true);
+
+        this.pillarService
+            .getAll()
+            .pipe(
+                handleHttpError(this.snackBar, {
+                    fallback: 'Erro ao carregar os pilares.',
+                    onError: () => this.loadingPillars.set(false),
+                }),
+            )
+            .subscribe({
+                next: (result) => this.pillars.set(result.data),
+                complete: () => this.loadingPillars.set(false),
+            });
+    }
 
     public readonly form = this.fb.group({
         title: ['', Validators.required],
@@ -52,6 +79,7 @@ export class FormBuilderComponent {
         const questionForm: FormGroup = this.fb.group({
             text: ['', Validators.required],
             type: ['multiple', Validators.required],
+            pilar_id: [null, Validators.required],
         });
         this.questions.push(questionForm);
     }
@@ -72,7 +100,7 @@ export class FormBuilderComponent {
 
         this.loading.set(true);
 
-        this.service
+        this.formBuilderService
             .create(payload)
             .pipe(
                 handleHttpError(this.snackBar, {

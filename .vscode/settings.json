@@ -29,4 +29,12 @@
         ]
     ],
     "typescript.tsdk": "node_modules/typescript/lib",
+    "editor.inlayHints.padding": true,
+    "editor.inlayHints.maximumLength": 120,
+    "typescript.format.placeOpenBraceOnNewLineForFunctions": true,
+    "typescript.format.placeOpenBraceOnNewLineForControlBlocks": true,
+    "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
+    "typescript.inlayHints.parameterNames.enabled": "all",
+    "typescript.inlayHints.parameterTypes.enabled": true,
+    "typescript.inlayHints.variableTypes.enabled": true,
 }

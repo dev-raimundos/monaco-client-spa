@@ -2,11 +2,12 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, tap, finalize } from 'rxjs';
 import { Pillar, CreatePillarDto, PillarsPaginated, SiglePillarResponse } from '../models/pillars.model';
+import { LaravelResponse } from '@shared/models/api.model';
 
 @Injectable({ providedIn: 'root' })
 export class PillarService {
     private readonly http = inject(HttpClient);
-    private readonly ENDPOINT = '/api/formmanagement/pillars';
+    private readonly ENDPOINT = '/api/hr/form-management/pillars';
     private readonly _pillars = signal<Pillar[]>([]);
     private readonly _loading = signal<boolean>(false);
     public readonly pillars = this._pillars.asReadonly();
@@ -21,6 +22,10 @@ export class PillarService {
             tap((res) => this._pillars.set(res.data)),
             finalize(() => this._loading.set(false)),
         );
+    }
+
+    public getAll(): Observable<LaravelResponse<Pillar[]>> {
+        return this.http.get<LaravelResponse<Pillar[]>>(this.ENDPOINT + '/all');
     }
 
     public create(data: CreatePillarDto): Observable<SiglePillarResponse> {

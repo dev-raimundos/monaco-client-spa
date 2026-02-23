@@ -31,10 +31,25 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <div class="md:col-span-2">
+                    <div class="md:col-span-3">
                         <mat-form-field appearance="fill" class="w-full">
                             <mat-label>Enunciado da Pergunta</mat-label>
                             <input matInput formControlName="text" placeholder="Digite sua pergunta" />
+                        </mat-form-field>
+                    </div>
+
+                    <div class="md:col-span-1">
+                        <mat-form-field appearance="fill" class="w-full">
+                            <mat-label>Pilar</mat-label>
+                            <mat-select formControlName="pilar_id">
+                                @if (loadingPillars()) {
+                                <mat-option disabled>Carregando...</mat-option>
+                                } @else {
+                                @for (pilar of pillars(); track pilar.id) {
+                                <mat-option [value]="pilar.id">{{ pilar.title }}</mat-option>
+                                }
+                                }
+                            </mat-select>
                         </mat-form-field>
                     </div>
 
@@ -59,8 +74,8 @@
     </div>
 
     <footer class="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4 p-4 rounded-xl">
-        <button mat-stroked-button color="primary" type="button" (click)="addQuestion()" [disabled]="loading()"
-            class="w-full sm:w-auto">
+        <button mat-stroked-button color="primary" type="button" (click)="addQuestion()"
+            [disabled]="loading() || loadingPillars()" class="w-full sm:w-auto">
             <mat-icon>add_circle_outline</mat-icon>
             <span class="ml-2">Adicionar Pergunta</span>
         </button>

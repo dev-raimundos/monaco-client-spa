@@ -29,7 +29,7 @@ export interface ClimateSurvey {
 export interface CreateQuestionDto {
     text: string;
     type: QuestionType;
-    options?: string[];
+    pilar_id: number;
 }
 
 export interface CreateSurveyDto {
