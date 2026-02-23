@@ -10,25 +10,25 @@ export class FormBuilderService {
     private readonly http = inject(HttpClient);
     private readonly API = '/api/hr/form-management/form-builder';
 
-    list(perPage: number = 15, page: number = 1): Observable<SurveyPaginatedResponse> {
+    public list(perPage: number = 15, page: number = 1): Observable<SurveyPaginatedResponse> {
         const params = new HttpParams().set('per_page', perPage.toString()).set('page', page.toString());
 
         return this.http.get<SurveyPaginatedResponse>(this.API, { params });
     }
 
-    findById(id: string): Observable<SingleSurveyResponse> {
+    public findById(id: string): Observable<SingleSurveyResponse> {
         return this.http.get<SingleSurveyResponse>(`${this.API}/${id}`);
     }
 
-    create(data: CreateSurveyDto): Observable<SingleSurveyResponse> {
+    public create(data: CreateSurveyDto): Observable<SingleSurveyResponse> {
         return this.http.post<SingleSurveyResponse>(this.API, data);
     }
 
-    update(id: string, data: CreateSurveyDto): Observable<SingleSurveyResponse> {
+    public update(id: string, data: CreateSurveyDto): Observable<SingleSurveyResponse> {
         return this.http.put<SingleSurveyResponse>(`${this.API}/${id}`, data);
     }
 
-    delete(id: string): Observable<void> {
+    public delete(id: string): Observable<void> {
         return this.http.delete<void>(`${this.API}/${id}`);
     }
 }

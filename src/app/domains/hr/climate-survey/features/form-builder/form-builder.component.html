@@ -59,15 +59,20 @@
     </div>
 
     <footer class="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4 p-4 rounded-xl">
-        <button mat-stroked-button color="primary" type="button" (click)="addQuestion()" class="w-full sm:w-auto">
+        <button mat-stroked-button color="primary" type="button" (click)="addQuestion()" [disabled]="loading()"
+            class="w-full sm:w-auto">
             <mat-icon>add_circle_outline</mat-icon>
             <span class="ml-2">Adicionar Pergunta</span>
         </button>
 
-        <button mat-raised-button color="primary" [disabled]="form.invalid || questions.length === 0"
+        <button mat-raised-button color="primary" [disabled]="form.invalid || questions.length === 0 || loading()"
             (click)="onSubmit()" class="w-full sm:w-auto px-6!">
+            @if (loading()) {
+            <mat-spinner diameter="18" class="mr-2" />
+            } @else {
             <mat-icon>send</mat-icon>
-            <span class="ml-2">Salvar</span>
+            }
+            <span class="ml-2">{{ loading() ? 'Salvando...' : 'Salvar' }}</span>
         </button>
     </footer>
 </div>
