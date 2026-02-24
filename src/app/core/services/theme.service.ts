@@ -1,18 +1,20 @@
-import { Injectable, signal, effect, inject, OnDestroy } from '@angular/core';
+import { Injectable, signal, effect, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { OverlayContainer } from '@angular/cdk/overlay';
+import { DestroyRef } from '@angular/core';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 
 @Injectable({ providedIn: 'root' })
-export class ThemeService implements OnDestroy {
-    private _document = inject(DOCUMENT);
-    private _overlay = inject(OverlayContainer);
-    private _mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+export class ThemeService {
+    private readonly _document = inject(DOCUMENT);
+    private readonly _overlay = inject(OverlayContainer);
+    private readonly _destroyRef = inject(DestroyRef);
+    private readonly _mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
-    public themeMode = signal<ThemeMode>((localStorage.getItem('theme') as ThemeMode) || 'system');
+    public readonly themeMode = signal<ThemeMode>((localStorage.getItem('theme') as ThemeMode) ?? 'system');
 
-    public isDark = signal<boolean>(false);
+    public readonly isDark = signal<boolean>(false);
 
     constructor() {
         effect(() => {
@@ -21,7 +23,12 @@ export class ThemeService implements OnDestroy {
             this._updateThemeState();
         });
 
-        this._mediaQuery.addEventListener('change', this._handleSystemChange.bind(this));
+        const handler = this._handleSystemChange.bind(this);
+        this._mediaQuery.addEventListener('change', handler);
+
+        this._destroyRef.onDestroy(() => {
+            this._mediaQuery.removeEventListener('change', handler);
+        });
     }
 
     public setTheme(mode: ThemeMode): void {
@@ -54,9 +61,5 @@ export class ThemeService implements OnDestroy {
             root.classList.remove('dark');
             overlayContainer.classList.remove('dark');
         }
-    }
-
-    ngOnDestroy(): void {
-        this._mediaQuery.removeEventListener('change', this._handleSystemChange);
     }
 }

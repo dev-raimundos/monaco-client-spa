@@ -1,5 +1,4 @@
 import { Component, input, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,7 +15,7 @@ export interface NavItem {
 @Component({
     selector: 'app-nav-item',
     standalone: true,
-    imports: [CommonModule, RouterModule, MatButtonModule, MatIconModule, MatRippleModule],
+    imports: [RouterModule, MatButtonModule, MatIconModule, MatRippleModule],
     template: `
         <div class="flex flex-col">
             @if (item().children && item().children!.length > 0) {
@@ -105,10 +104,11 @@ export interface NavItem {
     ],
 })
 export class NavItemComponent {
-    item = input.required<NavItem>();
-    public isOpen = signal(false);
+    public readonly isOpen = signal<boolean>(false);
 
-    toggle() {
+    public readonly item = input.required<NavItem>();
+
+    public toggle(): void {
         this.isOpen.update((v) => !v);
     }
 }
