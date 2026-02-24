@@ -7,7 +7,7 @@ import { LaravelResponse } from '@shared/models/api.model';
 @Injectable({ providedIn: 'root' })
 export class PillarService {
     private readonly http = inject(HttpClient);
-    private readonly ENDPOINT = '/api/hr/form-management/pillars';
+    private readonly API = '/api/hr/form-management/pillars';
     private readonly _pillars = signal<Pillar[]>([]);
     private readonly _loading = signal<boolean>(false);
     public readonly pillars = this._pillars.asReadonly();
@@ -18,25 +18,25 @@ export class PillarService {
 
         this._loading.set(true);
 
-        return this.http.get<PillarsPaginated>(this.ENDPOINT, { params }).pipe(
+        return this.http.get<PillarsPaginated>(this.API, { params }).pipe(
             tap((res) => this._pillars.set(res.data)),
             finalize(() => this._loading.set(false)),
         );
     }
 
     public getAll(): Observable<LaravelResponse<Pillar[]>> {
-        return this.http.get<LaravelResponse<Pillar[]>>(this.ENDPOINT + '/all');
+        return this.http.get<LaravelResponse<Pillar[]>>(this.API + '/all');
     }
 
     public create(data: CreatePillarDto): Observable<SiglePillarResponse> {
-        return this.http.post<SiglePillarResponse>(this.ENDPOINT, data);
+        return this.http.post<SiglePillarResponse>(this.API, data);
     }
 
     public update(id: string, data: Partial<CreatePillarDto>): Observable<SiglePillarResponse> {
-        return this.http.put<SiglePillarResponse>(`${this.ENDPOINT}/${id}`, data);
+        return this.http.put<SiglePillarResponse>(`${this.API}/${id}`, data);
     }
 
     public delete(id: string): Observable<void> {
-        return this.http.delete<void>(`${this.ENDPOINT}/${id}`);
+        return this.http.delete<void>(`${this.API}/${id}`);
     }
 }

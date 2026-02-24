@@ -1,6 +1,6 @@
 <div class="p-6">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold">Pilares da Pesquisa</h1>
+        <h1 class="text-3xl font-bold">Pilares da Pesquisa</h1>
 
         <button mat-flat-button color="primary" (click)="onCreate()">
             <mat-icon>add</mat-icon>
@@ -9,17 +9,53 @@
     </div>
 
     @if (pillarService.loading()) {
-        <div class="flex justify-center p-10">Carregando...</div>
+    <div class="flex justify-center p-10">
+        <mat-spinner diameter="40"></mat-spinner>
+    </div>
     } @else {
-        <app-shared-table
-            [data]="pillarService.pillars()"
-            [columns]="columns"
-            [totalItems]="totalItems()"
-            [pageSize]="pageSize()"
-            [currentPage]="currentPage()"
-            (edit)="onEdit($event)"
-            (delete)="onDelete($event)"
-            (pageChange)="handlePageEvent($event)"
-        />
+    <div class="mat-elevation-z1 rounded-lg overflow-hidden">
+        <table mat-table [dataSource]="pillarService.pillars()">
+
+            <ng-container matColumnDef="title">
+                <th mat-header-cell *matHeaderCellDef class="font-bold">Título</th>
+                <td mat-cell *matCellDef="let pillar">
+                    {{ pillar.title | titlecase }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef class="font-bold">Descrição</th>
+                <td mat-cell *matCellDef="let pillar"> {{ pillar.description }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="updated_at">
+                <th mat-header-cell *matHeaderCellDef class="font-bold">Atualizado em:</th>
+                <td mat-cell *matCellDef="let pillar">
+                    {{ pillar.created_at | date: 'dd/MM/yyyy HH:mm' }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef class="text-right font-bold">Ações</th>
+                <td mat-cell *matCellDef="let pillar" class="text-right">
+                    <div class="flex justify-end gap-1">
+                        <button mat-icon-button color="primary" (click)="onEdit(pillar)" title="Editar">
+                            <mat-icon>edit_square</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="onDelete(pillar.id)" title="Excluir">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns">
+            </tr>
+        </table>
+
+        <mat-paginator [length]="totalItems()" [pageSize]="pageSize()" [pageIndex]="currentPage() - 1"
+            [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true" (page)="handlePageEvent($event)" />
+    </div>
     }
 </div>

@@ -21,11 +21,6 @@ export const CLIMATE_SURVEY_ROUTES: Routes = [
                 loadComponent: () =>
                     import('./features/form-builder/form-builder.component').then((m) => m.FormBuilderComponent),
             },
-            {
-                path: 'answer',
-                loadComponent: () =>
-                    import('./features/answer/answer.component').then((m) => m.AnswerComponent),
-            },
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
         ],
     },

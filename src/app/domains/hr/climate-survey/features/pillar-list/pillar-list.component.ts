@@ -1,38 +1,44 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe, TitleCasePipe } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { PageEvent } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { PillarService } from '../../data-access/pillar.service';
-import { AppTableComponent } from '@shared/components/table/table-paginated.component';
 import { PillarFormComponent } from '../../ui/pillar-form/pillar-form.component';
 import { ConfirmDialogComponent } from '@shared/components/dialog/confirm-dialog.component';
 import { Pillar, CreatePillarDto } from '../../models/pillars.model';
-import { TableColumn } from '@shared/models/table-config.model';
 
 @Component({
     selector: 'app-pillar-list',
     standalone: true,
-    imports: [CommonModule, AppTableComponent, MatButtonModule, MatIconModule, MatDialogModule],
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        MatIconModule,
+        MatDialogModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatProgressSpinnerModule,
+    ],
+    providers: [DatePipe, TitleCasePipe],
     templateUrl: './pillar-list.component.html',
+    styles: [``],
 })
 export class PillarListComponent implements OnInit {
     protected readonly pillarService = inject(PillarService);
-
     private readonly dialog = inject(MatDialog);
 
-    public readonly columns: TableColumn[] = [
-        { key: 'title', label: 'Título' },
-        { key: 'description', label: 'Descrição' },
-    ];
+    public readonly displayedColumns = ['title', 'description', 'updated_at', 'actions'];
 
     public totalItems = signal(0);
     public pageSize = signal(10);
     public currentPage = signal(1);
 
-    public ngOnInit(): void {
+    ngOnInit(): void {
         this.loadData();
     }
 
