@@ -16,7 +16,8 @@
                 "@schematics/angular:component": {
                     "flat": false,
                     "displayBlock": true,
-                    "type": "component"
+                    "type": "component",
+                    "skipTests": true
                 },
                 "@schematics/angular:service": {
                     "flat": false,
@@ -90,7 +91,9 @@
                             "buildTarget": "monaco-client-spa:build:production"
                         },
                         "development": {
-                            "buildTarget": "monaco-client-spa:build:development"
+                            "buildTarget": "monaco-client-spa:build:development",
+                            "hmr": false,
+                            "liveReload": true
                         }
                     },
                     "defaultConfiguration": "development"
