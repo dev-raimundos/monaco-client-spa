@@ -21,7 +21,7 @@ export const NAVIGATION: NavItem[] = [
                         route: 'hr/climate-survey/dashboard',
                         service: 'ti',
                     },
-                    { label: 'Indicadores', route: '/rh/folha/decimo', service: 'ti' },
+                    { label: 'Reponder Pesquisa', route: 'hr/climate-survey/answer', service: 'ti' },
                 ],
             },
             { label: 'Outros', route: '/rh/cargos', service: 'ti' },
