@@ -28,7 +28,8 @@
                 "dbaeumer.vscode-eslint",
                 "xabikos.JavaScriptSnippets",
                 "IBM.output-colorizer",
-                "christian-kohler.path-intellisense"
+                "christian-kohler.path-intellisense",
+                "YoavBls.pretty-ts-errors"
             ],
             "settings": {
                 "editor.formatOnSave": true,
