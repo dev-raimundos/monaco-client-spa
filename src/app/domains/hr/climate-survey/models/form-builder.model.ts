@@ -20,6 +20,7 @@ export interface SurveyQuestion {
 export interface ClimateSurvey {
     id: string;
     title: string;
+    active: boolean;
     created_at?: string;
     updated_at?: string;
     questions?: SurveyQuestion[];
