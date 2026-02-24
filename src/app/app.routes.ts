@@ -44,7 +44,11 @@ export const routes: Routes = [
      * FALLBACK
      */
     {
+        path: '404',
+        loadComponent: () => import('@shared/components/not-found/not-found.component').then((m) => m.NotFoundComponent),
+    },
+    {
         path: '**',
-        redirectTo: 'auth/login',
+        redirectTo: '404',
     },
 ];

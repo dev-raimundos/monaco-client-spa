@@ -1,0 +1,32 @@
+<div class="min-h-[80vh] flex flex-col items-center justify-center px-4 text-center">
+    <div class="mb-8">
+        <mat-icon class="text-9xl h-auto w-auto opacity-20" color="primary">
+            error_outline
+        </mat-icon>
+    </div>
+
+    <h1 class="text-6xl font-extrabold tracking-tight sm:text-8xl mb-4">
+        404
+    </h1>
+
+    <p class="text-xl font-medium mb-2 uppercase tracking-widest opacity-70">
+        Página não encontrada
+    </p>
+
+    <p class="max-w-md mb-10 text-pretty opacity-60">
+        Ops! Parece que o caminho que você tentou seguir não existe mais ou nunca existiu.
+        Verifique a URL ou retorne ao início.
+    </p>
+
+    <div class="flex flex-wrap gap-4 justify-center">
+        <button mat-stroked-button (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+            Voltar
+        </button>
+
+        <a mat-flat-button color="primary" routerLink="/">
+            <mat-icon>home</mat-icon>
+            Página Inicial
+        </a>
+    </div>
+</div>
